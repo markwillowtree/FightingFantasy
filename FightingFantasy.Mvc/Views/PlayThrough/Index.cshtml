@@ -1,0 +1,215 @@
+﻿@using FightingFantasy.Mvc.ApiClients;
+@using System.Text;
+@using System.Web;
+
+@model FightingFantasy.Mvc.Models.PlayThroughs.IndexViewModel
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3" id="formDiv">
+            <form id="statsForm">
+                <input type="hidden" value="@Model.SelectedParagraph.Id" id="paragraphId" />
+                <div class="form-group">
+                    <label for="paragraphNumber">Paragraph #</label>
+                    <input type="number" class="form-control" id="paragraphNumber" value="@Model.SelectedParagraph.Number" />
+                </div>
+                <div class="form-group">
+                    <label for="paragraphDescription">Description #</label>
+                    <input type="text" class="form-control" id="paragraphDescription" value="@Model.SelectedParagraph.Description" />
+                </div>
+                @foreach (var stat in Model.SelectedParagraph.Stats)
+                {
+                    <div class="form-group">
+                        <label for="@stat.Name">@stat.Name</label>
+                        <input type="number" class="form-control" id="@stat.Name" value="@stat.Value" />
+                    </div>
+                }
+                <div class="form-group">
+                    <label for="items">Items</label>
+                    <textarea id="items" class="form-control">@Model.SelectedParagraph.Items</textarea>
+                </div>
+            </form>
+        </div>
+        <div class="col" >
+            <div id="mapCanvas" style="height: 500px; background-color: antiquewhite;">
+
+            </div>
+            <button id="addParagraph">New paragraph</button>
+            <button id="deleteLastParagraph">Delete last paragraph</button>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetGraphElements()
+    {
+        var sb = new StringBuilder();
+
+        sb.Append('[');
+
+        var currentParagraph = Model.Playthrough.StartParagraph;
+
+        while(currentParagraph != null)
+        {
+            string currId = currentParagraph.Id.ToString();
+
+            sb.Append("{ data: { id: '" + currId + "'}}");
+
+            if (currentParagraph.ToParagraph != null)
+            {
+                string toId = currentParagraph.ToParagraph.Id.ToString();
+
+                sb.Append(",{ data: { id: '" + currId + toId + "', source: '" + currId + "', target: '" + toId + "'}},");
+            }
+
+            currentParagraph = currentParagraph.ToParagraph;
+        }
+
+
+
+
+        sb.Append(']');
+
+        return sb.ToString();
+    }
+
+    string GetGraphStyles()
+    {
+        var sb = new StringBuilder();
+
+        var currentParagraph = Model.Playthrough.StartParagraph;
+
+        while (currentParagraph != null)
+        {
+            string currId = currentParagraph.Id.ToString();
+            string desc = currentParagraph.Description;
+            string number = currentParagraph.Number.ToString();
+
+            sb.Append(".selector('#"+currId+"').css({'label' : '" + number + ". " + desc+"' })");
+
+
+            currentParagraph = currentParagraph.ToParagraph;
+        }
+
+        return sb.ToString();
+    }
+}
+
+@section Scripts {
+    <script src="/lib/cytoscape/cytoscape.min.js"></script>
+    <script src="~/js/PlaythroughService.js"></script>
+    <script src="~/js/BackendRepository.js"></script>
+    <script src="~/js/CytoRepository.js"></script>
+
+    <script>
+        var cy = cytoscape({
+            zoom: 1,
+            container: $('#mapCanvas'),
+            elements: @Html.Raw(GetGraphElements()),
+            layout: {
+                name: 'breadthfirst',
+                fit: true,
+
+            }
+            , style: cytoscape.stylesheet()
+                .selector('node')
+                .css({
+                    'height': 'label',
+                    'width': 'label',
+                    'background-color': '#ffffff',
+                    'text-color': '#000000',
+                    'text-wrap': 'wrap',
+                    'text-halign': 'center',
+                    'text-valign': 'center',
+                    'shape': 'rectangle',
+                    'padding' : '2px'
+                })@Html.Raw(GetGraphStyles())
+        });
+
+        //var layout = cy.layout({
+        //    name: 'grid',
+        //    fit: true
+        //});
+
+        //layout.run();
+
+        //cy.ready(function () {
+        //    cy.zoom({
+        //        level: 1,
+        //        //position: cy.getElementById('j').position()
+        //    });
+        //});
+    </script>
+
+
+    <script>
+        // serialize playthrough model to JSON
+        var playthrough = @Html.Raw(Json.Serialize(@Model.Playthrough));
+        var selectedParagraphId = @(Model.SelectedParagraph.Id);
+
+        // instantiate repositories
+        var playthroughService = new PlaythroughService(playthrough, selectedParagraphId);
+        var backendRepo = new BackendRepository();
+        var cytoRepo = new CytoRepository(cy);
+
+        $(document).ready(function () {
+
+            // add new paragraph button
+            $('#addParagraph').on('click', function () {
+                playthroughService.appendParagraph();
+                cytoRepo.updateGraph(playthroughService.playthrough);
+            });
+
+            // delete last paragraph button
+            $('#deleteLastParagraph').on('click', function () {
+                playthroughService.deleteLastParagraph();
+
+                cytoRepo.updateGraph(playthroughService.playthrough);
+            });
+
+            // update playthrough model when form is updated
+            $(".form-control").change(function () {
+                var control = $(this);
+                var value = control.val();
+                var attrName = control.attr('id');
+
+                if (attrName == 'items') {
+                    playthroughService.editItems(value);
+                } 
+                else if (attrName == 'paragraphNumber') {
+                    playthroughService.editNumber(value);
+                    var paragraph = playthroughService.selectedParagraph;
+                    cytoRepo.editParagraph(paragraph.id, value, paragraph.description);
+                }
+                else if (attrName == 'paragraphDescription') {
+                    playthroughService.editDescription(value);
+                    var paragraph = playthroughService.selectedParagraph;
+                    cytoRepo.editParagraph(paragraph.id, paragraph.number, value);
+                }
+                else {
+                    playthroughService.editStat(attrName, value);
+                }
+            });
+
+            // select paragraph when graph node clicked
+            cy.on('mousedown', function (event) {
+                if (event.target != cy) {
+                    var id = event.target._private.data.id;
+                    playthroughService.setSelectedParagraph(id);
+                }
+            });
+
+            // update form when paragraph selected
+            $(playthroughService).on('paragraphSelected', function (evt, paragraph) {
+                $('#paragraphNumber').val(paragraph.number);
+                $('#paragraphDescription').val(paragraph.description);
+                $('#items').val(paragraph.items);
+
+                for (var i = 0; i < paragraph.stats.length; i++) {
+                    $(`#${paragraph.stats[i].name}`).val(paragraph.stats[i].value);
+                }
+            });
+        });
+
+    </script>
+}

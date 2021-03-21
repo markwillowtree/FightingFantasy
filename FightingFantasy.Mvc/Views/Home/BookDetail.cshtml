@@ -1,0 +1,38 @@
+﻿@model FightingFantasy.Mvc.Models.Home.BookDetailsViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-4" >
+            <img src='@Model.Book.ImageUrl' width="300" class="d-block m-auto" />
+        </div>
+        <div class="col-6">
+            <div class="row">
+                @Html.Raw(Model.Book.Description)
+            </div>
+
+            @if (Model.Playthroughs.Count > 0)
+            {
+                <div>
+                    <h2>Previous Playthroughs</h2>
+                    <div>
+                        <ul>
+                            @foreach (var playthrough in Model.Playthroughs)
+                            {
+                                <li>
+                                    @Html.ActionLink(playthrough.Created.DateTime.ToLocalTime().ToString(),
+                                   "Index", "Playthrough", new { playthroughId = playthrough.Id })
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    
+                </div>
+            }
+            <div class="row">
+                @Html.ActionLink("Start New Play-Through", "Create", "PlayThrough", 
+               new { bookId = Model.Book.Id }, 
+               new { style = "font-size: xx-large;" })
+            </div>
+        </div>
+    </div>
+</div>

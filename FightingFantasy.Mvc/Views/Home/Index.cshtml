@@ -1,0 +1,14 @@
+﻿@model FightingFantasy.Mvc.Models.Home.IndexViewModel
+
+<div class="container">
+    <div class="row">
+        @foreach (var book in Model.Books)
+        {
+            <div class="col-sm;" style="margin: 5px;">
+                <a href='@Url.Action("BookDetail", "Home", new { bookid = book.Id })'>
+                    <img src='@book.ImageUrl' height="300" class="mx-auto d-block"/>
+                </a>                             
+            </div>
+        }
+    </div>
+</div>

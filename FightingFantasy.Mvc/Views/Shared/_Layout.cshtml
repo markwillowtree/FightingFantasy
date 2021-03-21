@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <header>
+        <img src="~/images/logo.jpg" class="mx-auto d-block" />
+    </header>
+
+    @RenderBody()
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/popper.js/umd/popper.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

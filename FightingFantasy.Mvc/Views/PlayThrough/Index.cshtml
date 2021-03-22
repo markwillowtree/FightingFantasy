@@ -177,6 +177,8 @@
                     playthroughService.editItems(value);
                 } 
                 else if (attrName == 'paragraphNumber') {
+                    value = tryParseNumeric($(this), value);
+
                     playthroughService.editNumber(value);
                     var paragraph = playthroughService.selectedParagraph;
                     cytoRepo.editParagraph(paragraph.id, value, paragraph.description);
@@ -187,6 +189,7 @@
                     cytoRepo.editParagraph(paragraph.id, paragraph.number, value);
                 }
                 else {
+                    value = tryParseNumeric($(this), value);
                     playthroughService.editStat(attrName, value);
                 }
             });
@@ -210,6 +213,17 @@
                 }
             });
         });
+
+        function tryParseNumeric(ctrl, value) {
+            var val = Number(value);
+
+            if (val == NaN || val == 0) {
+                ctrl.val(0);
+                return 0;
+            }
+
+            return val;
+        }
 
     </script>
 }

@@ -5,6 +5,7 @@ using FightingFantasy.Infrastructure.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -58,7 +59,6 @@ namespace FightingFantasy.Api
                 .AddEntityFrameworkProxies()
                 .AddDbContext<FightingFantasyDbContext>(options =>
                 {
-                    //options.LogTo(s => { Debug.WriteLine(s); }, Microsoft.Extensions.Logging.LogLevel.Information);
                     options.UseLazyLoadingProxies();
                     options.UseSqlite(_configuration.GetConnectionString("DefaultConnection"));
                 });
@@ -68,6 +68,14 @@ namespace FightingFantasy.Api
         protected virtual void AddSecurityServices(IServiceCollection services)
         {
             IdentityModelEventSource.ShowPII = true;
+
+            services.AddIdentityCore<User>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+            .AddEntityFrameworkStores<FightingFantasyDbContext>();
 
             services.AddAuthentication("Bearer")
                             .AddJwtBearer("Bearer", options =>

@@ -1,0 +1,30 @@
+﻿@model FightingFantasy.Mvc.Models.Home.RegisterViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form  action="@Url.Action("Register", "Home")" method="post">
+
+                <div class="form-group">                    
+                    @Html.LabelFor(x => x.Username)
+                    @Html.TextBoxFor(x => x.Username, new { @class = "form-control" })                   
+                    @Html.ValidationMessageFor(x => x.Username)
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Password)
+                    @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Password)
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(x => x.ConfirmPassword)
+                    @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -3,6 +3,7 @@ using FightingFantasy.Mvc.Models.Home;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -44,23 +45,69 @@ namespace FightingFantasy.Mvc.Controllers
             return View(vm);
         }
 
-        public async Task<IActionResult> BookDetail(long bookId)
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> Register()
         {
-            var book = await _apiClient.GetBookByIdAsync(bookId);
-            var playthroughs = await _apiClient.GetPlaythroughsByBookIdAsync(bookId);
-
-            var vm = new BookDetailsViewModel();
-            vm.Book = new BookViewModel
-            {
-                BookCode = book.Code,
-                Description = book.Description,
-                Id = book.Id,
-                ImageUrl = GetBookCoverPath(book),
-                Title = book.Title,
-            };
-            vm.Playthroughs = playthroughs.ToList();
+            var vm = new RegisterViewModel();
 
             return View(vm);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                await _apiClient.RegisterAccountAsync(vm.Username, vm.Password);
+
+                return Challenge(new AuthenticationProperties
+                    {
+                        RedirectUri = "/"
+                    });
+            }
+            else
+            {
+                return View(vm);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return Challenge(new AuthenticationProperties
+            {
+                RedirectUri = "/"
+            });
+        }
+
+        public async Task<IActionResult> BookDetail(long bookId)
+        {
+            try
+            {
+                var book = await _apiClient.GetBookByIdAsync(bookId);
+                var playthroughs = await _apiClient.GetPlaythroughsByBookIdAsync(bookId);
+
+                var vm = new BookDetailsViewModel();
+                vm.Book = new BookViewModel
+                {
+                    BookCode = book.Code,
+                    Description = book.Description,
+                    Id = book.Id,
+                    ImageUrl = GetBookCoverPath(book),
+                    Title = book.Title,
+                };
+                vm.Playthroughs = playthroughs.ToList();
+
+                return View(vm);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
         }
 
         private string GetBookCoverPath(BookModel book)

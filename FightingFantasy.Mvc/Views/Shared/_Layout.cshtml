@@ -11,7 +11,18 @@
     <header>
         <img src="~/images/logo.jpg" class="mx-auto d-block" />
     </header>
+    <nav class="navbar navbar-default navbar-expand-lg" >
+        <ul class="navbar-nav">
+            <li class="ml-2 mr-2">@Html.ActionLink("Home", "Index", "Home")</li>
 
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <li class="ml-2 mr-2">@Html.ActionLink("Register", "Register", "Home")</li>
+                <li class="ml-2 mr-2">@Html.ActionLink("Login", "Login", "Home")</li>
+            }
+        </ul>
+    </nav>
+       
     @RenderBody()
 
     <script src="~/lib/jquery/dist/jquery.js"></script>

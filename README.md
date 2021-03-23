@@ -89,7 +89,6 @@ This project is designed to contain services which are not specific to the domai
 This project uses WebApplicationFactory with a Startup class derived from the API project.
 
 ### Future Work
-- Registration and password resetting.
 - Zoom in/out controls on Cytoscape map. 
 - Add animated dice control to map page to allow for  combat.
 - Add character creation screen to initialise stats based on stat specific rules. Add these rules into the BookStat entity.

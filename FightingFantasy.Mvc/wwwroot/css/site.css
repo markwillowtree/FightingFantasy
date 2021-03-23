@@ -14,9 +14,10 @@ h1, h2, h3, h4, h5, h6 {
 
 #mapCanvas {
     background-color: whitesmoke;
-    margin: 15px;
+    margin-right: 15px;
+    margin-bottom: 5px;
     height: 90%;
-    width: 95%;
+    /*width: 95%;*/
 }
 
 .alert-warning {

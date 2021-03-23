@@ -8,25 +8,42 @@
     <div class="row">
         <div class="col-3" id="formDiv">
             <form id="statsForm">
-                <input type="hidden" value="@Model.SelectedParagraph.Id" id="paragraphId" />
-                <div class="form-group">
-                    <label for="paragraphNumber">Paragraph #</label>
-                    <input type="number" class="form-control" id="paragraphNumber" value="@Model.SelectedParagraph.Number" />
-                </div>
-                <div class="form-group">
-                    <label for="paragraphDescription">Description #</label>
-                    <input type="text" class="form-control" id="paragraphDescription" value="@Model.SelectedParagraph.Description" />
-                </div>
-                @foreach (var stat in Model.SelectedParagraph.Stats)
-                {
-                    <div class="form-group">
-                        <label for="@stat.Name">@stat.Name</label>
-                        <input type="number" class="form-control" id="@stat.Name" value="@stat.Value" />
+                @*<input type="hidden" value="@Model.SelectedParagraph.Id" id="paragraphId" />*@
+                <div class="form-row">
+                    <div class="col-3">
+                        <label class="col-form-label" for="paragraphNumber">Paragraph</label>
+                        <input type="number" class="form-control" id="paragraphNumber" value="@Model.SelectedParagraph.Number" />
                     </div>
+
+                    <div class="col">
+                        <label class="col-form-label" for="paragraphDescription">Description</label>
+                        <input type="text" class="form-control" id="paragraphDescription" value="@Model.SelectedParagraph.Description" />
+                    </div>
+                </div>
+
+                @{ var groupedStats = Model.SelectedParagraph.Stats.Select((value, index) => new { Value = value, Index = index })
+                                           .GroupBy(x => x.Index / 4, v => v.Value); }
+
+                @foreach (var group in groupedStats)
+                {
+                    @Html.Raw("<div class='form-row'>")
+
+                    foreach (var stat in group)
+                    {
+                        <div class="col">
+                            <label class="col-form-label" for="@stat.Name">@stat.Name</label>
+                            <input type="number" class="form-control" id="@stat.Name" value="@stat.Value" />
+                        </div>
+                    }
+                    
+                    @Html.Raw("</div>")
                 }
-                <div class="form-group">
-                    <label for="items">Items</label>
-                    <textarea id="items" class="form-control">@Model.SelectedParagraph.Items</textarea>
+
+                <div class="form-row">
+                    <div class="col">
+                        <label class="col-form-label" for="items">Items</label>
+                        <textarea id="items" class="form-control form-control-lg">@Model.SelectedParagraph.Items</textarea>
+                    </div>
                 </div>
             </form>
         </div>
@@ -34,12 +51,12 @@
             <div id="mapCanvas" class="row" style="height: 500px; background-color: antiquewhite;"></div>
             
             <div class="row justify-content-between">
-                <div class="col-3">
+                <div class="col-4">
                     <button id="addParagraph">New paragraph</button>
                     <button id="deleteLastParagraph">Delete last paragraph</button>
                 </div>
 
-                <div class="col-3">
+                <div class="col-4">
                     <button id="zoomIn">Zoom in</button>
                     <button id="zoomOut">Zoom out</button>
                     <button id="resetZoom">Reset zoom</button>

@@ -98,4 +98,3 @@ This project uses WebApplicationFactory with a Startup class derived from the AP
 - Introduction of a payment gateway so that customers have to pay for access to various books before they can use the app with them.
 - Razor/MVC/Angular front-ends for admin users. This will allow new books and new types of stats to be added. Also tools to support customer payments if/when they are implemented.
 - Potentially replace Cytoscape with a more suitable mapping package or create a custom JS library. Also make the mapping tool and the Playthrough entity more sophisticated such that multiple pathways and recursive routes will be possible.
-- Have custom CSS for each book to reflect the different settings e.g. medieval/science fiction/modern day.

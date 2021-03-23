@@ -9,13 +9,15 @@
             .css({
                 'height': 'label',
                 'width': 'label',
-                'background-color': '#ffffff',
+                'text-max-width': '200px',
+                'background-color': '#FFFFF0',
                 'text-color': '#000000',
                 'text-wrap': 'wrap',
                 'text-halign': 'center',
                 'text-valign': 'center',
                 'shape': 'rectangle',
-                'padding': '2px'
+                'padding': '2px',
+                'font-family': 'cursive'
             })
         });
 

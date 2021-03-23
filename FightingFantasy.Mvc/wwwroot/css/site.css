@@ -13,7 +13,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #mapCanvas {
-    background-color: whitesmoke;
+    background-image: url(/images/parchment.jpg);
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
     margin-right: 15px;
     margin-bottom: 5px;
     height: 90%;

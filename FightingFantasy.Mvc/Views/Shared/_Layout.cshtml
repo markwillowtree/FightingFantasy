@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model FightingFantasy.Mvc.Models.BaseViewModel
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -20,11 +22,27 @@
                 <li class="ml-2 mr-2">@Html.ActionLink("Register", "Register", "Home")</li>
                 <li class="ml-2 mr-2">@Html.ActionLink("Login", "Login", "Home")</li>
             }
+            else
+            {
+                <li class="ml-2 mr-2">@Html.ActionLink("Change Password", "ChangePassword", "Home")</li>
+            }
         </ul>
     </nav>
        
     @RenderBody()
 
+<div id="messages" class="container">
+    <div class="row">
+        @if (!String.IsNullOrEmpty(Model.SuccessMsg))
+        {
+            <span class="alert-success">@Model.SuccessMsg</span>
+        }
+        @if (!String.IsNullOrEmpty(Model.ErrorMsg))
+        {
+            <span class="alert-warning">@Model.ErrorMsg</span>
+        }
+    </div>
+</div>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/popper.js/umd/popper.js"></script>
     <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.js"></script>

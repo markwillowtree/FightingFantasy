@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FightingFantasy.Mvc.Models.Home
 {
     
-    public class RegisterViewModel
+    public class RegisterViewModel : BaseViewModel
     {
         [Required(ErrorMessage = "Username is required")]
         [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]

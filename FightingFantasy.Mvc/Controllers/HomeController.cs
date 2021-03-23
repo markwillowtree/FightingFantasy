@@ -47,7 +47,7 @@ namespace FightingFantasy.Mvc.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Register()
+        public IActionResult Register()
         {
             var vm = new RegisterViewModel();
 
@@ -60,17 +60,22 @@ namespace FightingFantasy.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _apiClient.RegisterAccountAsync(vm.Username, vm.Password);
+                try
+                {
+                    await _apiClient.RegisterAccountAsync(vm.Username, vm.Password);
 
-                return Challenge(new AuthenticationProperties
+                    return Challenge(new AuthenticationProperties
                     {
                         RedirectUri = "/"
                     });
+                }
+                catch (ApiException<ApiClients.ProblemDetails> e)
+                {
+                    vm.ErrorMsg = e.Result.Title;
+                }
             }
-            else
-            {
-                return View(vm);
-            }
+
+            return View(vm);
         }
 
         [AllowAnonymous]
@@ -83,14 +88,40 @@ namespace FightingFantasy.Mvc.Controllers
             });
         }
 
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View(new ChangePasswordViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _apiClient.ChangePasswordAsync(model.CurrentPassword, model.NewPassword);
+                    model.SuccessMsg = "Password changed";
+                }
+                catch (ApiException<ApiClients.ProblemDetails> e)
+                {
+                    model.ErrorMsg = e.Result.Title;
+                }
+            }
+
+            return View(model);
+        }
+
         public async Task<IActionResult> BookDetail(long bookId)
         {
+            var vm = new BookDetailsViewModel();
+
             try
             {
                 var book = await _apiClient.GetBookByIdAsync(bookId);
                 var playthroughs = await _apiClient.GetPlaythroughsByBookIdAsync(bookId);
-
-                var vm = new BookDetailsViewModel();
+    
                 vm.Book = new BookViewModel
                 {
                     BookCode = book.Code,
@@ -100,14 +131,12 @@ namespace FightingFantasy.Mvc.Controllers
                     Title = book.Title,
                 };
                 vm.Playthroughs = playthroughs.ToList();
-
-                return View(vm);
             }
-            catch (Exception e)
+            catch (ApiException<ApiClients.ProblemDetails> e)
             {
-
-                throw;
+                vm.ErrorMsg = e.Result.Title;
             }
+            return View(vm);
         }
 
         private string GetBookCoverPath(BookModel book)
@@ -118,5 +147,6 @@ namespace FightingFantasy.Mvc.Controllers
 
             return string.Empty;
         }
+
     }
 }

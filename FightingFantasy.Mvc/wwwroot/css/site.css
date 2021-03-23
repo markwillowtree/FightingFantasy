@@ -19,6 +19,20 @@ h1, h2, h3, h4, h5, h6 {
     width: 95%;
 }
 
+.alert-warning {
+    background-color:#444444; 
+    color: orange;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.alert-success {
+    background-color: #444444;
+    color: white;
+    padding: 10px;
+    margin-top: 10px;
+}
+
 .btn {
     background-color: #444444;
     color: #FFFFFF;

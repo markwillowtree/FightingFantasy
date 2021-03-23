@@ -17,6 +17,7 @@ namespace FightingFantasy.Api.Controllers
     {
         public readonly static string UserAlreadyExists = "A user of that name already exists";
         public readonly static string UserCouldNotBeCreated = "Could not create user";
+        public readonly static string PasswordCouldNotBeChanged = "Could not change password";
 
         private readonly UserManager<User> _userManager;
 
@@ -52,6 +53,21 @@ namespace FightingFantasy.Api.Controllers
                 {
                     Title = UserCouldNotBeCreated
                 });
+        }
+
+        [HttpPost(Name = "ChangePassword")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> ResetPassword(string oldPassword, string newPassword)
+        {
+            var user = await GetUser();
+
+            var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+
+            return result.Succeeded ? Ok(): UnprocessableEntity(new ProblemDetails
+                                                                {
+                                                                    Title = PasswordCouldNotBeChanged
+                                                                });
         }
     }
 }

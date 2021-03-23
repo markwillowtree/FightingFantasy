@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace FightingFantasy.Mvc.Models.Home
 {
-    public class IndexViewModel : BaseViewModel
+    public class ChangePasswordViewModel : BaseViewModel
     {
-        public List<BookViewModel> Books { get; set; } = new List<BookViewModel>();
+        public string CurrentPassword { get; set; }
+        public string NewPassword { get; set; }
     }
 }

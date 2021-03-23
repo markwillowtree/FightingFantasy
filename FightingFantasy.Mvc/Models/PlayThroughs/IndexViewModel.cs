@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace FightingFantasy.Mvc.Models.PlayThroughs
 {
-    public class IndexViewModel
+    public class IndexViewModel : BaseViewModel
     {
         public string PlayThroughJson { get; set; }
         public PlayThroughModel Playthrough { get; set; }

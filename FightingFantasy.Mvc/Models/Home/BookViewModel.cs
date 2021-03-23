@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FightingFantasy.Mvc.Models.Home
 {
-    public class BookViewModel
+    public class BookViewModel : BaseViewModel
     {
         public string Title { get; set; }
         public string Description { get; set; }

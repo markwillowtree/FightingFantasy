@@ -15,7 +15,7 @@
                 'text-wrap': 'wrap',
                 'text-halign': 'center',
                 'text-valign': 'center',
-                'shape': 'rectangle',
+                'shape': 'round-rectangle',
                 'padding': '2px',
                 'font-family': 'cursive'
             })

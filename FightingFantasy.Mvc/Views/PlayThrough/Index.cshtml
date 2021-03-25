@@ -4,6 +4,9 @@
 
 @model FightingFantasy.Mvc.Models.PlayThroughs.IndexViewModel
 
+@section Styles {
+    <link href="~/lib/dice/css/dice.css" rel="stylesheet" type="text/css" />
+}
 <div class="container-fluid">
     <div class="row">
         <div class="col-3" id="formDiv">
@@ -22,7 +25,7 @@
                 </div>
 
                 @{ var groupedStats = Model.SelectedParagraph.Stats.Select((value, index) => new { Value = value, Index = index })
-                                           .GroupBy(x => x.Index / 4, v => v.Value); }
+                                              .GroupBy(x => x.Index / 4, v => v.Value); }
 
                 @foreach (var group in groupedStats)
                 {
@@ -35,7 +38,7 @@
                             <input type="number" class="form-control" id="@stat.Name" value="@stat.Value" />
                         </div>
                     }
-                    
+
                     @Html.Raw("</div>")
                 }
 
@@ -46,10 +49,18 @@
                     </div>
                 </div>
             </form>
+            <div id="dice" class="dice__scene" style="margin-top: 20px; margin-bottom: 20px;">
+
+            </div>
+            <div>
+                <button id="dice__btn">Roll Dice</button>
+            </div>
+
         </div>
         <div class="col-9">
             <div id="mapCanvas" class="row" style="height: 500px; background-color: antiquewhite;"></div>
             
+
             <div class="row justify-content-between">
                 <div class="col-4">
                     <button id="addParagraph">New paragraph</button>
@@ -72,19 +83,26 @@
     <script src="~/js/PlaythroughService.js"></script>
     <script src="~/js/BackendRepository.js"></script>
     <script src="~/js/CytoRepository.js"></script>
+    <script src="~/lib/dice/js/dice.js"></script>
 
     <script>
         // serialize playthrough model to JSON
         var playthrough = @Html.Raw(Json.Serialize(@Model.Playthrough));
         var selectedParagraphId = @(Model.SelectedParagraph.Id);
 
-        // instantiate repositories
+        // instantiate repositories and services
         var playthroughService = new PlaythroughService(playthrough, selectedParagraphId);
         var backendRepo = new BackendRepository();
-        
+        var cytoRepo = new CytoRepository(playthrough, 'mapCanvas');
+
+        // initialise dice control
+        var dice = new Dice(2, 500, 'dice');
 
         $(document).ready(function () {
-            var cytoRepo = new CytoRepository(playthrough, 'mapCanvas');
+            
+            $('#dice__btn').on('click ', function () {
+                dice.rollDice();
+            });
 
             // zoom buttons
             $('#zoomIn').on('click', function () {
@@ -120,7 +138,7 @@
 
                 if (attrName == 'items') {
                     playthroughService.editItems(value);
-                } 
+                }
                 else if (attrName == 'paragraphNumber') {
                     value = tryParseNumeric($(this), value);
 

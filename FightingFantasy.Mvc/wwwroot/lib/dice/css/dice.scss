@@ -1,0 +1,202 @@
+﻿/*!
+ * Dice (https://github.com/alexerlandsson/dice)
+ * Copyright 2020 Alexander Erlandsson
+ * Licensed under MIT
+ */
+
+// Settings
+// Change these settings to fit your project
+
+$dice-size: 70px;
+$animation-speed: 500ms;
+$image-path: '../assets/images/';
+$ie-fallback: true;
+
+// DO NOT CHANGE ANYTHING BELOW!
+
+// Variables
+
+$size-half: ($dice-size / 2);
+
+// Scene
+
+.dice__scene {
+    width: $dice-size;
+    height: $dice-size;
+    perspective: ($dice-size * 3);
+}
+
+// Cube
+
+@mixin ieFallbackRotate($selector) {
+    @if $ie-fallback {
+        // Toggles active side with display since preserve-3d is not supported in IE
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+            .dice__side--#{$selector} {
+                display: block;
+            }
+        }
+    }
+}
+
+.dice__cube {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform: translateZ(-($size-half));
+    transition: transform ease;
+    transition-duration: $animation-speed;
+
+    @if $ie-fallback {
+        // Required since preserve-3d is not supported in IE
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+            transform-style: flat;
+            transform: none !important;
+        }
+    }
+    // Rotation if dice hit same number twice
+
+    @keyframes showSameFont {
+        100% {
+            transform: translateZ(-($size-half)) rotateY(360deg);
+        }
+    }
+
+    @keyframes showSameRight {
+        100% {
+            transform: translateZ(-($size-half)) rotateY(-450deg);
+        }
+    }
+
+    @keyframes showSameBack {
+        100% {
+            transform: translateZ(-($size-half)) rotateY(-540deg);
+        }
+    }
+
+    @keyframes showSameLeft {
+        100% {
+            transform: translateZ(-($size-half)) rotateY(450deg);
+        }
+    }
+
+    @keyframes showSameTop {
+        100% {
+            transform: translateZ(-($size-half)) rotateX(-450deg);
+        }
+    }
+
+    @keyframes showSameBottom {
+        100% {
+            transform: translateZ(-($size-half)) rotateX(450deg);
+        }
+    }
+    // Dice rotation
+
+    &.show-front {
+        @include ieFallbackRotate('front');
+        transform: translateZ(-($size-half)) rotateY(0deg);
+
+        &.show-same {
+            animation: showSameFont $animation-speed ease;
+        }
+    }
+
+    &.show-right {
+        @include ieFallbackRotate('right');
+        transform: translateZ(-($size-half)) rotateY(-90deg);
+
+        &.show-same {
+            animation: showSameRight $animation-speed ease;
+        }
+    }
+
+    &.show-back {
+        @include ieFallbackRotate('back');
+        transform: translateZ(-($size-half)) rotateY(-180deg);
+
+        &.show-same {
+            animation: showSameBack $animation-speed ease;
+        }
+    }
+
+    &.show-left {
+        @include ieFallbackRotate('left');
+        transform: translateZ(-($size-half)) rotateY(90deg);
+
+        &.show-same {
+            animation: showSameLeft $animation-speed ease;
+        }
+    }
+
+    &.show-top {
+        @include ieFallbackRotate('top');
+        transform: translateZ(-($size-half)) rotateX(-90deg);
+
+        &.show-same {
+            animation: showSameTop $animation-speed ease;
+        }
+    }
+
+    &.show-bottom {
+        @include ieFallbackRotate('bottom');
+        transform: translateZ(-($size-half)) rotateX(90deg);
+
+        &.show-same {
+            animation: showSameBottom $animation-speed ease;
+        }
+    }
+}
+
+// Sides
+
+.dice__side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: 100% auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    box-shadow: inset 0 0 ($dice-size / 10) rgba(0, 0, 0, 0.1);
+    user-select: none;
+
+    @if $ie-fallback {
+        // Toggles active side with display since preserve-3d is not supported in IE
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+            display: none;
+            transform: none !important;
+        }
+    }
+}
+
+.dice__side--front {
+    transform: rotateY(0deg) translateZ($size-half);
+    background-image: url('#{$image-path}dice-1.png');
+}
+
+.dice__side--back {
+    transform: rotateY(180deg) translateZ($size-half);
+    background-image: url('#{$image-path}dice-6.png');
+}
+
+.dice__side--right {
+    transform: rotateY(90deg) translateZ($size-half);
+    background-image: url('#{$image-path}dice-4.png');
+}
+
+.dice__side--left {
+    transform: rotateY(-90deg) translateZ($size-half);
+    background-image: url('#{$image-path}dice-3.png');
+}
+
+.dice__side--top {
+    transform: rotateX(90deg) translateZ($size-half);
+    background-image: url('#{$image-path}dice-2.png');
+}
+
+.dice__side--bottom {
+    transform: rotateX(-90deg) translateZ($size-half);
+    background-image: url('#{$image-path}dice-5.png');
+}

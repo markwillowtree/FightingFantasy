@@ -91,7 +91,7 @@ namespace FightingFantasy.Api.Controllers
         }
 
         [HttpPost("AppendParagraph", Name = "AppendParagraph")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(long))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PlayThroughParagraphModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> AppendParagraph(long playthroughId, [FromBody] PlayThroughParagraphModel model)
         {
@@ -117,7 +117,7 @@ namespace FightingFantasy.Api.Controllers
                 Description = model.Description,
                 Items = model.Items,
                 ParagraphNumber = model.Number,
-                PlaythroughStats = model.Stats.Select(x => new PlaythroughStat { StatId = x.StatId, Value = x.Value }).ToArray(),
+                PlaythroughStats = lastParagraph.PlaythroughStats.Select(x => new PlaythroughStat { StatId = x.StatId, Value = x.Value }).ToArray(),
             };
 
             try
@@ -134,7 +134,7 @@ namespace FightingFantasy.Api.Controllers
                 throw;
             }
 
-            return Ok(paragraph.Id);
+            return Ok(new PlayThroughParagraphModel(paragraph));
         }
 
        

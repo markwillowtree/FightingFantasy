@@ -29,13 +29,28 @@
 
         // add new paragraph button
         $('#addParagraph').on('click', function () {
-            playthroughService.appendParagraph();
+            try {
+                playthroughService.appendParagraph();
+            } catch (e) {
+                alert(e);
+                return;
+            }
             cytoRepo.updateGraph(playthroughService.playthrough);
         });
 
         // delete last paragraph button
         $('#deleteLastParagraph').on('click', function () {
-            playthroughService.deleteLastParagraph();
+            if (playthroughService.getNumParagraphs() == 1) {
+                alert('Cannot delete start paragraph');
+                return;
+            }
+
+            try {
+                playthroughService.deleteLastParagraph();
+            } catch (e) {
+                alert(e);
+                return;
+            }
 
             cytoRepo.updateGraph(playthroughService.playthrough);
         });
@@ -47,23 +62,43 @@
             var attrName = control.attr('id');
 
             if (attrName == 'items') {
-                playthroughService.editItems(value);
+                try {
+                    playthroughService.editItems(value);
+                } catch (e) {
+                    alert(e);
+                    return;
+                }
             }
             else if (attrName == 'paragraphNumber') {
                 value = tryParseNumeric($(this), value);
 
-                playthroughService.editNumber(value);
+                try {
+                    playthroughService.editNumber(value);
+                } catch (e) {
+                    alert(e);
+                    return;
+                }
                 var paragraph = playthroughService.selectedParagraph;
                 cytoRepo.editParagraph(paragraph.id, value, paragraph.description);
             }
             else if (attrName == 'paragraphDescription') {
-                playthroughService.editDescription(value);
+                try {
+                    playthroughService.editDescription(value);
+                } catch (e) {
+                    alert(e);
+                    return;
+                }
                 var paragraph = playthroughService.selectedParagraph;
                 cytoRepo.editParagraph(paragraph.id, paragraph.number, value);
             }
             else {
                 value = tryParseNumeric($(this), value);
-                playthroughService.editStat(attrName, value);
+                try {
+                    playthroughService.editStat(attrName, value);
+                } catch (e) {
+                    alert(e);
+                    return;
+                }
             }
         });
 

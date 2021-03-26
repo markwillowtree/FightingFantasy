@@ -1,43 +1,45 @@
 ﻿class BackendRepository {
 
     deleteLastParagraph(playthoughId) {
+        var success = false;
+
         $.ajax(`/Playthrough/DeleteLastParagraph?playthroughId=${playthoughId}`, {
             dataType: "html",
             contentType: 'application/x-www-form-urlencoded',
             method: 'POST',
             async: false,
-            error: function (xhr, status, error) {
-                alert(`deleteParagraph failed: ${status}, ${error}`);
-            }
+            success: function () { success = true;}
         });
+
+        return success;
     }
 
     appendParagraph(playthroughId, newParagraph) {
+        var success = false;
+
         // save it to backend
         var jsonStr = JSON.stringify(newParagraph);
         var newId;
 
+        var returnedParagraph;
         $.ajax(`/Playthrough/AppendParagraph?playthroughId=${playthroughId}`, {
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             data: jsonStr,
             method: 'POST',
-            success: function (data) {
-                newId = data;
+            success: function (paragraph) {
+                returnedParagraph = paragraph;
+                success = true; 
             },
             async: false,
-            error: function (xhr, status, error) {
-                alert(`createParagraph failed: ${status}, ${error}`);
-            }
         });
 
-        // update its id
-        newParagraph.id = newId;
-
-        return newParagraph;
+        return success ? returnedParagraph : undefined;
     }
 
     updateParagraph(playthroughId, paragraph) {
+        var success = false;
+
         var jsonStr = JSON.stringify(paragraph);
 
         $.ajax(`/Playthrough/UpdateParagraph?playthroughId=${playthroughId}`, {
@@ -46,9 +48,9 @@
             contentType: 'application/json',
             method: 'POST',
             async: false,
-            error: function (xhr, status, error) {
-                alert(`updateParagraph failed: ${status}, ${error}`);
-            }
+            success: function () { success = true; }
         });
+
+        return success;
     }
 }

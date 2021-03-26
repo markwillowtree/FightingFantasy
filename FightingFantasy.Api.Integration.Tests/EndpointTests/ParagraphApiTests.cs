@@ -187,10 +187,11 @@ namespace FightingFantasy.Api.Integration.Tests.EndpointTests
             long playThroughid = await _apiClient.CreatePlaythroughAsync(1);
             var playThrough = await _apiClient.GetPlaythroughAsync(playThroughid);
 
-            var addedParagraphIds = new List<long>();
+            var addedParagraphs = new List<PlayThroughParagraphModel>();
             for (int i = 0; i < 2; i++)
             {
-                long newParagraphId = await _apiClient.AppendParagraphAsync(playThroughid, new PlayThroughParagraphModel
+                PlayThroughParagraphModel newParagraph = await _apiClient.AppendParagraphAsync(playThroughid, 
+                    new PlayThroughParagraphModel
                 {
                     Description = i.ToString(),
                     Items = i.ToString(),
@@ -198,11 +199,11 @@ namespace FightingFantasy.Api.Integration.Tests.EndpointTests
                     Number = i
                 });
 
-                addedParagraphIds.Add(newParagraphId);
+                addedParagraphs.Add(newParagraph);
             }
 
-            addedParagraphIds.Reverse();
-            foreach (var id in addedParagraphIds)
+            addedParagraphs.Reverse();
+            foreach (var id in addedParagraphs.Select(x => x.Id))
             {
                 await _apiClient.DeleteLastParagraphAsync(playThroughid);
             }

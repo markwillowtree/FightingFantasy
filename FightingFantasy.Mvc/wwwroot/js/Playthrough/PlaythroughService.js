@@ -9,6 +9,11 @@
         this.repository = new BackendRepository();
     }
 
+    /**
+    * Adds a new paragraph with the stats of 
+    * the last paragraph in the playthrough.
+    * @throws error when pararaph could not be added
+    */
     appendParagraph() {
         // get current last paragraph
         var lastParagraph = this.getLastParagraph();
@@ -32,11 +37,9 @@
         
 
         // save it to backend
-        try {
-            this.repository.appendParagraph(this.playthrough.id, newParagraph);
-        } catch (e) {
-            alert(`error appending paragraph ${e}`);
-            throw(e);
+        newParagraph = this.repository.appendParagraph(this.playthrough.id, newParagraph);
+        if (newParagraph == undefined) {
+            throw 'error appending paragraph';
         }
 
         // append new paragraph to current paragraph
@@ -52,21 +55,48 @@
         $(this).trigger('paragraphSelected', this.selectedParagraph);
     }
 
+    /**
+    * Edits item
+    * @param {string} items
+    * @throws error when item could not be updated
+    */
     editItems(items) {
         this.selectedParagraph.items = items;
-        this.repository.updateParagraph(this.playthrough.id, this.selectedParagraph);
+        if (!this.repository.updateParagraph(this.playthrough.id, this.selectedParagraph)) {
+            throw 'error updating paragraph';
+        }
     }
 
+    /**
+    * Edits number
+    * @param {number} number
+    * @throws error when number could not be updated
+    */
     editNumber(number) {
         this.selectedParagraph.number = number;
-        this.repository.updateParagraph(this.playthrough.id, this.selectedParagraph);
+        if (!this.repository.updateParagraph(this.playthrough.id, this.selectedParagraph)) {
+            throw 'error updating paragraph';
+        }
     }
 
+    /**
+    * Edits description
+    * @param {string} description
+    * @throws error when description could not be updated
+    */
     editDescription(description) {
         this.selectedParagraph.description = description;
-        this.repository.updateParagraph(this.playthrough.id, this.selectedParagraph);
+        if (!this.repository.updateParagraph(this.playthrough.id, this.selectedParagraph)) {
+            throw 'error updating paragraph';
+        }
     }
 
+    /**
+    * Edits stat
+    * @param {string} name 
+    * @param {number} value 
+    * @throws error when stat could not be updated
+    */
     editStat(name, value) {
         for (var i = 0; i < this.selectedParagraph.stats.length; i++) {
             if (this.selectedParagraph.stats[i].name == name) {
@@ -74,19 +104,24 @@
                 break;
             }
         }
-        this.repository.updateParagraph(this.playthrough.id, this.selectedParagraph);
+        if (!this.repository.updateParagraph(this.playthrough.id, this.selectedParagraph)) {
+            throw 'error updating paragraph';
+        }
     }
 
+    /**
+    * Deletes last paragraph in the playthrough
+    * @throws error when paragraph could not be deleted
+    */
     deleteLastParagraph() {
         var last = this.getLastParagraph();
         var prev = this.getPreviousParagraph(last);
 
-        try {
-            this.repository.deleteLastParagraph(this.playthrough.id);
-        } catch (e) {
-            alert(`delete paragraph failed: ${e}`);
-            throw (e);
+
+        if (!this.repository.deleteLastParagraph(this.playthrough.id)) {
+            throw 'error deleting paragraph';
         }
+
 
         prev.toParagraph = undefined;
         prev.toParagraphId = undefined;
@@ -127,5 +162,16 @@
         } while (prevParagraph != undefined);
 
         throw 'No previous paragraph found';
+    }
+
+    getNumParagraphs() {
+        var count = 0;
+        var curr = this.playthrough.startParagraph;
+
+        while (curr != undefined) {
+            count += 1;
+            curr = curr.toParagraph;
+        }
+        return count;
     }
 }

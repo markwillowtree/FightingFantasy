@@ -64,11 +64,11 @@ namespace FightingFantasy.Mvc.Controllers
         }
 
         [HttpPost]
-        public async Task<long> AppendParagraph(long playthroughId, [FromBody] PlayThroughParagraphModel model)
+        public async Task<PlayThroughParagraphModel> AppendParagraph(long playthroughId, [FromBody] PlayThroughParagraphModel model)
         {
-            long newId = await _apiClient.AppendParagraphAsync(playthroughId, model);
+            PlayThroughParagraphModel paragraph = await _apiClient.AppendParagraphAsync(playthroughId, model);
 
-            return newId;
+            return paragraph;
         }
 
         [HttpPost]

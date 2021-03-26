@@ -1,7 +1,8 @@
 ﻿class CytoRepository {
     cy
-
-    constructor(playthrough, containerId) {
+    debug = false;
+    constructor(playthrough, containerId, debug = false) {
+        this.debug = debug;
         this.cy = cytoscape({
             container: $(`#${containerId}`)
             , style: cytoscape.stylesheet()
@@ -42,12 +43,15 @@
         this.cy.$(`#${startParagraph.id}`)
             .css({ label: `${startParagraph.number} ${startParagraph.description}`  });
 
-        console.log(`Adding node ${startParagraph.id}`);
+        if (this.debug) console.log(`Adding node ${startParagraph.id}`);
 
         var prev = startParagraph;
         var curr = startParagraph.toParagraph;
 
         while (curr != undefined) {
+            if (prev.id == undefined || curr.id == undefined)
+                throw 'invalid node id';
+
             this.cy.add([
                 {
                     group: 'nodes',
@@ -59,11 +63,11 @@
                 { group: 'edges', data: { id: `${prev.id}${curr.id}`, source: `${prev.id}`, target: `${curr.id}`} }
             ]);
             
-            console.log(`Adding node ${curr.id} and edge ${prev.id}${curr.id}`);
+            if (this.debug) console.log(`Adding node ${curr.id} and edge ${prev.id}${curr.id}`);
 
             this.cy.$(`#${curr.id}`).css({ label: `${curr.number} ${curr.description}` });
 
-            console.log(`Adding description ${curr.description} on ${curr.id}`);
+            if (this.debug) console.log(`Adding description ${curr.description} on ${curr.id}`);
 
             prev = curr;
             curr = curr.toParagraph;

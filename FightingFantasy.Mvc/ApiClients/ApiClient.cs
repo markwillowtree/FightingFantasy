@@ -65,12 +65,12 @@ namespace FightingFantasy.Mvc.ApiClients
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<long> AppendParagraphAsync(long? playthroughId, PlayThroughParagraphModel body);
+        System.Threading.Tasks.Task<PlayThroughParagraphModel> AppendParagraphAsync(long? playthroughId, PlayThroughParagraphModel body);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<long> AppendParagraphAsync(long? playthroughId, PlayThroughParagraphModel body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<PlayThroughParagraphModel> AppendParagraphAsync(long? playthroughId, PlayThroughParagraphModel body, System.Threading.CancellationToken cancellationToken);
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -593,7 +593,7 @@ namespace FightingFantasy.Mvc.ApiClients
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<long> AppendParagraphAsync(long? playthroughId, PlayThroughParagraphModel body)
+        public System.Threading.Tasks.Task<PlayThroughParagraphModel> AppendParagraphAsync(long? playthroughId, PlayThroughParagraphModel body)
         {
             return AppendParagraphAsync(playthroughId, body, System.Threading.CancellationToken.None);
         }
@@ -601,7 +601,7 @@ namespace FightingFantasy.Mvc.ApiClients
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<long> AppendParagraphAsync(long? playthroughId, PlayThroughParagraphModel body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<PlayThroughParagraphModel> AppendParagraphAsync(long? playthroughId, PlayThroughParagraphModel body, System.Threading.CancellationToken cancellationToken)
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
@@ -649,7 +649,7 @@ namespace FightingFantasy.Mvc.ApiClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<long>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<PlayThroughParagraphModel>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);

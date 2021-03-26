@@ -89,7 +89,6 @@ This project is designed to contain services which are not specific to the domai
 This project uses WebApplicationFactory with a Startup class derived from the API project.
 
 ### Future Work 
-- Add animated dice control to map page to allow for  combat.
 - Add character creation screen to initialise stats based on stat specific rules. Add these rules into the BookStat entity.
 - Frontend testing using something like Selenium.
 - Add .csproj command to the API that will retrieve the generated Swagger config on compilation and write it to the MVC project before it is compiled. This will remove the need for the developer to manually copy the config across every time the interface of the API is modified.

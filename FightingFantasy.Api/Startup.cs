@@ -49,6 +49,7 @@ namespace FightingFantasy.Api
             services.AddTransient<IRepository<Book>, Repository<FightingFantasyDbContext, Book>>();
             services.AddTransient<IRepository<Playthrough>, Repository<FightingFantasyDbContext, Playthrough>>();
             services.AddTransient<IRepository<PlaythroughParagraph>, Repository<FightingFantasyDbContext, PlaythroughParagraph>>();
+            services.AddTransient<IRepository<PlaythroughStat>, Repository<FightingFantasyDbContext, PlaythroughStat>>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 

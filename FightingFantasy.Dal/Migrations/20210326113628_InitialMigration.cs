@@ -75,6 +75,8 @@ namespace FightingFantasy.Dal.Migrations
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     StatName = table.Column<string>(type: "TEXT", nullable: true),
+                    InitNumDice = table.Column<int>(type: "INTEGER", nullable: false),
+                    InitModifier = table.Column<int>(type: "INTEGER", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -303,53 +305,58 @@ namespace FightingFantasy.Dal.Migrations
 
             migrationBuilder.InsertData(
                 table: "BookStats",
-                columns: new[] { "Id", "DateCreated", "ModifiedDate", "StatName" },
-                values: new object[] { 10L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pep Pills" });
+                columns: new[] { "Id", "DateCreated", "InitModifier", "InitNumDice", "ModifiedDate", "StatName" },
+                values: new object[] { 11L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Armour" });
 
             migrationBuilder.InsertData(
                 table: "BookStats",
-                columns: new[] { "Id", "DateCreated", "ModifiedDate", "StatName" },
-                values: new object[] { 8L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Gold" });
+                columns: new[] { "Id", "DateCreated", "InitModifier", "InitNumDice", "ModifiedDate", "StatName" },
+                values: new object[] { 9L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Fear" });
 
             migrationBuilder.InsertData(
                 table: "BookStats",
-                columns: new[] { "Id", "DateCreated", "ModifiedDate", "StatName" },
-                values: new object[] { 7L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Shields" });
+                columns: new[] { "Id", "DateCreated", "InitModifier", "InitNumDice", "ModifiedDate", "StatName" },
+                values: new object[] { 8L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Gold" });
 
             migrationBuilder.InsertData(
                 table: "BookStats",
-                columns: new[] { "Id", "DateCreated", "ModifiedDate", "StatName" },
-                values: new object[] { 6L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Weapons Strength" });
+                columns: new[] { "Id", "DateCreated", "InitModifier", "InitNumDice", "ModifiedDate", "StatName" },
+                values: new object[] { 7L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 12, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Shields" });
 
             migrationBuilder.InsertData(
                 table: "BookStats",
-                columns: new[] { "Id", "DateCreated", "ModifiedDate", "StatName" },
-                values: new object[] { 5L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Magic" });
+                columns: new[] { "Id", "DateCreated", "InitModifier", "InitNumDice", "ModifiedDate", "StatName" },
+                values: new object[] { 6L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Weapons Strength" });
 
             migrationBuilder.InsertData(
                 table: "BookStats",
-                columns: new[] { "Id", "DateCreated", "ModifiedDate", "StatName" },
-                values: new object[] { 4L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Provisions" });
+                columns: new[] { "Id", "DateCreated", "InitModifier", "InitNumDice", "ModifiedDate", "StatName" },
+                values: new object[] { 5L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Magic" });
 
             migrationBuilder.InsertData(
                 table: "BookStats",
-                columns: new[] { "Id", "DateCreated", "ModifiedDate", "StatName" },
-                values: new object[] { 3L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Luck" });
+                columns: new[] { "Id", "DateCreated", "InitModifier", "InitNumDice", "ModifiedDate", "StatName" },
+                values: new object[] { 4L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Provisions" });
 
             migrationBuilder.InsertData(
                 table: "BookStats",
-                columns: new[] { "Id", "DateCreated", "ModifiedDate", "StatName" },
-                values: new object[] { 2L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Stamina" });
+                columns: new[] { "Id", "DateCreated", "InitModifier", "InitNumDice", "ModifiedDate", "StatName" },
+                values: new object[] { 3L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Luck" });
 
             migrationBuilder.InsertData(
                 table: "BookStats",
-                columns: new[] { "Id", "DateCreated", "ModifiedDate", "StatName" },
-                values: new object[] { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Skill" });
+                columns: new[] { "Id", "DateCreated", "InitModifier", "InitNumDice", "ModifiedDate", "StatName" },
+                values: new object[] { 2L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 12, 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Stamina" });
 
             migrationBuilder.InsertData(
                 table: "BookStats",
-                columns: new[] { "Id", "DateCreated", "ModifiedDate", "StatName" },
-                values: new object[] { 9L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Fear" });
+                columns: new[] { "Id", "DateCreated", "InitModifier", "InitNumDice", "ModifiedDate", "StatName" },
+                values: new object[] { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Skill" });
+
+            migrationBuilder.InsertData(
+                table: "BookStats",
+                columns: new[] { "Id", "DateCreated", "InitModifier", "InitNumDice", "ModifiedDate", "StatName" },
+                values: new object[] { 10L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pep Pills" });
 
             migrationBuilder.InsertData(
                 table: "Books",
@@ -359,7 +366,7 @@ namespace FightingFantasy.Dal.Migrations
             migrationBuilder.InsertData(
                 table: "Books",
                 columns: new[] { "Id", "Code", "DateCreated", "Description", "ModifiedDate", "Title" },
-                values: new object[] { 11L, "FF11", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "<p>The once-peaceful world of Orb is in terrible danger!</p>\r\n\r\n                <p>Dark forces are at work to unleash the awesome might of the Evil One, but their plans cannot be completed without the legendary \r\n                Talisman of Death. YOU are the one who carries the Talisman, and only YOU can stop the Dark forces. YOUR mission is to destroy the \r\n                Talisman before the dark lord's minions reach you. But beware! Time is running out!</p>", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Talisman of Death" });
+                values: new object[] { 10L, "FF10", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "<p>Taking refuge in the infamous House of Hell has to be the worst mistake of your life!</p>\r\n\r\n                <p>The dangers of the torrential storm outside are nothing compared to the blood-curdling adventures that await you inside. \r\n                Who knows how many hapless wanderers like yourself have perished within its gruesome walls? Be warned! Tonight is going to be a \r\n                night to remember ...</p>", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "House of Hell" });
 
             migrationBuilder.InsertData(
                 table: "Books",
@@ -404,7 +411,7 @@ namespace FightingFantasy.Dal.Migrations
             migrationBuilder.InsertData(
                 table: "Books",
                 columns: new[] { "Id", "Code", "DateCreated", "Description", "ModifiedDate", "Title" },
-                values: new object[] { 10L, "FF10", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "<p>Taking refuge in the infamous House of Hell has to be the worst mistake of your life!</p>\r\n\r\n                <p>The dangers of the torrential storm outside are nothing compared to the blood-curdling adventures that await you inside. \r\n                Who knows how many hapless wanderers like yourself have perished within its gruesome walls? Be warned! Tonight is going to be a \r\n                night to remember ...</p>", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "House of Hell" });
+                values: new object[] { 11L, "FF11", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "<p>The once-peaceful world of Orb is in terrible danger!</p>\r\n\r\n                <p>Dark forces are at work to unleash the awesome might of the Evil One, but their plans cannot be completed without the legendary \r\n                Talisman of Death. YOU are the one who carries the Talisman, and only YOU can stop the Dark forces. YOUR mission is to destroy the \r\n                Talisman before the dark lord's minions reach you. But beware! Time is running out!</p>", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Talisman of Death" });
 
             migrationBuilder.InsertData(
                 table: "Books",
@@ -415,11 +422,6 @@ namespace FightingFantasy.Dal.Migrations
                 table: "BookStat",
                 columns: new[] { "BookId", "StatId" },
                 values: new object[] { 1L, 1L });
-
-            migrationBuilder.InsertData(
-                table: "BookStat",
-                columns: new[] { "BookId", "StatId" },
-                values: new object[] { 4L, 3L });
 
             migrationBuilder.InsertData(
                 table: "BookStat",
@@ -469,17 +471,17 @@ namespace FightingFantasy.Dal.Migrations
             migrationBuilder.InsertData(
                 table: "BookStat",
                 columns: new[] { "BookId", "StatId" },
-                values: new object[] { 3L, 3L });
-
-            migrationBuilder.InsertData(
-                table: "BookStat",
-                columns: new[] { "BookId", "StatId" },
                 values: new object[] { 3L, 4L });
 
             migrationBuilder.InsertData(
                 table: "BookStat",
                 columns: new[] { "BookId", "StatId" },
-                values: new object[] { 5L, 4L });
+                values: new object[] { 4L, 3L });
+
+            migrationBuilder.InsertData(
+                table: "BookStat",
+                columns: new[] { "BookId", "StatId" },
+                values: new object[] { 4L, 4L });
 
             migrationBuilder.InsertData(
                 table: "BookStat",
@@ -529,12 +531,17 @@ namespace FightingFantasy.Dal.Migrations
             migrationBuilder.InsertData(
                 table: "BookStat",
                 columns: new[] { "BookId", "StatId" },
-                values: new object[] { 4L, 4L });
+                values: new object[] { 10L, 9L });
 
             migrationBuilder.InsertData(
                 table: "BookStat",
                 columns: new[] { "BookId", "StatId" },
-                values: new object[] { 10L, 9L });
+                values: new object[] { 5L, 4L });
+
+            migrationBuilder.InsertData(
+                table: "BookStat",
+                columns: new[] { "BookId", "StatId" },
+                values: new object[] { 3L, 3L });
 
             migrationBuilder.InsertData(
                 table: "BookStat",
@@ -544,7 +551,7 @@ namespace FightingFantasy.Dal.Migrations
             migrationBuilder.InsertData(
                 table: "BookStat",
                 columns: new[] { "BookId", "StatId" },
-                values: new object[] { 12L, 2L });
+                values: new object[] { 1L, 3L });
 
             migrationBuilder.InsertData(
                 table: "BookStat",
@@ -599,12 +606,12 @@ namespace FightingFantasy.Dal.Migrations
             migrationBuilder.InsertData(
                 table: "BookStat",
                 columns: new[] { "BookId", "StatId" },
-                values: new object[] { 1L, 3L });
+                values: new object[] { 12L, 1L });
 
             migrationBuilder.InsertData(
                 table: "BookStat",
                 columns: new[] { "BookId", "StatId" },
-                values: new object[] { 12L, 1L });
+                values: new object[] { 1L, 2L });
 
             migrationBuilder.InsertData(
                 table: "BookStat",
@@ -659,12 +666,17 @@ namespace FightingFantasy.Dal.Migrations
             migrationBuilder.InsertData(
                 table: "BookStat",
                 columns: new[] { "BookId", "StatId" },
-                values: new object[] { 1L, 2L });
+                values: new object[] { 12L, 2L });
 
             migrationBuilder.InsertData(
                 table: "BookStat",
                 columns: new[] { "BookId", "StatId" },
                 values: new object[] { 12L, 10L });
+
+            migrationBuilder.InsertData(
+                table: "BookStat",
+                columns: new[] { "BookId", "StatId" },
+                values: new object[] { 12L, 11L });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

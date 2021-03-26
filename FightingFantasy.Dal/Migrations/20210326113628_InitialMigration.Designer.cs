@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FightingFantasy.Dal.Migrations
 {
     [DbContext(typeof(FightingFantasyDbContext))]
-    [Migration("20210321173142_InitialMigration")]
+    [Migration("20210326113628_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -287,6 +287,11 @@ namespace FightingFantasy.Dal.Migrations
                         {
                             BookId = 12L,
                             StatId = 10L
+                        },
+                        new
+                        {
+                            BookId = 12L,
+                            StatId = 11L
                         });
                 });
 
@@ -529,6 +534,12 @@ namespace FightingFantasy.Dal.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("InitModifier")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("InitNumDice")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("TEXT");
 
@@ -544,6 +555,8 @@ namespace FightingFantasy.Dal.Migrations
                         {
                             Id = 1L,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            InitModifier = 6,
+                            InitNumDice = 1,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StatName = "Skill"
                         },
@@ -551,6 +564,8 @@ namespace FightingFantasy.Dal.Migrations
                         {
                             Id = 2L,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            InitModifier = 12,
+                            InitNumDice = 2,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StatName = "Stamina"
                         },
@@ -558,6 +573,8 @@ namespace FightingFantasy.Dal.Migrations
                         {
                             Id = 3L,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            InitModifier = 6,
+                            InitNumDice = 1,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StatName = "Luck"
                         },
@@ -565,6 +582,8 @@ namespace FightingFantasy.Dal.Migrations
                         {
                             Id = 4L,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            InitModifier = 0,
+                            InitNumDice = 0,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StatName = "Provisions"
                         },
@@ -572,6 +591,8 @@ namespace FightingFantasy.Dal.Migrations
                         {
                             Id = 5L,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            InitModifier = 6,
+                            InitNumDice = 2,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StatName = "Magic"
                         },
@@ -579,6 +600,8 @@ namespace FightingFantasy.Dal.Migrations
                         {
                             Id = 6L,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            InitModifier = 6,
+                            InitNumDice = 1,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StatName = "Weapons Strength"
                         },
@@ -586,6 +609,8 @@ namespace FightingFantasy.Dal.Migrations
                         {
                             Id = 7L,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            InitModifier = 12,
+                            InitNumDice = 1,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StatName = "Shields"
                         },
@@ -593,6 +618,8 @@ namespace FightingFantasy.Dal.Migrations
                         {
                             Id = 8L,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            InitModifier = 0,
+                            InitNumDice = 0,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StatName = "Gold"
                         },
@@ -600,6 +627,8 @@ namespace FightingFantasy.Dal.Migrations
                         {
                             Id = 9L,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            InitModifier = 6,
+                            InitNumDice = 1,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StatName = "Fear"
                         },
@@ -607,8 +636,19 @@ namespace FightingFantasy.Dal.Migrations
                         {
                             Id = 10L,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            InitModifier = 4,
+                            InitNumDice = 0,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StatName = "Pep Pills"
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            InitModifier = 6,
+                            InitNumDice = 1,
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StatName = "Armour"
                         });
                 });
 

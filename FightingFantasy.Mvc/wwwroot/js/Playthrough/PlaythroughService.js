@@ -25,7 +25,8 @@
             newParagraph.stats[i] = {
                 name: lastParagraph.stats[i].name,
                 value: lastParagraph.stats[i].value,
-                statId: lastParagraph.stats[i].statId
+                statId: lastParagraph.stats[i].statId,
+                bookStatId: lastParagraph.stats[i].bookStatId
             };
         }
         

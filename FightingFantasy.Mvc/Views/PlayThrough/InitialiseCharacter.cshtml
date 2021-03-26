@@ -1,0 +1,141 @@
+﻿@model FightingFantasy.Mvc.Models.PlayThroughs.InitialiseCharacterViewModel
+
+@section Styles {
+    <link href="~/lib/dice/css/dice.css" rel="stylesheet" />
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col offset-1">
+            <div class="row">
+                <h1 class="col">Create your character</h1>
+            </div>
+            <form id="statsForm" target="/Playthrough/InitialiseCharacter" method="post">
+                @Html.HiddenFor(x => x.PlaythroughId)
+
+                @for (int i = 0; i < Model.Stats.Count; i++)
+                {
+                    var stat = Model.Stats[i];
+                    var statDice = Model.Stats[i].InitNumDice;
+                    var statModifier = Model.Stats[i].InitModifier;
+
+                    @Html.Raw("<div class='form-group row'>")
+                    @Html.Label(stat.Name, stat.Name, new { @class = "col-form-label col-4" })
+
+                    @Html.TextBoxFor(x => x.Stats[i].Value,
+                   new {
+                       id = Model.Stats[i].Name,
+                       @class = "form-control",
+                       type = "number",
+                       data_dice = statDice,
+                       data_modifier = statModifier,
+                       tabindex=i+1
+                   })
+
+                    @Html.HiddenFor(x => x.Stats[i].Name)
+                    @Html.HiddenFor(x => x.Stats[i].StatId)
+
+                    string descText = string.Empty;
+                    if (stat.InitNumDice > 0)
+                        descText += $"{stat.InitNumDice}d6";
+                    if (stat.InitModifier > 0)
+                        descText += $" +{stat.InitModifier}";
+
+                    if (!string.IsNullOrEmpty(descText))
+                    {
+                        <span class="col">(@descText)</span>
+                    }
+                    @Html.Raw("</div>")
+                }
+
+                <button id="proceedBtn" type="submit" class="float-right">Proceed</button>
+            </form>
+            <div id="diceDiv" class="dice__scene" style="margin-top: 20px; margin-bottom: 20px;"></div>
+            <div>
+                <button id="diceBtn">Roll Dice</button>
+            </div>
+        </div>
+        <div class="col">
+            <image src="@Url.Content(Model.BookImageUrl)" style="width: 338px;" />
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/dice/js/dice.js"></script>
+    <script src="~/js/Playthrough/InitialiseCharacter.js"></script>
+    <script>
+        //function canShowProceedBtn() {
+        //    var showProceed = true;
+        //    // check if all dice rollable stats have been set and display proceed btn if they have
+        //    $('.form-control').each(function (idx, element) {
+        //        var ndice = Number(element.dataset['dice']);
+        //        var modifier = Number(element.dataset['modifier']);
+
+        //        if ((ndice > 0 || modifier > 0) && $(element).val() <= 0) {
+        //            showProceed = false;
+        //        }
+        //    });
+
+        //    return showProceed;
+        //}
+
+        //$(document).ready(function () {
+        //    var dice = undefined;
+
+        //    $('#diceBtn').hide();
+        //    $('#proceedBtn').hide();
+
+        //    $('.form-control').on('change', function () {
+        //        if (canShowProceedBtn())
+        //            $('#proceedBtn').show();
+        //        else
+        //            $('#proceedBtn').hide();
+        //    });
+
+
+            
+
+        //    $('.form-control').on('focus', function (evt) {
+        //        var statCtrl = evt.target;
+
+        //        // remove previous dice
+        //        $('#diceDiv').empty();
+
+        //        // get number of dice and stat modifier
+        //        var ndice = Number(statCtrl.dataset['dice']);
+        //        var modifier = Number(statCtrl.dataset['modifier']);
+
+        //        if (ndice > 0) {
+        //            $('#diceBtn').show();
+        //        }
+        //        else {
+        //            $('#diceBtn').hide();
+        //        }
+                     
+        //        // remove event listeners from previous dice
+        //        $(dice).off('rolled');
+
+        //        // create new dice and write up events
+        //        dice = new Dice(ndice, 500, 'diceDiv');
+
+        //        $('#diceBtn').on('click', function () {
+        //            dice.rollDice();
+        //        });
+
+        //        $(dice).on('rolled', function (evt, value) {
+        //            var rolled = value + modifier;
+        //            $(statCtrl).val(rolled);
+
+        //            if (canShowProceedBtn())
+        //                $('#proceedBtn').show();
+        //            else
+        //                $('#proceedBtn').hide();
+        //        });
+        //    });
+
+        //    $('.form-control').first().each(function () {
+        //        $(this).focus();
+        //    });
+        //    $('input[autofocus]').trigger('focus');//force fire focus on autofocus1
+        //});
+    </script>
+</div>

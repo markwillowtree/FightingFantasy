@@ -9,5 +9,7 @@ namespace FightingFantasy.Domain
     {
         public virtual ICollection<Book> Books { get; set; } = new List<Book>();
         public string StatName { get; set; }
+        public int InitNumDice { get; set; }
+        public int InitModifier { get; set; }
     }
 }

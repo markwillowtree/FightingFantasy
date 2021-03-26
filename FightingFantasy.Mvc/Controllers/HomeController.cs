@@ -18,7 +18,7 @@ namespace FightingFantasy.Mvc.Controllers
         readonly string _bookCoversDir = "images/book_covers";
         readonly string[] _bookCoverImages;
 
-        public HomeController(IClient apiClient, IWebHostEnvironment env) : base(apiClient)
+        public HomeController(IClient apiClient, IWebHostEnvironment env) : base(apiClient, env)
         {
             _bookCoverImages = Directory.GetFileSystemEntries(Path.Combine(env.WebRootPath, _bookCoversDir))
                 .Select(x => Path.GetFileName(x)).ToArray();
@@ -137,15 +137,6 @@ namespace FightingFantasy.Mvc.Controllers
                 vm.ErrorMsg = e.Result.Title;
             }
             return View(vm);
-        }
-
-        private string GetBookCoverPath(BookModel book)
-        {
-            string coverFile = _bookCoverImages.Where(x => x.StartsWith(book.Code + "_")).FirstOrDefault();
-            if (!String.IsNullOrEmpty(coverFile))
-                return $"/{_bookCoversDir}/{coverFile}";
-
-            return string.Empty;
         }
 
     }

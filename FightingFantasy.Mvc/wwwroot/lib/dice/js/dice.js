@@ -1,16 +1,16 @@
 ﻿// prependClassExtension method
-(function ($) {
+//(function ($) {
 
-	jQuery.fn.extend({
-		prependClass: function (newClasses) {
-			return this.each(function () {
-				var currentClasses = $(this).prop("class");
-				$(this).removeClass(currentClasses).addClass(newClasses + " " + currentClasses);
-			});
-		}
-	});
+//	jQuery.fn.extend({
+//		prependClass: function (newClasses) {
+//			return this.each(function () {
+//				var currentClasses = $(this).prop("class");
+//				$(this).removeClass(currentClasses).addClass(newClasses + " " + currentClasses);
+//			});
+//		}
+//	});
 
-})(jQuery);
+//})(jQuery);
 
 
 class Dice {
@@ -18,6 +18,17 @@ class Dice {
 	numDice
 	container
 	constructor(numDice, animationSpeed, containerId) {
+
+		jQuery.fn.extend({
+			prependClass: function (newClasses) {
+				return this.each(function () {
+					var currentClasses = $(this).prop("class");
+					$(this).removeClass(currentClasses).addClass(newClasses + " " + currentClasses);
+				});
+			}
+		});
+
+
 		this.animationSpeed = animationSpeed;
 		this.numDice = numDice;
 		this.container = $(`#${containerId}`);

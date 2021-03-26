@@ -41,16 +41,76 @@ namespace FightingFantasy.Dal.DbContexts
 
         protected virtual void SeedData(ModelBuilder builder)
         {
-            Stat skillStat           = new Stat { Id = 1, StatName = "Skill" };
-            Stat staminaStat         = new Stat { Id = 2, StatName = "Stamina" };
-            Stat luckStat            = new Stat { Id = 3, StatName = "Luck" };
+            Stat skillStat           = new Stat 
+            { 
+                Id = 1, 
+                StatName = "Skill",
+                InitNumDice = 1,
+                InitModifier = 6
+            };
+            Stat staminaStat         = new Stat 
+            { 
+                Id = 2, 
+                StatName = "Stamina",
+                InitNumDice = 2,
+                InitModifier = 12
+            };
+            Stat luckStat            = new Stat 
+            { 
+                Id = 3, 
+                StatName = "Luck",
+                InitNumDice = 1,
+                InitModifier = 6
+            };
+
             Stat provisionsStat      = new Stat { Id = 4, StatName = "Provisions" };
-            Stat magicStat           = new Stat { Id = 5, StatName = "Magic" };
-            Stat weaponsStrengthStat = new Stat { Id = 6, StatName = "Weapons Strength" };
-            Stat shieldsStat         = new Stat { Id = 7, StatName = "Shields" };
+            Stat magicStat           = new Stat 
+            { 
+                Id = 5, 
+                StatName = "Magic",
+                InitNumDice = 2,
+                InitModifier = 6
+            };
+
+            Stat weaponsStrengthStat = new Stat 
+            { 
+                Id = 6, 
+                StatName = "Weapons Strength",
+                InitNumDice = 1,
+                InitModifier = 6
+            };
+
+            Stat shieldsStat         = new Stat 
+            { 
+                Id = 7, 
+                StatName = "Shields",
+                InitNumDice = 1,
+                InitModifier = 12
+            };
+
             Stat goldStat            = new Stat { Id = 8, StatName = "Gold" };
-            Stat fearStat            = new Stat { Id = 9, StatName = "Fear" };
-            Stat pepPillsStat        = new Stat { Id = 10, StatName = "Pep Pills" };
+            Stat fearStat            = new Stat 
+            { 
+                Id = 9, 
+                StatName = "Fear",
+                InitNumDice = 1,
+                InitModifier = 6
+            };
+            Stat pepPillsStat        = new Stat 
+            { 
+                Id = 10, 
+                StatName = "Pep Pills",
+                InitNumDice = 0,
+                InitModifier = 4
+            };
+
+            Stat armourStat = new Stat
+            {
+                Id = 11,
+                StatName = "Armour",
+                InitNumDice = 1,
+                InitModifier = 6
+            };
 
             builder.Entity<Stat>().HasData(
                 skillStat,
@@ -62,7 +122,8 @@ namespace FightingFantasy.Dal.DbContexts
                 shieldsStat,
                 goldStat,
                 fearStat,
-                pepPillsStat
+                pepPillsStat,
+                armourStat
                 );
 
             builder.Entity<Book>().HasData(
@@ -434,7 +495,8 @@ namespace FightingFantasy.Dal.DbContexts
                         new { BookId = 12L, StatId = skillStat.Id },
                         new { BookId = 12L, StatId = staminaStat.Id },
                         new { BookId = 12L, StatId = luckStat.Id },
-                        new { BookId = 12L, StatId = pepPillsStat.Id }
+                        new { BookId = 12L, StatId = pepPillsStat.Id },
+                        new { BookId = 12L, StatId = armourStat.Id }
                         );
                 });
 

@@ -56,7 +56,7 @@ namespace FightingFantasy.Api.Controllers
             }
 
             // validate stats
-            if (!StatsAreValid(playthrough, paragraph))
+            if (!StatsAreValid(dbParagraph, paragraph.Stats))
                 return NotFound(new ProblemDetails
                 {
                     Title = InvalidStat
@@ -95,8 +95,8 @@ namespace FightingFantasy.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> AppendParagraph(long playthroughId, [FromBody] PlayThroughParagraphModel model)
         {
-            // get playthrough
-            var playthrough = await getPlaythrough(playthroughId);
+            // get playthrough and verify that user owns it
+            Playthrough playthrough = await getPlaythrough(playthroughId);
             if (playthrough == null)
                 return NotFound(new ProblemDetails
                 {
@@ -104,7 +104,7 @@ namespace FightingFantasy.Api.Controllers
                 });
 
             // validate stats
-            if (!StatsAreValid(playthrough, model))
+            if (!StatsAreValid(playthrough, model.Stats))
                 return NotFound(new ProblemDetails
                 {
                     Title = InvalidStat
@@ -136,6 +136,8 @@ namespace FightingFantasy.Api.Controllers
 
             return Ok(paragraph.Id);
         }
+
+       
 
         [HttpDelete("DeleteParagraph/{playthroughId:long}", Name = "DeleteLastParagraph")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -183,24 +185,20 @@ namespace FightingFantasy.Api.Controllers
             return Ok();
         }
 
-        private bool StatsAreValid(Playthrough playthrough, PlayThroughParagraphModel paragraph)
+        private bool StatsAreValid(PlaythroughParagraph dbParagraph, List<PlaythroughStatModel> stats)
         {
-            // validate stats
-            foreach (var stat in paragraph.Stats)
-            {
-                if (!StatIsValid(playthrough, stat))
-                {
-                    return false;
-                }
-            }
+            var dbStatIds = dbParagraph.PlaythroughStats.Select(x => x.Id).ToList();
 
-            return true;
+            return stats.All(x => dbStatIds.Contains(x.StatId));
         }
-        private bool StatIsValid(Playthrough playthrough, PlaythroughStatModel stat)
+
+        private bool StatsAreValid(Playthrough playthrough, List<PlaythroughStatModel> stats)
         {
-            var bookStat = playthrough.Book.Stats.SingleOrDefault(x => x.StatName == stat.Name && x.Id == stat.StatId);
+            var playthroughStatIds = playthrough.Book.Stats.Select(x => x.Id).ToList();
+            var statIds = stats.Select(x => x.BookStatId).ToList();
 
-            return bookStat != null;
+            return statIds.All(x => playthroughStatIds.Contains(x));
         }
+
     }
 }

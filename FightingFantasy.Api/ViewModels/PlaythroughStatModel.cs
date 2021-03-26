@@ -12,6 +12,9 @@ namespace FightingFantasy.Api.ViewModels
         public string Name { get; set; }
         public int Value { get; set; }
         public long StatId { get; set; }
+        public long BookStatId { get; set; }
+        public int InitNumDice { get; set; }
+        public int InitModifier { get; set; }
 
         [JsonConstructor]
         public PlaythroughStatModel() { }
@@ -20,7 +23,10 @@ namespace FightingFantasy.Api.ViewModels
         {
             Name = stat.Stat.StatName;
             Value = stat.Value;
-            StatId = stat.StatId;
+            StatId = stat.Id;
+            BookStatId = stat.StatId;
+            InitNumDice = stat.Stat.InitNumDice;
+            InitModifier = stat.Stat.InitModifier;
         }
     }
 }

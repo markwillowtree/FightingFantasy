@@ -22,7 +22,9 @@ namespace FightingFantasy.Domain
             StartParagraph = new PlaythroughParagraph
             {
                 ParagraphNumber = 1,
-                Description = "Start"
+                Description = "Start",
+                XPos = 50,
+                YPos = 50
             };
 
             foreach (var stat in book.Stats)

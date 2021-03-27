@@ -95,8 +95,8 @@ namespace FightingFantasy.Dal.Migrations
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     ToParagraphId = table.Column<long>(type: "INTEGER", nullable: true),
                     Items = table.Column<string>(type: "TEXT", nullable: true),
-                    XPos = table.Column<int>(type: "INTEGER", nullable: false),
-                    YPos = table.Column<int>(type: "INTEGER", nullable: false),
+                    XPos = table.Column<double>(type: "REAL", nullable: false),
+                    YPos = table.Column<double>(type: "REAL", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },

@@ -23,6 +23,8 @@
             items: lastParagraph.items,
             stats: new Array(lastParagraph.stats.length),
             description: 'Enter a description',
+            xpos: lastParagraph.xPos,
+            ypos: lastParagraph.yPos + 50,
             number: 0
         };
 
@@ -55,6 +57,14 @@
         $(this).trigger('paragraphSelected', this.selectedParagraph);
     }
 
+    editPosition(x, y) {
+        this.selectedParagraph.xPos = x;
+        this.selectedParagraph.ypos = y;
+
+        if (!this.repository.updateParagraph(this.playthrough.id, this.selectedParagraph)) {
+            throw 'error updating paragraph';
+        }
+    }
     /**
     * Edits item
     * @param {string} items

@@ -2,13 +2,27 @@
     // instantiate repositories and services
     var playthroughService = new PlaythroughService(playthrough, selectedParagraphId);
     var backendRepo = new BackendRepository();
-    var cytoRepo = new CytoRepository(playthrough, 'mapCanvas');
+    
 
     // initialise dice control
     var dice = new Dice(2, 500, 'dice');
 
     // set up event handlers
     $(document).ready(function () {
+        var cytoRepo = new CytoRepository(playthrough, 'mapCanvas');
+
+        // update paragraph position when node is dragged
+        cytoRepo.cy.on('dragfreeon', function (evt) {
+            var id = evt.target.id();
+
+            console.log(`node ${id} moved`);
+
+            var node = cytoRepo.cy.$(`#${id}`);
+            console.log(`${node} dragged`);
+            var position = node.position();
+
+            playthroughService.editPosition(position.x, position.y);
+        });
 
         $('#dice__btn').on('click ', function () {
             dice.rollDice();
@@ -103,9 +117,9 @@
         });
 
         // select paragraph when graph node clicked
-        cytoRepo.cy.on('mousedown', function (event) {
+        cytoRepo.cy.on('select grabon', function (event) {
             if (event.target != cytoRepo.cy) {
-                var id = event.target._private.data.id;
+                var id = event.target.id();
                 playthroughService.setSelectedParagraph(id);
             }
         });

@@ -39,7 +39,7 @@ namespace FightingFantasy.Api.ViewModels
         public PlayThroughParagraphModel ToParagraph { get; set; }
 
         public List<PlaythroughStatModel> Stats { get; set; }
-        public int XPos { get; set; }
-        public int YPos { get; set; }
+        public double XPos { get; set; }
+        public double YPos { get; set; }
     }
 }

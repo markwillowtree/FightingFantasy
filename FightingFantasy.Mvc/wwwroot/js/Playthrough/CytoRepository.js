@@ -23,6 +23,8 @@
         });
 
         this.updateGraph(playthrough);
+
+        this.cy.emit('dragfreeon select grabon');
     }
 
     updateGraph(playthrough) {
@@ -35,9 +37,10 @@
             {
                 group: 'nodes',
                 data: { id: `${startParagraph.id}` },
-                locked: false,
-                grabbable: false,
-                pannable: true
+                //locked: false,
+                //grabbable: false,
+                //pannable: true,
+                position: { x: startParagraph.xPos, y: startParagraph.yPos }
             }
         ]);
         this.cy.$(`#${startParagraph.id}`)
@@ -56,9 +59,10 @@
                 {
                     group: 'nodes',
                     data: { id: `${curr.id}` },
-                    locked: false,
-                    grabbable: false,
-                    pannable: true
+                    //locked: false,
+                    //grabbable: false,
+                    //pannable: true,
+                    position: { x: curr.xPos, y: curr.yPos }
                 },
                 { group: 'edges', data: { id: `${prev.id}${curr.id}`, source: `${prev.id}`, target: `${curr.id}`} }
             ]);
@@ -73,11 +77,13 @@
             curr = curr.toParagraph;
         }
 
+        console.log(this.cy.elements().jsons());
+
         var elements = this.cy.elements();
 
         // if there is only one paragraph
         if (playthrough.startParagraph.toParagraph == undefined) {
-            this.cy.fit(elements, 200);
+            //this.cy.fit(elements, 200);
         }
         else {
             this.doLayout();
@@ -108,19 +114,6 @@
         }
     }
 
-
-    appendParagraph(currId, newId) {
-        // add new node and edge to graph
-        this.cy.add([
-            { group: 'nodes', data: { id: newId } },
-            { group: 'edges', data: { id: `${currId}${newId}`, source: currId, target: newId } }
-        ]);
-
-        this.cy.$(`#${newId}`).css({ label: 'Enter description' });
-
-        this.resetZoom();
-    }
-
     editParagraph(paragraphId, paragraphNumber, paragraphDescription) {
         this.cy.$(`#${paragraphId}`).css({ label: `${paragraphNumber}. ${paragraphDescription}` });
     }
@@ -131,7 +124,7 @@
 
     doLayout() {
         var layout = this.cy.layout({
-            name: 'grid',
+            name: 'preset',
             fit: false
         });
         layout.run();

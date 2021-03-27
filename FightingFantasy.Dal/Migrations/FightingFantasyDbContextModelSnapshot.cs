@@ -485,11 +485,11 @@ namespace FightingFantasy.Dal.Migrations
                     b.Property<long?>("ToParagraphId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("XPos")
-                        .HasColumnType("INTEGER");
+                    b.Property<double>("XPos")
+                        .HasColumnType("REAL");
 
-                    b.Property<int>("YPos")
-                        .HasColumnType("INTEGER");
+                    b.Property<double>("YPos")
+                        .HasColumnType("REAL");
 
                     b.HasKey("Id");
 

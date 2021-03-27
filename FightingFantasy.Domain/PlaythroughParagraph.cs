@@ -16,7 +16,7 @@ namespace FightingFantasy.Domain
 
         public string Items { get; set; } = string.Empty;
 
-        public int XPos { get; set; }
-        public int YPos { get; set; }
+        public double XPos { get; set; }
+        public double YPos { get; set; }
     }
 }

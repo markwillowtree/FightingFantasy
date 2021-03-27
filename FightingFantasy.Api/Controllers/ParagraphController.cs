@@ -67,6 +67,8 @@ namespace FightingFantasy.Api.Controllers
             dbParagraph.Description = paragraph.Description;
             dbParagraph.ParagraphNumber = paragraph.Number;
             dbParagraph.ToParagraphId = paragraph.ToParagraphId;
+            dbParagraph.XPos = paragraph.XPos;
+            dbParagraph.YPos = paragraph.YPos;
 
             foreach (var stat in dbParagraph.PlaythroughStats)
             {
@@ -118,6 +120,8 @@ namespace FightingFantasy.Api.Controllers
                 Items = model.Items,
                 ParagraphNumber = model.Number,
                 PlaythroughStats = lastParagraph.PlaythroughStats.Select(x => new PlaythroughStat { StatId = x.StatId, Value = x.Value }).ToArray(),
+                XPos = model.XPos,
+                YPos = model.YPos
             };
 
             try

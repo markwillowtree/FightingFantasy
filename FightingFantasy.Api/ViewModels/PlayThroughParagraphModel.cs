@@ -24,6 +24,9 @@ namespace FightingFantasy.Api.ViewModels
                 ToParagraph = new PlayThroughParagraphModel(playThroughParagraph.ToParagraph);
 
             Stats = playThroughParagraph.PlaythroughStats.Select(x => new PlaythroughStatModel(x)).ToList();
+
+            XPos = playThroughParagraph.XPos;
+            YPos = playThroughParagraph.YPos;
         }
 
         public long Id { get; set; }
@@ -36,5 +39,7 @@ namespace FightingFantasy.Api.ViewModels
         public PlayThroughParagraphModel ToParagraph { get; set; }
 
         public List<PlaythroughStatModel> Stats { get; set; }
+        public int XPos { get; set; }
+        public int YPos { get; set; }
     }
 }

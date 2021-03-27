@@ -15,5 +15,8 @@ namespace FightingFantasy.Domain
         public virtual PlaythroughParagraph ToParagraph { get; set; }
 
         public string Items { get; set; } = string.Empty;
+
+        public int XPos { get; set; }
+        public int YPos { get; set; }
     }
 }

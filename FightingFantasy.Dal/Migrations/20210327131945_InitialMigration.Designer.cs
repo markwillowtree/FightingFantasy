@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FightingFantasy.Dal.Migrations
 {
     [DbContext(typeof(FightingFantasyDbContext))]
-    [Migration("20210326113628_InitialMigration")]
+    [Migration("20210327131945_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -485,6 +485,12 @@ namespace FightingFantasy.Dal.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<long?>("ToParagraphId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("XPos")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("YPos")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

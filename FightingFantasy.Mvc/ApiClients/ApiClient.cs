@@ -1303,6 +1303,12 @@ namespace FightingFantasy.Mvc.ApiClients
         [Newtonsoft.Json.JsonProperty("stats", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<PlaythroughStatModel> Stats { get; set; }
     
+        [Newtonsoft.Json.JsonProperty("xPos", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int XPos { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("yPos", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int YPos { get; set; }
+    
     
     }
     

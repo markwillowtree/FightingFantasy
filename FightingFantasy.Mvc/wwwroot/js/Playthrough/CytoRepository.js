@@ -80,37 +80,19 @@
             this.cy.fit(elements, 200);
         }
         else {
-            var layout = this.cy.layout({
-                fit: true,
-                name: 'grid'
-            });
-            layout.run();
-            this.cy.fit(elements, 20);
+            this.doLayout();
+            //this.cy.fit(elements, 20);
         }
     }
 
     incrementZoom() {
         var zoom = this.cy.zoom();
         this.cy.zoom(zoom + 0.2);
-        //this.zoomLevel += 0.2;
-        //var layout = this.cy.layout({
-        //    fit: false,
-        //    name: 'grid',
-        //    zoom: this.zoomLevel
-        //});
-        //layout.run();
     }
 
     decrementZoom() {
         var zoom = this.cy.zoom();
         this.cy.zoom(zoom - 0.2);
-        //this.zoomLevel -= 0.2;
-        //var layout = this.cy.layout({
-        //    fit: false,
-        //    name: 'grid',
-        //    zoom: this.zoomLevel
-        //});
-        //layout.run();
     }
 
     resetZoom() {
@@ -121,12 +103,8 @@
             this.cy.fit(elements, 200);
         }
         else {
-            var layout = this.cy.layout({
-                fit: true,
-                name: 'grid'
-            });
-            layout.run();
-            this.cy.fit(elements, 20);
+            this.doLayout();
+            //this.cy.fit(elements, 20);
         }
     }
 
@@ -149,5 +127,13 @@
 
     deleteParagraph(paragraphId) {
         this.cy.remove(`#${paragraphId}`);
+    }
+
+    doLayout() {
+        var layout = this.cy.layout({
+            name: 'grid',
+            fit: false
+        });
+        layout.run();
     }
 }

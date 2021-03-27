@@ -1134,6 +1134,14 @@
               "$ref": "#/components/schemas/PlaythroughStatModel"
             },
             "nullable": true
+          },
+          "xPos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "yPos": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

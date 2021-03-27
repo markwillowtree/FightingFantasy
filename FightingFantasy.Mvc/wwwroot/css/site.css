@@ -24,6 +24,11 @@ h1, h2, h3, h4, h5, h6 {
     /*width: 95%;*/
 }
 
+a {
+    color:  lightgray;
+    font-size: 18px;
+}
+
 .alert-warning {
     background-color:#444444; 
     color: orange;

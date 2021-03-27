@@ -78,7 +78,11 @@ namespace FightingFantasy.Mvc
 
 
 
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.MaxDepth = 800 // books have maximum 400 paragraphs, doubling this for safety
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

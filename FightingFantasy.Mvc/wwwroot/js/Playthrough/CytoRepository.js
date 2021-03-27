@@ -37,9 +37,6 @@
             {
                 group: 'nodes',
                 data: { id: `${startParagraph.id}` },
-                //locked: false,
-                //grabbable: false,
-                //pannable: true,
                 position: { x: startParagraph.xPos, y: startParagraph.yPos }
             }
         ]);
@@ -59,12 +56,10 @@
                 {
                     group: 'nodes',
                     data: { id: `${curr.id}` },
-                    //locked: false,
-                    //grabbable: false,
-                    //pannable: true,
                     position: { x: curr.xPos, y: curr.yPos }
                 },
-                { group: 'edges', data: { id: `${prev.id}${curr.id}`, source: `${prev.id}`, target: `${curr.id}`} }
+                //{ group: 'edges', data: { id: `${prev.id}${curr.id}`, source: `${prev.id}`, target: `${curr.id}`} }
+                { group: 'edges', data: { source: `${prev.id}`, target: `${curr.id}` } }
             ]);
             
             if (this.debug) console.log(`Adding node ${curr.id} and edge ${prev.id}${curr.id}`);
@@ -79,16 +74,11 @@
 
         console.log(this.cy.elements().jsons());
 
-        var elements = this.cy.elements();
+        var nodes = this.cy.nodes();
+        var lastElement = nodes[nodes.length - 1];
 
-        // if there is only one paragraph
-        if (playthrough.startParagraph.toParagraph == undefined) {
-            //this.cy.fit(elements, 200);
-        }
-        else {
-            this.doLayout();
-            //this.cy.fit(elements, 20);
-        }
+        // center on last element
+        this.cy.center(lastElement);
     }
 
     incrementZoom() {
@@ -110,7 +100,6 @@
         }
         else {
             this.doLayout();
-            //this.cy.fit(elements, 20);
         }
     }
 
@@ -120,13 +109,5 @@
 
     deleteParagraph(paragraphId) {
         this.cy.remove(`#${paragraphId}`);
-    }
-
-    doLayout() {
-        var layout = this.cy.layout({
-            name: 'preset',
-            fit: false
-        });
-        layout.run();
     }
 }

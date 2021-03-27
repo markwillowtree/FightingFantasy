@@ -21,7 +21,10 @@ namespace FightingFantasy.Api.ViewModels
             Description = playThroughParagraph.Description;
 
             if (playThroughParagraph.ToParagraph != null)
+            {
                 ToParagraph = new PlayThroughParagraphModel(playThroughParagraph.ToParagraph);
+                ToParagraphId = playThroughParagraph.ToParagraphId;
+            }
 
             Stats = playThroughParagraph.PlaythroughStats.Select(x => new PlaythroughStatModel(x)).ToList();
 

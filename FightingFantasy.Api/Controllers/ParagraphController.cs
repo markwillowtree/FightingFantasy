@@ -66,6 +66,15 @@ namespace FightingFantasy.Api.Controllers
             dbParagraph.Items = paragraph.Items;
             dbParagraph.Description = paragraph.Description;
             dbParagraph.ParagraphNumber = paragraph.Number;
+
+            if (dbParagraph.ToParagraphId != null && paragraph.ToParagraphId == null)
+                throw new Exception("UpdateParagraph: toParagraphId set to null");
+
+            if (dbParagraph.ToParagraph != null && paragraph.ToParagraph == null)
+            {
+                throw new Exception("UpdateParagraph: toParagraph set to null");
+            }
+
             dbParagraph.ToParagraphId = paragraph.ToParagraphId;
             dbParagraph.XPos = paragraph.XPos;
             dbParagraph.YPos = paragraph.YPos;

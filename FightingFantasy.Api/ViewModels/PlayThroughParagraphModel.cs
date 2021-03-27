@@ -32,7 +32,7 @@ namespace FightingFantasy.Api.ViewModels
         public string Description { get; set; }
 
         public long? ToParagraphId { get; set; }
-        [JsonProperty(PropertyName = "toParagraph", Required = Required.AllowNull)]
+
         public PlayThroughParagraphModel ToParagraph { get; set; }
 
         public List<PlaythroughStatModel> Stats { get; set; }

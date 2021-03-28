@@ -24,5 +24,8 @@
     <ProjectReference Include="..\FightingFantasy.Infrastructure\FightingFantasy.Infrastructure.csproj" />
   </ItemGroup>
 
+  <Target Name="SwaggerGen" AfterTargets="Build">
+    <Exec Command="dotnet swagger tofile --output ../FightingFantasy.Mvc/OpenApis/api.json $(OutputPath)\FightingFantasy.Api.dll v1" />
+  </Target>
   
 </Project>

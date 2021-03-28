@@ -1,11 +1,9 @@
 ﻿class CytoRepository {
     cy
-    debug = false;
-    constructor(playthrough, containerId, debug = false) {
-        this.debug = debug;
+    constructor(playthrough, containerId) {
         this.cy = cytoscape({
-            container: $(`#${containerId}`)
-            , style: cytoscape.stylesheet()
+            container: $(`#${containerId}`),
+            style: cytoscape.stylesheet()
             .selector('node')
             .css({
                 'height': 'label',
@@ -58,26 +56,22 @@
                     data: { id: `${curr.id}` },
                     position: { x: curr.xPos, y: curr.yPos }
                 },
-                //{ group: 'edges', data: { id: `${prev.id}${curr.id}`, source: `${prev.id}`, target: `${curr.id}`} }
                 { group: 'edges', data: { source: `${prev.id}`, target: `${curr.id}` } }
             ]);
             
-            if (this.debug) console.log(`Adding node ${curr.id} and edge ${prev.id}${curr.id}`);
-
             this.cy.$(`#${curr.id}`).css({ label: `${curr.number} ${curr.description}` });
-
-            if (this.debug) console.log(`Adding description ${curr.description} on ${curr.id}`);
 
             prev = curr;
             curr = curr.toParagraph;
         }
 
-        console.log(this.cy.elements().jsons());
+        this.doLayout();
+    }
 
+    doLayout() {
         var nodes = this.cy.nodes();
         var lastElement = nodes[nodes.length - 1];
 
-        // center on last element
         this.cy.center(lastElement);
     }
 
@@ -92,15 +86,7 @@
     }
 
     resetZoom() {
-        var elements = this.cy.elements();
-
-        // if there is only one paragraph
-        if (playthrough.startParagraph.toParagraph == undefined) {
-            this.cy.fit(elements, 200);
-        }
-        else {
-            this.doLayout();
-        }
+        this.doLayout();
     }
 
     editParagraph(paragraphId, paragraphNumber, paragraphDescription) {

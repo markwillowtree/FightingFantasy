@@ -1,9 +1,12 @@
-﻿using FightingFantasy.Mvc.ApiClients;
+﻿using FightingFantasy.Domain;
+using FightingFantasy.Mvc.ApiClients;
 using FightingFantasy.Mvc.Models.Home;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -86,6 +89,19 @@ namespace FightingFantasy.Mvc.Controllers
             {
                 RedirectUri = "/"
             });
+        }
+
+        [HttpGet]
+        public async Task Logout()
+        {           
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var redirectUri = Url.Action("Index", "Home", null, "https");
+            await HttpContext.SignOutAsync("oidc");
+            //, new AuthenticationProperties
+            //{
+            //    RedirectUri = redirectUri
+            //});
         }
 
         [HttpGet]

@@ -56,7 +56,7 @@ namespace FightingFantasy.Mvc
 
                 options.ClientId = "CustomerMvcClient";
                 options.ClientSecret = "CustomerMvcClientSecret";
-
+                options.SignInScheme = "Cookies";
                 options.ResponseType = "code";
                 options.UsePkce = true;
 

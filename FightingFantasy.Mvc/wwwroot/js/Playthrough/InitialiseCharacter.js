@@ -69,7 +69,7 @@ $(document).ready(function () {
             var currTabIdx = $(statCtrl).attr('tabindex');
 
             var nextCtrl = $('.form-control').filter(function () {
-                return $(this).attr("data-dice") > 0 && $(this).attr('tabindex') > currTabIdx;
+                return $(this).attr('tabindex') > currTabIdx;
             }).first();
 
             if (nextCtrl != undefined) {

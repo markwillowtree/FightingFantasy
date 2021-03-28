@@ -30,7 +30,8 @@ namespace FightingFantasy.AuthServer
                     //AccessTokenLifetime = 1,
                     //IdentityTokenLifetime = 1,
                     //SlidingRefreshTokenLifetime = 1,
-                    RedirectUris = new List<string>{ "https://localhost:44322/signin-oidc" }
+                    RedirectUris = new List<string>{ "https://localhost:44322/signin-oidc" },
+                    PostLogoutRedirectUris = new List<string>{"https://localhost:44322/signout-callback-oidc" }
                 }
             };
         }

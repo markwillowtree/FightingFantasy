@@ -1,6 +1,4 @@
 # Fighting Fantasy App
-## Introduction
-Although this is a functioning and usable app, it is still a work in progress and some features have not been implemented yet. The primary purpose of this app is to serve as a learning tool for new technologies.
 
 ## Domain
 Fighting Fantasy was a series of choose your own adventure books released in the 1980s and 1990s. This app is designed to be used by people who have a physical copy of a book. 
@@ -23,16 +21,16 @@ To refresh the database to its initial state, delete the context.db file, naviga
 
 `dotnet ef database update --startup-project FightingFantasy.AuthServer --project FightingFantasy.Dal --verbose`
 ## Technologies Used
-    • ASP.NET Core MVC and JQuery
-    • Entity Framework Core with SQLite – Code First with Migrations
-    • ASP.NET Identity
-    • Identity Server 
-    • Swashbuckle – Used in API to produce Swagger config.
-    • NSwag – used in MVC .csproj file to generate API HTTP client via the swagger config.
-    • Serilog – Used with SQLite sink for logging.
-    • MSTest 
-    • WebMotions.Fake.Authentication.JwtBearer - For integraton testing with JWT tokens.
-    • Cytoscope – A JS graphing utility used to produce the map
+- ASP.NET Core MVC and JQuery
+- Entity Framework Core with SQLite – Code First with Migrations
+- ASP.NET Identity
+- Identity Server 
+- Swashbuckle – Used in API to produce Swagger config.
+- NSwag – used in MVC .csproj file to generate API HTTP client via the swagger config.
+- Serilog – Used with SQLite sink for logging.
+- MSTest 
+- WebMotions.Fake.Authentication.JwtBearer - For integraton testing with JWT tokens.
+- Cytoscope – A JS graphing utility used to produce the map
 ## Project Details
 ### FightingFantasy.Domain
 This project uses POCOs to define the domain entities. It is a cross cutting concern which may be used by all other projects. However, these objects are not exposed to the front-end. DTOs are used instead. This also avoids issues caused by recursive relationships in the domain entities which can cause errors when serializing to JSON. 

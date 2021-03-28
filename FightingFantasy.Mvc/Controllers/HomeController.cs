@@ -95,13 +95,7 @@ namespace FightingFantasy.Mvc.Controllers
         public async Task Logout()
         {           
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var redirectUri = Url.Action("Index", "Home", null, "https");
             await HttpContext.SignOutAsync("oidc");
-            //, new AuthenticationProperties
-            //{
-            //    RedirectUri = redirectUri
-            //});
         }
 
         [HttpGet]

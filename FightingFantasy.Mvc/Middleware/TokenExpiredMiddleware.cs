@@ -30,11 +30,7 @@ namespace FightingFantasy.Mvc.Middleware
             {
                 logger.LogError($"401 error from API, logging user out and redirecting to Home/Index");
                 await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                // after signout this will redirect to your provided target
-                await context.SignOutAsync("oidc", new AuthenticationProperties
-                {
-                    RedirectUri = "/"
-                });
+                await context.SignOutAsync("oidc");
             }
         }
     }

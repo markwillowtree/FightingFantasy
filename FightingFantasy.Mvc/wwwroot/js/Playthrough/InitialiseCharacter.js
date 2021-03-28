@@ -64,6 +64,17 @@ $(document).ready(function () {
                 $('#proceedBtn').show();
             else
                 $('#proceedBtn').hide();
+
+            // get next control that can be dice rolled
+            var currTabIdx = $(statCtrl).attr('tabindex');
+
+            var nextCtrl = $('.form-control').filter(function () {
+                return $(this).attr("data-dice") > 0 && $(this).attr('tabindex') > currTabIdx;
+            }).first();
+
+            if (nextCtrl != undefined) {
+                $(nextCtrl).focus();
+            }
         });
     });
 

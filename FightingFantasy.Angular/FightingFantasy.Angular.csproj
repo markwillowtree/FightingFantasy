@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\assets\images\logo.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ClientApp\src\assets\images\logo.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\apiClient\" />
+    <Folder Include="OpenApiConfig\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.4" />
+    <PackageReference Include="NSwag.MSBuild" Version="13.10.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <Target Name="NSwag" BeforeTargets="CoreCompile;PrepareResource">
+    <Exec Command="$(NSwagExe) openapi2tsclient /input:OpenApiConfig/api.json /output:ClientApp/src/apiClient/apiClient.ts /GenerateClientInterfaces:true  /UseHttpRequestMessageCreationMethod:true" />
+  </Target>
+  
+</Project>

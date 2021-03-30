@@ -104,7 +104,7 @@ namespace FightingFantasy.Api
             {
                 options.AddPolicy("default", policy =>
                 {
-                    policy.WithOrigins("https://localhost:44322")
+                    policy.WithOrigins("https://localhost:44322", "https://localhost:44321")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
@@ -142,7 +142,7 @@ namespace FightingFantasy.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors("default");
             app.UseAuthentication();
             app.UseAuthorization();
 

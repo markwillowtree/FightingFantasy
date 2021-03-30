@@ -1,0 +1,30 @@
+<header>
+  <img src="/assets/images/logo.jpg" class="mx-auto d-block" />
+</header>
+<nav class="navbar navbar-default navbar-expand-lg">
+  <ul class="navbar-nav">
+    <li class="ml-2 mr-2">Home</li>
+
+    <!--<li class="ml-2 mr-2" *ng-if="!user.identity.isAuthenticated">Register</li>
+    <li class="ml-2 mr-2" *ng-if="!user.identity.isAuthenticated">Login</li>
+
+    <li class="ml-2 mr-2" *ng-if="user.identity.isAuthenticated">Logout</li>
+    <li class="ml-2 mr-2" *ng-if="user.identity.isAuthenticated">Change Password)</li>-->
+
+  </ul>
+</nav>
+
+<div *ngFor="let book of books | async"  class="col-sm;" style="margin: 5px;">
+  <p>{{book.title}}</p>
+
+
+  <!-- <a href='@Url.Action("BookDetail", "Home", new { bookid = book.Id })'>
+      <img src='{{book.ImageUrl}}' height="300" class="mx-auto d-block"/> -->
+  <!-- </a>                              -->
+</div>
+
+<div id="messages" class="container">
+  <div class="row">
+    <!-- success and error messsages -->
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { BookModel, Client } from '../apiClient/apiClient';
-import { Observable, from } from "rxjs"; 
+import { ApiService } from './services/api.service';
 
 @Component({
   selector: 'app-root',
@@ -10,18 +10,18 @@ import { Observable, from } from "rxjs";
 export class AppComponent {
   title = 'Fighting Fantasy';
 
-  customFetch = function (url: RequestInfo, options?: RequestInit): Promise<Response> {
-    options.mode = 'cors';
-    options.headers['Access-Control-Allow-Origin'] = location.origin;
+  //customFetch = function (url: RequestInfo, options?: RequestInit): Promise<Response> {
+  //  options.mode = 'cors';
+  //  options.headers['Access-Control-Allow-Origin'] = location.origin;
 
-    return window.fetch(url, options);
-  };
+  //  return window.fetch(url, options);
+  //};
 
-  private client = new Client("https://localhost:44377", { fetch: this.customFetch });
+  //private client = new Client("https://localhost:44377", { fetch: this.customFetch });
 
-  public books: BookModel[];
+  //public books: BookModel[];
 
-  constructor() {
-    this.client.getAllBooks().then(books => { this.books = books }); 
+  constructor(apiService: ApiService) {
+    //apiService.client.getAllBooks().then(books => { this.books = books }); 
   }
 }

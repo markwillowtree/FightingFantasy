@@ -17,11 +17,11 @@ export class AppComponent {
     return window.fetch(url, options);
   };
 
-  client = new Client("https://localhost:44377", { fetch: this.customFetch });
-  books: Observable<BookModel[]>;
+  private client = new Client("https://localhost:44377", { fetch: this.customFetch });
+
+  public books: BookModel[];
 
   constructor() {
-
-    this.books = from(this.client.getAllBooks());
+    this.client.getAllBooks().then(books => { this.books = books }); 
   }
 }

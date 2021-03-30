@@ -14,13 +14,14 @@
   </ul>
 </nav>
 
-<div *ngFor="let book of books | async"  class="col-sm;" style="margin: 5px;">
-  <p>{{book.title}}</p>
-
-
-  <!-- <a href='@Url.Action("BookDetail", "Home", new { bookid = book.Id })'>
-      <img src='{{book.ImageUrl}}' height="300" class="mx-auto d-block"/> -->
-  <!-- </a>                              -->
+<div class="container">
+  <div class="row">
+    <div *ngFor="let book of books" class="col-sm;" style="margin: 5px;">
+      <a href="/">
+        <img src="/assets/images/book_covers/{{book.code}}.jpg" height="300" class="mx-auto d-block" />
+      </a>
+    </div>
+  </div>
 </div>
 
 <div id="messages" class="container">

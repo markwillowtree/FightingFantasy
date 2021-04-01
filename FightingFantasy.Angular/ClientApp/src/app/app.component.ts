@@ -1,4 +1,6 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { Observable } from 'rxjs';
 import { BookModel, Client } from '../apiClient/apiClient';
 import { ApiService } from './services/api.service';
 
@@ -7,21 +9,18 @@ import { ApiService } from './services/api.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Fighting Fantasy';
 
-  //customFetch = function (url: RequestInfo, options?: RequestInit): Promise<Response> {
-  //  options.mode = 'cors';
-  //  options.headers['Access-Control-Allow-Origin'] = location.origin;
+  isAuthenticated$: Observable<boolean>;
 
-  //  return window.fetch(url, options);
-  //};
+  constructor(public oidcSecurityService: OidcSecurityService) { }
 
-  //private client = new Client("https://localhost:44377", { fetch: this.customFetch });
+  ngOnInit() {
+    this.isAuthenticated$ = this.oidcSecurityService.checkAuth();
+  }
 
-  //public books: BookModel[];
-
-  constructor(apiService: ApiService) {
-    //apiService.client.getAllBooks().then(books => { this.books = books }); 
+  logout() {
+    this.oidcSecurityService.logoff();
   }
 }

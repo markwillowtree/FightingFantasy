@@ -9,6 +9,7 @@ import { BookModel } from '../services/apiClient';
 })
 export class BookListComponent implements OnInit {
 
+  private bookId;
   public books: BookModel[];
   //private apiService: ApiService;
 

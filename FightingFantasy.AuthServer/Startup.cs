@@ -57,6 +57,16 @@ namespace FightingFantasy.AuthServer
             .AddAspNetIdentity<User>();
 
             services.AddScoped<IProfileService, ProfileService>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("default", policy =>
+                {
+                    policy.WithOrigins("https://localhost:44322", "https://localhost:44321")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,7 +81,7 @@ namespace FightingFantasy.AuthServer
 
             app.UseStaticFiles();
             app.UseRouting();
-
+            app.UseCors("default");
             app.UseIdentityServer();
             app.UseAuthorization();
 

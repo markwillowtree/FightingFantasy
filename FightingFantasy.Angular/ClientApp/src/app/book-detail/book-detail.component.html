@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <img src="/assets/images/book_covers/{{book.code}}.jpg" height="300" class="d-block m-auto" />
+    </div>
+
+    <div class="col-6">
+      <div class="row" innerHtml="{{book.description}}">
+        
+      </div>
+
+      <div *ngIf="playthroughs.length > 0">
+        <h2>Previous Playthroughs</h2>
+        <div class="overflow-auto" style="height: 240px;">
+          <ul>
+            <li *ngFor="let playthrough of book.playthroughs">
+              <a>{{playthrough.created}}</a>
+              <!--@Html.ActionLink(playthrough.Created.DateTime.ToLocalTime().ToString(),
+              "Index", "Playthrough", new { playthroughId = playthrough.Id })-->
+            </li>
+          </ul>
+        </div>
+
+      </div>
+      
+      <div class="row">
+        <a>Start new playthrough</a>
+        <!--@Html.ActionLink("Start New Play-Through", "Create", "PlayThrough",
+        new { bookId = Model.Book.Id },
+        new { style = "font-size: xx-large;" })-->
+      </div>
+    </div>
+
+  </div>
+</div>

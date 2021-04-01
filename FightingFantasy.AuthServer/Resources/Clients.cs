@@ -32,6 +32,21 @@ namespace FightingFantasy.AuthServer
                     //SlidingRefreshTokenLifetime = 1,
                     RedirectUris = new List<string>{ "https://localhost:44322/signin-oidc" },
                     PostLogoutRedirectUris = new List<string>{"https://localhost:44322/signout-callback-oidc" }
+                },
+                new Client
+                {
+                    ClientId = "CustomerAngularClient",
+                    ClientName = "Angular app which can be used by customers",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireClientSecret = false,
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "CustomerScope"
+                    },
+                    RedirectUris = new List<string>{ "https://localhost:44321" },
+                    PostLogoutRedirectUris = new List<string>{ "https://localhost:44321/" }
                 }
             };
         }

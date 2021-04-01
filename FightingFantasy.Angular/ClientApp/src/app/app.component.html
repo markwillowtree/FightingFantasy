@@ -3,13 +3,16 @@
 </header>
 <nav class="navbar navbar-default navbar-expand-lg">
   <ul class="navbar-nav">
-    <li class="ml-2 mr-2">Home</li>
+    <li class="ml-2 mr-2"><a routerLink="/" routerLinkActive="active">Home</a></li>
 
-    <!--<li class="ml-2 mr-2" *ng-if="!user.identity.isAuthenticated">Register</li>
-    <li class="ml-2 mr-2" *ng-if="!user.identity.isAuthenticated">Login</li>
+    <li class="ml-2 mr-2" *ngIf="!(isAuthenticated$ | async)">
+      <a routerLink="/register" routerLinkActive="active">Register</a>
+    </li>
 
-    <li class="ml-2 mr-2" *ng-if="user.identity.isAuthenticated">Logout</li>
-    <li class="ml-2 mr-2" *ng-if="user.identity.isAuthenticated">Change Password)</li>-->
+    <li class="ml-2 mr-2" *ngIf="(isAuthenticated$ | async)">
+      <a (click)="logout()">Logout</a>
+    </li>
+    <!--<li class="ml-2 mr-2" *ng-if="user.identity.isAuthenticated">Change Password)</li>-->
 
   </ul>
 </nav>

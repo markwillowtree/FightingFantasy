@@ -17,21 +17,25 @@ export class BookDetailComponent implements OnInit {
 
   constructor(private apiService: ApiService, private route: ActivatedRoute) {
     route.params.subscribe(params => { this.bookId = params['bookId']; });
+
+    this.apiService.client.getBookById(this.bookId).then(
+      (book) => { this.book = book; },
+      (err) => { console.log(`getBookById failed: ${err.title}`); }
+    );
   }
 
   ngOnInit(): void {
     console.log(`${this.bookId} selected`);
      
-    this.apiService.client.getBookById(this.bookId).then(
-      (book) => { this.book = book; },
-      (err) => { console.log(`getBookById failed: ${err.title}`); }
-    );
+    
 
     this.apiService.client.getPlaythroughsByBookId(this.bookId).then(
       (playthroughs) => { this.playthroughs = playthroughs; },
       (err) => { console.log(`getPlaythroughsByBookId failed ${err.title}`); }
-
     );
+  }
 
+  onCreatePlaythrough(bookId) {
+    console.log(`playthrough created on book ${bookId}`);
   }
 }

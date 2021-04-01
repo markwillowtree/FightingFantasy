@@ -8,6 +8,8 @@ import { BookDetailComponent } from './book-detail/book-detail.component';
 import { RegisterComponent } from './register/register.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PlaythroughComponent } from './playthrough/playthrough.component';
+import { CreatePlaythroughComponent } from './create-playthrough/create-playthrough.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     BookListComponent,
     BookDetailComponent,
     RegisterComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    PlaythroughComponent,
+    CreatePlaythroughComponent
   ],
   imports: [
     BrowserModule,

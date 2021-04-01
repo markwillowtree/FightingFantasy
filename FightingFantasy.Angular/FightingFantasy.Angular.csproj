@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\apiClient\" />
     <Folder Include="OpenApiConfig\" />
   </ItemGroup>
 

@@ -17,7 +17,7 @@ export class CreatePlaythroughComponent implements OnInit {
   ngOnInit(): void {
     this.apiService.client.createPlaythrough(this.bookId).then(
       (playthroughId) => {
-        this.router.navigate(['playthrough', playthroughId]);
+        this.router.navigate(['initialise-character', playthroughId]);
       },
       (err) => {
         console.log(err.title);

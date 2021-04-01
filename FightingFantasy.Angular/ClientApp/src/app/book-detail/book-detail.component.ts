@@ -15,7 +15,7 @@ export class BookDetailComponent implements OnInit {
   public playthroughs: PlayThroughModel[];
   private bookId: number;
 
-  constructor(private apiService: ApiService, private route: ActivatedRoute) {
+  constructor(private apiService: ApiService, route: ActivatedRoute) {
     route.params.subscribe(params => { this.bookId = params['bookId']; });
 
     this.apiService.client.getBookById(this.bookId).then(

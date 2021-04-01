@@ -10,6 +10,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PlaythroughComponent } from './playthrough/playthrough.component';
 import { CreatePlaythroughComponent } from './create-playthrough/create-playthrough.component';
+import { InitialiseCharacterComponent } from './initialise-character/initialise-character.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { CreatePlaythroughComponent } from './create-playthrough/create-playthro
     RegisterComponent,
     ChangePasswordComponent,
     PlaythroughComponent,
-    CreatePlaythroughComponent
+    CreatePlaythroughComponent,
+    InitialiseCharacterComponent
   ],
   imports: [
     BrowserModule,

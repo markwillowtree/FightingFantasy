@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row">
+    <div class="col offset-1">
+      <div class="row">
+        <h1 class="col">Create your character</h1>
+      </div>
+
+      <form [formGroup]="statsForm" (ngSubmit)="onSubmit()" *ngIf="playthrough">
+
+        <div class="form-group row" *ngFor="let stat of playthrough?.startParagraph.stats">
+          <label for="{{stat?.name}}" class="col-form-label col-4">{{stat?.name}}</label>
+          <input type="number" formControlName="{{stat?.name}}" class="form-control"
+                 [attr.data-dice]="stat?.initNumDice" [attr.data-modifier]="stat?.initModifier"/>
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
+
+    </div>
+  </div>
+</div>

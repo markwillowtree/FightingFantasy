@@ -13,10 +13,8 @@
         <h2>Previous Playthroughs</h2>
         <div class="overflow-auto" style="height: 240px;">
           <ul>
-            <li *ngFor="let playthrough of book.playthroughs">
+            <li *ngFor="let playthrough of playthroughs">
               <a [routerLink]="['/playthrough', playthrough.id]">{{playthrough?.created}}</a>
-              <!--@Html.ActionLink(playthrough.Created.DateTime.ToLocalTime().ToString(),
-              "Index", "Playthrough", new { playthroughId = playthrough.Id })-->
             </li>
           </ul>
         </div>
@@ -25,9 +23,6 @@
       
       <div class="row">
         <a [routerLink]="['/create-playthrough', book?.id]">Start new playthrough</a>
-        <!--@Html.ActionLink("Start New Play-Through", "Create", "PlayThrough",
-        new { bookId = Model.Book.Id },
-        new { style = "font-size: xx-large;" })-->
       </div>
     </div>
 

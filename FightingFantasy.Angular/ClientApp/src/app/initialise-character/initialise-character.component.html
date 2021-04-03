@@ -12,11 +12,13 @@
           <label for="{{stat.name}}" class="col-form-label col-4">{{stat?.name}}</label>
           <input type="number" name="{{stat.name}}" formControlName="{{stat.name}}" class="form-control"
             [attr.data-dice]="stat.initNumDice" [attr.data-modifier]="stat.initModifier"
-            (focus)='onFocus($event.target)'
+            (focus)='onFocus($event.target)' #formInput
             />
+            <small class="text-danger" *ngIf="statsForm.get(stat.name).hasError('required')">Required.</small>
+            <small class="text-danger" *ngIf="statsForm.get(stat.name).hasError('min')">Must be greater than 0.</small>
         </div>
 
-        <button id="proceedBtn" type="submit" class='float-right'>Proceed</button>
+        <button id="proceedBtn" type="submit" class='float-right' [disabled]="!statsForm.valid">Proceed</button>
       </form>
 
       <app-dice id='diceDiv' (dieRolled)="onDiceRoll($event)" [numDice]="numDice" style='margin-top: 20px; margin-bottom: 20px;'></app-dice>

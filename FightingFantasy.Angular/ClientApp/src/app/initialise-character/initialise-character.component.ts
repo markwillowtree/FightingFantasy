@@ -15,26 +15,18 @@ import { concatAll, map, tap } from 'rxjs/operators';
 export class InitialiseCharacterComponent implements OnInit {
   playthrough: PlayThroughModel;
   stats: PlaythroughStatModel[];
+  numDice: Number = 0;
 
   statsForm: FormGroup;
 
-  constructor(route: ActivatedRoute, private apiService: ApiService) {
-    //var routeParamsObserver = {
-    //  next: params => {
-    //    this.playthroughId = params.playthroughId;
-    //  },
-    //  error: err => {
-    //    console.log(err);
-    //  },
-    //  complete: () => {
-    //    this.playthrough$ = from(this.apiService.client.getPlaythrough(this.playthroughId));
-    //  }
-    //};
+  constructor(private route: ActivatedRoute, private apiService: ApiService) {}
+
+  ngOnInit(): void {
     this.statsForm = new FormGroup({
 
     });
 
-    route.params.pipe(
+    this.route.params.pipe(
       map(params => from(this.apiService.client.getPlaythrough(params.playthroughId))),
       concatAll()
     ).subscribe(playthrough => {
@@ -46,20 +38,12 @@ export class InitialiseCharacterComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {
-    //this.statsForm = new FormGroup({
-
-    //});
-
-      //for (var i = 0; i < this.playthrough.startParagraph.stats.length; i++) {
-      //  this.statsForm.addControl(this.stats[i].name, new FormControl(0, Validators.required));
-      //}
-    
+  onFocus(src) {
+    this.numDice = src.dataset['dice'];
   }
+  // onSubmit() {
+  //   var skills = Object.keys(this.statsForm.controls);
 
-  onSubmit() {
-    var skills = Object.keys(this.statsForm.controls);
-
-    console.log(this.statsForm);
-  }
+  //   console.log(this.statsForm);
+  // }
 }

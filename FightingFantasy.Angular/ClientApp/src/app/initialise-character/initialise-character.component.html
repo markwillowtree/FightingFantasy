@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col offset-1">
       <div class="row">
@@ -8,14 +8,25 @@
       <form [formGroup]="statsForm" (ngSubmit)="onSubmit()" *ngIf="playthrough">
 
         <div class="form-group row" *ngFor="let stat of playthrough?.startParagraph.stats">
-          <label for="{{stat?.name}}" class="col-form-label col-4">{{stat?.name}}</label>
-          <input type="number" formControlName="{{stat?.name}}" class="form-control"
-                 [attr.data-dice]="stat?.initNumDice" [attr.data-modifier]="stat?.initModifier"/>
+
+          <label for="{{stat.name}}" class="col-form-label col-4">{{stat?.name}}</label>
+          <input type="number" name="{{stat.name}}" formControlName="{{stat.name}}" class="form-control"
+            [attr.data-dice]="stat.initNumDice" [attr.data-modifier]="stat.initModifier"
+            (focus)='onFocus($event.target)'
+            />
         </div>
 
-        <button type="submit">Submit</button>
+        <button id="proceedBtn" type="submit" class='float-right'>Proceed</button>
       </form>
 
+      <app-dice id='diceDiv' [numDice]="numDice" style='margin-top: 20px; margin-bottom: 20px;'></app-dice>
+    
+    
+    
+    </div>
+  
+    <div class='col'>
+      <img *ngIf="playthrough" src='/assets/images/book_covers/{{playthrough?.book.code}}.jpg' style='width: 338px;' />
     </div>
   </div>
 </div>

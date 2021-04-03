@@ -1,0 +1,16 @@
+
+<div class="dice__scene" *ngFor='let item of createRange(numDice)'
+     [style.top] ="-item * 75 +'px'"
+     [style.left] = "item * 75 + 'px'"
+     [style.position] ="'relative'"
+     [style.margin] = "5 + 'px'"
+     >
+  <div class='dice__cube'>
+    <div class="dice__side dice__side--front"></div>
+    <div class="dice__side dice__side--back"></div>
+    <div class="dice__side dice__side--right"></div>
+    <div class="dice__side dice__side--left"></div>
+    <div class="dice__side dice__side--top"></div>
+    <div class="dice__side dice__side--bottom"></div>
+  </div>
+</div>

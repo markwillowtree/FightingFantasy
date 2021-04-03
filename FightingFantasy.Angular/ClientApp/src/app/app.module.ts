@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PlaythroughComponent } from './playthrough/playthrough.component';
 import { CreatePlaythroughComponent } from './create-playthrough/create-playthrough.component';
 import { InitialiseCharacterComponent } from './initialise-character/initialise-character.component';
+import { DiceComponent } from './dice/dice.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { InitialiseCharacterComponent } from './initialise-character/initialise-
     ChangePasswordComponent,
     PlaythroughComponent,
     CreatePlaythroughComponent,
-    InitialiseCharacterComponent
+    InitialiseCharacterComponent,
+    DiceComponent
   ],
   imports: [
     BrowserModule,

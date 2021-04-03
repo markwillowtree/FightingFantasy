@@ -41,6 +41,10 @@ export class InitialiseCharacterComponent implements OnInit {
   onFocus(src) {
     this.numDice = src.dataset['dice'];
   }
+
+  onDiceRoll(value: number) {
+    console.log('dice rolled ' + value); 
+  }
   // onSubmit() {
   //   var skills = Object.keys(this.statsForm.controls);
 

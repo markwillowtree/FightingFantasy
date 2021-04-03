@@ -19,7 +19,7 @@
         <button id="proceedBtn" type="submit" class='float-right'>Proceed</button>
       </form>
 
-      <app-dice id='diceDiv' [numDice]="numDice" style='margin-top: 20px; margin-bottom: 20px;'></app-dice>
+      <app-dice id='diceDiv' (dieRolled)="onDiceRoll($event)" [numDice]="numDice" style='margin-top: 20px; margin-bottom: 20px;'></app-dice>
     
     
     

@@ -5,12 +5,12 @@
      [style.position] ="'relative'"
      [style.margin] = "5 + 'px'"
      >
-  <div class='dice__cube'>
-    <div class="dice__side dice__side--front"></div>
-    <div class="dice__side dice__side--back"></div>
-    <div class="dice__side dice__side--right"></div>
-    <div class="dice__side dice__side--left"></div>
-    <div class="dice__side dice__side--top"></div>
-    <div class="dice__side dice__side--bottom"></div>
+  <div #die  class='show-front dice__cube' >
+    <div class="dice__side dice__side--front" (click)="rollDice()" ></div>
+    <div class="dice__side dice__side--back" (click)="rollDice()" ></div>
+    <div class="dice__side dice__side--right" (click)="rollDice()" ></div>
+    <div class="dice__side dice__side--left" (click)="rollDice()" ></div>
+    <div class="dice__side dice__side--top" (click)="rollDice()" ></div>
+    <div class="dice__side dice__side--bottom" (click)="rollDice()" ></div>
   </div>
 </div>

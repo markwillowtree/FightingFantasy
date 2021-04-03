@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PlaythroughStatModel } from '../services/apiClient';
 import { ApiService } from '../services/api.service';
 import { PlayThroughModel } from '../services/apiClient';
@@ -21,7 +21,7 @@ export class InitialiseCharacterComponent implements OnInit  {
   statsForm: FormGroup;
   focusedInputElement: HTMLInputElement;
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService) {}
+  constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
   
@@ -31,16 +31,16 @@ export class InitialiseCharacterComponent implements OnInit  {
     ).subscribe(playthrough => {
       // initialise model
       this.playthrough = playthrough;
-      let stats = playthrough.startParagraph.stats;
+      this.stats = playthrough.startParagraph.stats;
 
       // create form
       this.statsForm = new FormGroup({});
-        for (var i = 0; i < stats.length; i++) {
-          if (stats[i].initNumDice > 0) {
-            this.statsForm.addControl(stats[i].name, new FormControl(0, [Validators.required, Validators.min(1)]));
+        for (var i = 0; i < this.stats.length; i++) {
+          if (this.stats[i].initNumDice > 0) {
+            this.statsForm.addControl(this.stats[i].name, new FormControl(0, [Validators.required, Validators.min(1)]));
           }
           else {
-            this.statsForm.addControl(stats[i].name, new FormControl(0, [Validators.required]));
+            this.statsForm.addControl(this.stats[i].name, new FormControl(0, [Validators.required]));
           }
         }
       });
@@ -64,6 +64,24 @@ export class InitialiseCharacterComponent implements OnInit  {
   }
 
   onSubmit() {
-    
+    let success: boolean = true;
+
+    let  formControls = this.statsForm.controls;
+    for(let i = 0; i < this.stats.length; i++) {
+      let stat = this.stats[i];
+      let ctrl = formControls[stat.name];
+      stat.value = ctrl.value;
+      this.apiService.client.updateStat(stat).then(
+        success => { console.log(`${stat.name} updated successfully`);},
+        err => {
+          console.log(`Error updating ${stat.name}: ${err.title}`);
+          success = false;
+        }
+      );
+    }
+
+    if (success) {
+      this.router.navigate(['playthrough', this.playthrough.id]);
+    }
   }
 }

@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PlaythroughStatModel } from '../services/apiClient';
-import { ApiService } from '../services/api.service';
-import { PlayThroughModel } from '../services/apiClient';
+import { PlaythroughStatModel } from '../../services/apiClient';
+import { ApiService } from '../../services/api.service';
+import { PlayThroughModel } from '../../services/apiClient';
 import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Observable, from } from 'rxjs';
 import { concatAll, map, tap } from 'rxjs/operators';

@@ -1,8 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { Observable } from 'rxjs';
-import { BookModel, Client } from '../apiClient/apiClient';
-import { ApiService } from './services/api.service';
 
 @Component({
   selector: 'app-root',

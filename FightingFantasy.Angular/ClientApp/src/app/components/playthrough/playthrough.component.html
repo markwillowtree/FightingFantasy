@@ -1,0 +1,37 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3" id="formDiv">
+            <form id="statsForm" *ngIf="(selectedParagraph$ | async) as selectedParagraph">
+                <div class="form-row" >
+                    <div class="col-3">
+                        <label class="col-form-label" for="paragraphNumber">Paragraph</label>
+                        <input type="number" class="form-control" id="paragraphNumber" value="{{selectedParagraph.number}}" />
+                    </div>
+                
+                    <div class="col">
+                        <label class="col-form-label" for="paragraphDescription">Description</label>
+                        <input type="text" class="form-control" id="paragraphDescription" value="{{selectedParagraph.description}}"/>
+                    </div>
+                </div>
+
+                <div *ngIf="(groupedStats$ | async) as groupedStats">
+                    <div class="form-row" *ngFor="let group of groupedStats">
+                        <div class="col" *ngFor="let stat of group">
+                            <label class="col-form-label" for="{{stat.name}}">{{stat.name}}</label>
+                            <input type="number" class="form-control" id="{{stat.name}}" value="{{stat.value}}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col">
+                        <label class="col-form-label" for="items">Items</label>
+                        <textarea id="items" class="form-control form-control-lg">{{selectedParagraph.items}}</textarea>
+                    </div>
+                </div>
+            </form>
+
+            <app-dice id='diceDiv' [numDice]="2" style='margin-top: 20px; margin-bottom: 20px;'></app-dice>
+        </div>
+    </div>
+</div>

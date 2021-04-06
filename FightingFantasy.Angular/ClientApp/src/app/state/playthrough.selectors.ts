@@ -9,6 +9,19 @@ export const playthroughSelector = createSelector(
     }
 );
 
+export const lastParagraphSelector = createSelector(
+    (state: AppState) => state.playthrough,
+    function(playthrough: PlayThroughModel) {
+        let currParagraph = playthrough.startParagraph;
+
+        while (currParagraph.toParagraph != undefined) {
+            currParagraph = currParagraph.toParagraph;
+        }
+
+        return currParagraph;
+    }
+);
+
 export const selectedParagraphSelector = createSelector(
     (state: AppState) => state.selectedParagraph,
     function(selectedParagraph: PlayThroughParagraphModel) {
@@ -29,5 +42,38 @@ export const groupedStatsSelector = createSelector(
         }
 
         return groupedStats;
+    }
+)
+
+export const cyElementsSelector = createSelector(
+    (state:AppState) => state.playthrough,
+    function(playthrough: PlayThroughModel) {
+        let nodes = [];
+        let edges = [];
+
+        if (playthrough == undefined) {
+            return nodes;
+        }
+
+        let currParagraph: PlayThroughParagraphModel = playthrough.startParagraph;
+
+        while (currParagraph != undefined) {
+            nodes.push( 
+            {
+                group: 'nodes',
+                data: { id: currParagraph.id, label: currParagraph.description},
+                position: { x: currParagraph.xPos, y: currParagraph.yPos}
+             });
+             currParagraph = currParagraph.toParagraph;
+        }
+
+        for(let i = 1; i < nodes.length; i++) {
+            edges.push({
+                group: 'edges',
+                data: {source: nodes[i -1].data.id, target: nodes[i].data.id}
+            });
+        }
+
+        return nodes.concat(edges);
     }
 )

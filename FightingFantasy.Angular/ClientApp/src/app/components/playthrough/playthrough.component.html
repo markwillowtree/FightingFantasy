@@ -33,5 +33,22 @@
 
             <app-dice id='diceDiv' [numDice]="2" style='margin-top: 20px; margin-bottom: 20px;'></app-dice>
         </div>
+
+        <div class="col-9">            
+            <div id="mapCanvas" #mapCanvas class="row" style="height: 500px; background-color: antiquewhite;"></div>
+
+            <div class="row justify-content-between">
+                <div class="col-4">
+                    <button id="addParagraph" (click)="addParagraph()">New paragraph</button>
+                    <button id="deleteLastParagraph">Delete last paragraph</button>
+                </div>
+
+                <div class="col-4">
+                    <button id="zoomIn">Zoom in</button>
+                    <button id="zoomOut">Zoom out</button>
+                    <button id="resetZoom">Reset zoom</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

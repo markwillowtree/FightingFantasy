@@ -1,9 +1,9 @@
 import {createAction, props} from '@ngrx/store';
 import { PlayThroughParagraphModel } from '../services/apiClient';
 
-export const addParagraph = createAction(
+export const paragraphAdd = createAction(
     '[Paragraph] Add',
-    props<{ paragraphId: number }>()
+    props<PlayThroughParagraphModel>()
 );
 
 export const deleteLastParagraph = createAction(

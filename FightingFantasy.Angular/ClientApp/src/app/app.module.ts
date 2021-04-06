@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +16,8 @@ import { DiceComponent } from './components/dice/dice.component';
 import { StoreModule } from '@ngrx/store';
 import { playthroughReducer} from './state/playthrough.reducer';
 import {paragraphReducer} from './state/paragraph.reducer';
+import { EffectsModule } from "@ngrx/effects";
+import { PlaythroughEffects } from './state/playthrough.effects';
 
 
 @NgModule({
@@ -35,7 +38,9 @@ import {paragraphReducer} from './state/paragraph.reducer';
     AuthConfigModule,
     FormsModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({playthrough: playthroughReducer, selectedParagraph: paragraphReducer})
+    StoreModule.forRoot({playthrough: playthroughReducer, selectedParagraph: paragraphReducer}),
+    EffectsModule.forRoot([PlaythroughEffects]),
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

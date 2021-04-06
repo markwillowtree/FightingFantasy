@@ -3,13 +3,15 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { ApiService } from '../services/api.service';
-import { playthroughAddParagraphBegin, playthroughAddParagraphError, playthroughAddParagraphSuccess, playthroughGetBegin, playthroughGetError, playthroughGetSuccess } from './playthough.actions';
+import { AppState } from './app.state';
+import { playthroughAddParagraphBegin, playthroughAddParagraphError, playthroughAddParagraphSuccess, playthroughDeleteLastParagraphBegin, playthroughDeleteLastParagraphError, playthroughDeleteLastParagraphSuccess, playthroughGetBegin, playthroughGetError, playthroughGetSuccess } from './playthough.actions';
 
 @Injectable()
 export class PlaythroughEffects {
     constructor(private apiService: ApiService, private action$: Actions) {        
     }
 
+    // get playthrough
     loadPlaythrough$ = createEffect(() => 
         this.action$.pipe(
             ofType(playthroughGetBegin),
@@ -21,6 +23,7 @@ export class PlaythroughEffects {
             )
         ));
 
+    // add paragraph
     addParagraph$ = createEffect(() =>
         this.action$.pipe(
             ofType(playthroughAddParagraphBegin),
@@ -30,6 +33,19 @@ export class PlaythroughEffects {
                     catchError((err) => of(playthroughAddParagraphError(err)))
                 ) 
             ),            
+        )
+    );
+
+    // delete last paragraph
+    deleteLastParagraph$ = createEffect(() =>
+        this.action$.pipe(
+            ofType(playthroughDeleteLastParagraphBegin),
+            switchMap(action =>
+                from(this.apiService.client.deleteLastParagraph(action.playthroughId)).pipe(
+                    map((deletedParagraphId) => playthroughDeleteLastParagraphSuccess({deletedParagraphId})),
+                    catchError((err) => of(playthroughDeleteLastParagraphError({error: err.title})))
+                )
+            )
         )
     );
 }

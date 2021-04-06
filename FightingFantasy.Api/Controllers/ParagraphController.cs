@@ -153,7 +153,7 @@ namespace FightingFantasy.Api.Controllers
        
 
         [HttpDelete("DeleteParagraph/{playthroughId:long}", Name = "DeleteLastParagraph")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type=typeof(long))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<ActionResult> DeleteLastParagraph(long playthroughId)
@@ -179,6 +179,7 @@ namespace FightingFantasy.Api.Controllers
             PlaythroughParagraph prev = lastTwo[0];
             PlaythroughParagraph curr = lastTwo[1];
 
+            long currId = curr.Id;
             prev.ToParagraph = null;
             prev.ToParagraphId = null;
 
@@ -195,7 +196,7 @@ namespace FightingFantasy.Api.Controllers
                 throw;
             }
 
-            return Ok();
+            return Ok(currId);
         }
 
         private bool StatsAreValid(PlaythroughParagraph dbParagraph, List<PlaythroughStatModel> stats)

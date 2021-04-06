@@ -18,6 +18,7 @@ import { playthroughReducer} from './state/playthrough.reducer';
 import {paragraphReducer} from './state/paragraph.reducer';
 import { EffectsModule } from "@ngrx/effects";
 import { PlaythroughEffects } from './state/playthrough.effects';
+import { ParagraphEffects } from './state/paragraph.effects';
 
 
 @NgModule({
@@ -39,7 +40,7 @@ import { PlaythroughEffects } from './state/playthrough.effects';
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot({playthrough: playthroughReducer, selectedParagraph: paragraphReducer}),
-    EffectsModule.forRoot([PlaythroughEffects]),
+    EffectsModule.forRoot([PlaythroughEffects, ParagraphEffects]),
     RouterModule
   ],
   providers: [],

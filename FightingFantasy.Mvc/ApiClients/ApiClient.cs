@@ -74,12 +74,12 @@ namespace FightingFantasy.Mvc.ApiClients
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task DeleteLastParagraphAsync(long playthroughId);
+        System.Threading.Tasks.Task<long> DeleteLastParagraphAsync(long playthroughId);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task DeleteLastParagraphAsync(long playthroughId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<long> DeleteLastParagraphAsync(long playthroughId, System.Threading.CancellationToken cancellationToken);
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -688,7 +688,7 @@ namespace FightingFantasy.Mvc.ApiClients
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task DeleteLastParagraphAsync(long playthroughId)
+        public System.Threading.Tasks.Task<long> DeleteLastParagraphAsync(long playthroughId)
         {
             return DeleteLastParagraphAsync(playthroughId, System.Threading.CancellationToken.None);
         }
@@ -696,7 +696,7 @@ namespace FightingFantasy.Mvc.ApiClients
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task DeleteLastParagraphAsync(long playthroughId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<long> DeleteLastParagraphAsync(long playthroughId, System.Threading.CancellationToken cancellationToken)
         {
             if (playthroughId == null)
                 throw new System.ArgumentNullException("playthroughId");
@@ -712,6 +712,7 @@ namespace FightingFantasy.Mvc.ApiClients
                 using (var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false))
                 {
                     request_.Method = new System.Net.Http.HttpMethod("DELETE");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
                     
@@ -736,7 +737,12 @@ namespace FightingFantasy.Mvc.ApiClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<long>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ == 404)

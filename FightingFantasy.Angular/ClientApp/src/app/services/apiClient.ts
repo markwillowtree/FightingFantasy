@@ -43,7 +43,7 @@ export interface IClient {
     /**
      * @return Success
      */
-    deleteLastParagraph(playthroughId: number): Promise<void>;
+    deleteLastParagraph(playthroughId: number): Promise<number>;
     /**
      * @return Success
      */
@@ -375,7 +375,7 @@ export class Client implements IClient {
     /**
      * @return Success
      */
-    deleteLastParagraph(playthroughId: number): Promise<void> {
+    deleteLastParagraph(playthroughId: number): Promise<number> {
         let url_ = this.baseUrl + "/api/Paragraph/DeleteParagraph/{playthroughId}";
         if (playthroughId === undefined || playthroughId === null)
             throw new Error("The parameter 'playthroughId' must be defined.");
@@ -385,6 +385,7 @@ export class Client implements IClient {
         let options_ = <RequestInit>{
             method: "DELETE",
             headers: {
+                "Accept": "text/plain"
             }
         };
 
@@ -393,12 +394,15 @@ export class Client implements IClient {
         });
     }
 
-    protected processDeleteLastParagraph(response: Response): Promise<void> {
+    protected processDeleteLastParagraph(response: Response): Promise<number> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return result200;
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -419,7 +423,7 @@ export class Client implements IClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<void>(<any>null);
+        return Promise.resolve<number>(<any>null);
     }
 
     /**

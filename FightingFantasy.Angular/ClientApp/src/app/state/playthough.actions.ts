@@ -32,3 +32,16 @@ export const playthroughAddParagraphError = createAction(
     props<{error: string}>()
 )
 
+export const playthroughDeleteLastParagraphBegin = createAction(
+    '[Playthrough] - Delete Last Paragraph Begin',
+    props<{playthroughId: number}>()
+);
+
+export const playthroughDeleteLastParagraphSuccess = createAction(
+    '[Playthrough] - Delete Last Paragraph Success',
+    props<{deletedParagraphId: number}>()
+);
+export const playthroughDeleteLastParagraphError= createAction(
+    '[Playthrough] - Delete Last Paragraph Error',
+    props<{error: string}>()
+);

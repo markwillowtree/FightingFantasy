@@ -5,7 +5,7 @@ import { combineLatest, forkJoin, from, Observable } from 'rxjs';
 import { concatAll, map } from 'rxjs/operators';
 import { ApiService } from 'src/app/services/api.service';
 import { PlayThroughModel, PlayThroughParagraphModel } from 'src/app/services/apiClient';
-import { playthroughAddParagraphBegin, playthroughGetBegin } from 'src/app/state/playthough.actions';
+import { playthroughAddParagraphBegin, playthroughDeleteLastParagraphBegin, playthroughGetBegin } from 'src/app/state/playthough.actions';
 import { paragraphSelected } from 'src/app/state/paragraph.actions';
 import { 
   groupedStatsSelector, 
@@ -98,5 +98,15 @@ export class PlaythroughComponent implements OnInit {
         newParagraph.description = "Enter a description";
 
         this.store.dispatch(playthroughAddParagraphBegin({playthroughId: currPlaythrough.id, paragraph: newParagraph}))
+  }
+
+  deleteLastParagraph() {
+    let playthrough: PlayThroughModel;
+
+    this.playthrough$.subscribe((p) => {
+      playthrough = p;
+    });
+
+    this.store.dispatch(playthroughDeleteLastParagraphBegin({playthroughId: playthrough.id}));
   }
 }

@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <Target Name="NSwag" BeforeTargets="CoreCompile;PrepareResource">
-    <Exec Command="$(NSwagExe) openapi2tsclient /input:OpenApiConfig/api.json /output:ClientApp/src/apiClient/apiClient.ts /GenerateClientInterfaces:true  /UseHttpRequestMessageCreationMethod:true" />
+    <Exec Command="$(NSwagExe) openapi2tsclient /input:OpenApiConfig/api.json /output:ClientApp/src/app/services/apiClient.ts /GenerateClientInterfaces:true  /UseHttpRequestMessageCreationMethod:true" />
   </Target>
   
 </Project>

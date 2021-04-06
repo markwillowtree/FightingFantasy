@@ -1,35 +1,35 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { playthroughAddParagraphError, playthroughAddParagraphSuccess, playthroughDeleteLastParagraphError, playthroughDeleteLastParagraphSuccess, playthroughGetError, playthroughGetSuccess } from './playthough.actions';
+import { playthroughAddParagraphError, playthroughAddParagraphSuccess, playthroughDeleteLastParagraphError, playthroughDeleteLastParagraphSuccess, playthroughGetError, playthroughGetSuccess, playthroughSelectParagraph } from './playthough.actions';
 import { PlayThroughModel, PlayThroughParagraphModel } from '../services/apiClient';
 import * as lodash from 'lodash';
+import { PlaythroughState } from './app.state';
 
-export const initialState : PlayThroughModel = null;
+export const initialState : PlaythroughState = new PlaythroughState();
 
 export const playthroughReducer = createReducer(
     initialState,
 
     // playthrough get
     on(playthroughGetSuccess, function(state, playthrough: PlayThroughModel){
-        return playthrough;
+        let newState: PlaythroughState;
+        newState = lodash.cloneDeep(state);
+        newState.playthrough = playthrough;
+        newState.selectedParagraph = playthrough.startParagraph;
+        return newState;
     }),
     on(playthroughGetError, function(state, error) {
         alert(error.error);
-        
+        console.log(error.error);
         return state;
     }),
 
     // add paragraph
     on(playthroughAddParagraphSuccess, function(state, paragraph: PlayThroughParagraphModel) {
-        let newState: PlayThroughModel;
-
-        newState = lodash.cloneDeep(state);
-        let currParagraph = newState.startParagraph;
-        while(currParagraph.toParagraph != undefined) {
-            currParagraph = currParagraph.toParagraph;
-        }
-
-        currParagraph.toParagraph = paragraph;
-        currParagraph.toParagraphId = paragraph.id;
+        let newState: PlaythroughState = lodash.cloneDeep(state);
+        let lastParagraph  : PlayThroughParagraphModel = newState.getLastParagraph();
+        
+        lastParagraph.toParagraph = paragraph;
+        lastParagraph.toParagraphId = paragraph.id;
 
         return newState;
     }),
@@ -37,24 +37,35 @@ export const playthroughReducer = createReducer(
         alert(error.error);
         return state;
     }),
-    on(playthroughDeleteLastParagraphSuccess, function(state) {
-        let newState = lodash.cloneDeep(state);
-        let prevParagraph = newState.startParagraph;
-        let currParagraph = prevParagraph.toParagraph;
 
-        while(currParagraph.toParagraph != undefined) {
-            prevParagraph = currParagraph;
-            currParagraph = currParagraph.toParagraph;
+    // delete paragraph
+    on(playthroughDeleteLastParagraphSuccess, function(state, props) {
+        let newState: PlaythroughState = lodash.cloneDeep(state);
+
+        let last = newState.getLastParagraph();
+        let prev = newState.getPreviousParagraph(last);
+
+        if (last.id == props.deletedParagraphId) {
+            newState.selectedParagraph = prev;
         }
 
-        currParagraph = undefined;
-        prevParagraph.toParagraph = undefined;
-        prevParagraph.toParagraphId = undefined;
+        last = undefined;
+        prev.toParagraph = undefined;
+        prev.toParagraphId = undefined;
 
         return newState;
     }),
     on(playthroughDeleteLastParagraphError, function(state, error) {
         alert(error.error);
         return state;
+    }),
+
+    // paragraph selected
+    on(playthroughSelectParagraph, function(state, props)  {
+        let newState = lodash.cloneDeep(state);
+        
+        newState.selectedParagraph = newState.getParagraphById(props.paragraphId);
+
+        return newState;
     })
 );

@@ -1,31 +1,28 @@
 import { createSelector } from "@ngrx/store";
-import { AppState} from './app.state';
+import { AppState, PlaythroughState} from './app.state';
 import {PlayThroughModel, PlayThroughParagraphModel  } from '../services/apiClient';
 
 export const playthroughSelector = createSelector(
     (state: AppState) => state.playthrough,
-    function(playthrough: PlayThroughModel) {
-        return playthrough;
+    function(playthrough: PlaythroughState) {
+        return playthrough.playthrough;
     }
+);
+
+export const selectedParagraphSelector = createSelector(
+    (state: AppState) => state.playthrough,
+    (playthrough: PlaythroughState) => playthrough.selectedParagraph
 );
 
 export const lastParagraphSelector = createSelector(
     (state: AppState) => state.playthrough,
-    function(playthrough: PlayThroughModel) {
-        let currParagraph = playthrough.startParagraph;
-
-        while (currParagraph.toParagraph != undefined) {
-            currParagraph = currParagraph.toParagraph;
-        }
-
-        return currParagraph;
+    function(playthrough: PlaythroughState) {
+        return playthrough.getLastParagraph();
     }
 );
 
-
-
 export const groupedStatsSelector = createSelector(
-    (state: AppState) => state.selectedParagraph,
+    (state: AppState) => state.playthrough.selectedParagraph,
     function(selectedParagraph: PlayThroughParagraphModel) {
         let groupedStats = [];
         for(let i = 0; i < selectedParagraph.stats.length; i++) {
@@ -41,7 +38,7 @@ export const groupedStatsSelector = createSelector(
 )
 
 export const cyElementsSelector = createSelector(
-    (state:AppState) => state.playthrough,
+    (state:AppState) => state.playthrough.playthrough,
     function(playthrough: PlayThroughModel) {
         let nodes = [];
         let edges = [];

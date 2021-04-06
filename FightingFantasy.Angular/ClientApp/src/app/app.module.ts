@@ -15,10 +15,8 @@ import { InitialiseCharacterComponent } from './components/initialise-character/
 import { DiceComponent } from './components/dice/dice.component';
 import { StoreModule } from '@ngrx/store';
 import { playthroughReducer} from './state/playthrough.reducer';
-import {paragraphReducer} from './state/paragraph.reducer';
 import { EffectsModule } from "@ngrx/effects";
 import { PlaythroughEffects } from './state/playthrough.effects';
-import { ParagraphEffects } from './state/paragraph.effects';
 
 
 @NgModule({
@@ -39,8 +37,8 @@ import { ParagraphEffects } from './state/paragraph.effects';
     AuthConfigModule,
     FormsModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({playthrough: playthroughReducer, selectedParagraph: paragraphReducer}),
-    EffectsModule.forRoot([PlaythroughEffects, ParagraphEffects]),
+    StoreModule.forRoot({playthrough: playthroughReducer}),
+    EffectsModule.forRoot([PlaythroughEffects]),
     RouterModule
   ],
   providers: [],

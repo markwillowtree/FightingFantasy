@@ -5,18 +5,17 @@ import { combineLatest, forkJoin, from, Observable } from 'rxjs';
 import { concatAll, map } from 'rxjs/operators';
 import { ApiService } from 'src/app/services/api.service';
 import { PlayThroughModel, PlayThroughParagraphModel } from 'src/app/services/apiClient';
-import { playthroughAddParagraphBegin, playthroughDeleteLastParagraphBegin, playthroughGetBegin } from 'src/app/state/playthough.actions';
-import { paragraphSelected } from 'src/app/state/paragraph.actions';
+import { playthroughAddParagraphBegin, playthroughDeleteLastParagraphBegin, playthroughGetBegin, playthroughSelectParagraph } from 'src/app/state/playthough.actions';
 import { 
   groupedStatsSelector, 
   playthroughSelector,
   cyElementsSelector, 
-  lastParagraphSelector
+  lastParagraphSelector,
+  selectedParagraphSelector
 } from 'src/app/state/playthrough.selectors';
 import * as cytoscape from 'cytoscape';
 import { AppState } from 'src/app/state/app.state';
 import * as lodash from 'lodash';
-import { selectedParagraphSelector } from 'src/app/state/paragraph.selectors';
 
 @Component({
   selector: 'app-playthrough',
@@ -76,6 +75,14 @@ export class PlaythroughComponent implements OnInit {
           });
 
       this.cy.add(cyElements);
+      
+      this.cy.on('select grabon', (event) => {
+        let paragraphId = event.target._private.data.id;
+
+        this.store.dispatch(playthroughSelectParagraph({paragraphId: paragraphId}));
+
+        //console.log('node selected: ' + e);
+      });
     });
   }
 

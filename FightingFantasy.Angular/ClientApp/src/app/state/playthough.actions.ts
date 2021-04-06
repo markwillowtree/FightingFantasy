@@ -1,7 +1,7 @@
 import {createAction, props} from '@ngrx/store'
 import { PlayThroughModel, PlayThroughParagraphModel } from '../services/apiClient';
 
-
+// playthrough - get
 export const playthroughGetBegin = createAction(
     '[Playthrough] - Get Begin',
     props<{playthroughId: number}>()
@@ -17,6 +17,7 @@ export const playthroughGetError = createAction(
     props<{error: string}>()
 )
 
+// playthrough - add paragraph
 export const playthroughAddParagraphBegin = createAction(
     '[Playthrough] - Add Paragraph Begin',
     props<{playthroughId: number, paragraph: PlayThroughParagraphModel}>()
@@ -32,6 +33,7 @@ export const playthroughAddParagraphError = createAction(
     props<{error: string}>()
 )
 
+// playthrough delete paragraph
 export const playthroughDeleteLastParagraphBegin = createAction(
     '[Playthrough] - Delete Last Paragraph Begin',
     props<{playthroughId: number}>()
@@ -44,4 +46,10 @@ export const playthroughDeleteLastParagraphSuccess = createAction(
 export const playthroughDeleteLastParagraphError= createAction(
     '[Playthrough] - Delete Last Paragraph Error',
     props<{error: string}>()
+);
+
+// playthrough select paragraph
+export const playthroughSelectParagraph = createAction(
+    '[Playthrough] - Select Paragraph',
+    props<{paragraphId: number}>()
 );

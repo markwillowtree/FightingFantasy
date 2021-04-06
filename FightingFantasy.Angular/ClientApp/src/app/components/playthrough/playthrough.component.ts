@@ -5,18 +5,18 @@ import { combineLatest, forkJoin, from, Observable } from 'rxjs';
 import { concatAll, map } from 'rxjs/operators';
 import { ApiService } from 'src/app/services/api.service';
 import { PlayThroughModel, PlayThroughParagraphModel } from 'src/app/services/apiClient';
-import { playthroughAddParagraphBegin, playthroughGetBegin, playthroughGetSuccess } from 'src/app/state/playthough.actions';
+import { playthroughAddParagraphBegin, playthroughGetBegin } from 'src/app/state/playthough.actions';
 import { paragraphSelected } from 'src/app/state/paragraph.actions';
 import { 
   groupedStatsSelector, 
   playthroughSelector,
-  selectedParagraphSelector,
   cyElementsSelector, 
   lastParagraphSelector
 } from 'src/app/state/playthrough.selectors';
 import * as cytoscape from 'cytoscape';
 import { AppState } from 'src/app/state/app.state';
 import * as lodash from 'lodash';
+import { selectedParagraphSelector } from 'src/app/state/paragraph.selectors';
 
 @Component({
   selector: 'app-playthrough',

@@ -22,12 +22,7 @@ export const lastParagraphSelector = createSelector(
     }
 );
 
-export const selectedParagraphSelector = createSelector(
-    (state: AppState) => state.selectedParagraph,
-    function(selectedParagraph: PlayThroughParagraphModel) {
-        return selectedParagraph;
-    }
-);
+
 
 export const groupedStatsSelector = createSelector(
     (state: AppState) => state.selectedParagraph,

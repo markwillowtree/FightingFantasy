@@ -230,6 +230,68 @@ namespace FightingFantasy.Api.Controllers
             return Ok();
         }
 
+        [HttpPut("UpdateDescription", Name = "UpdateDescription")]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateDescription(long playthroughId, long paragraphId, string newDescription)
+        {
+            var playthrough = await getPlaythrough(playthroughId);
+            if (playthrough == null)
+                return NotFound(new ProblemDetails
+                {
+                    Title = PlaythroughNotFoundMsg
+                });
+
+            // get paragraph
+            var dbParagraph = playthrough.GetParagraphs().SingleOrDefault(x => x.Id == paragraphId);
+            if (dbParagraph == null)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Title = ParagraphNotFoundMsg
+                });
+            }
+
+            // update paragraph
+            dbParagraph.Description = newDescription;
+            _unitOfWork.BeginTransaction();
+            _paragraphRepository.Update(dbParagraph);
+            _unitOfWork.Commit();
+
+            return Ok();
+        }
+
+        [HttpPut("UpdateItems", Name = "UpdateItems")]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateItems(long playthroughId, long paragraphId, string newItems)
+        {
+            var playthrough = await getPlaythrough(playthroughId);
+            if (playthrough == null)
+                return NotFound(new ProblemDetails
+                {
+                    Title = PlaythroughNotFoundMsg
+                });
+
+            // get paragraph
+            var dbParagraph = playthrough.GetParagraphs().SingleOrDefault(x => x.Id == paragraphId);
+            if (dbParagraph == null)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Title = ParagraphNotFoundMsg
+                });
+            }
+
+            // update paragraph
+            dbParagraph.Items = newItems;
+            _unitOfWork.BeginTransaction();
+            _paragraphRepository.Update(dbParagraph);
+            _unitOfWork.Commit();
+
+            return Ok();
+        }
+
         private bool StatsAreValid(PlaythroughParagraph dbParagraph, List<PlaythroughStatModel> stats)
         {
             var dbStatIds = dbParagraph.PlaythroughStats.Select(x => x.Id).ToList();

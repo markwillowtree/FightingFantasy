@@ -18,52 +18,80 @@ export const playthroughGetError = createAction(
 )
 
 // playthrough - add paragraph
-export const playthroughAddParagraphBegin = createAction(
-    '[Playthrough] - Add Paragraph Begin',
+export const addParagraphBegin = createAction(
+    '[Paragraph] - Add Begin',
     props<{playthroughId: number, paragraph: PlayThroughParagraphModel}>()
 );
 
-export const playthroughAddParagraphSuccess = createAction(
-    '[Playthrough] - Add Paragraph Success',
+export const addParagraphSuccess = createAction(
+    '[Paragraph] - Add Success',
     props<PlayThroughParagraphModel>()
 );
 
-export const playthroughAddParagraphError = createAction(
-    '[Playthrough] - Add Paragraph Fail',
+export const addParagraphError = createAction(
+    '[Paragraph] - Add Fail',
     props<{error: string}>()
 )
 
 // playthrough delete paragraph
-export const playthroughDeleteLastParagraphBegin = createAction(
-    '[Playthrough] - Delete Last Paragraph Begin',
+export const deleteLastParagraphBegin = createAction(
+    '[Paragraph] - Delete Last Begin',
     props<{playthroughId: number}>()
 );
 
-export const playthroughDeleteLastParagraphSuccess = createAction(
-    '[Playthrough] - Delete Last Paragraph Success',
+export const deleteLastParagraphSuccess = createAction(
+    '[Paragraph] - Delete Last Success',
     props<{deletedParagraphId: number}>()
 );
-export const playthroughDeleteLastParagraphError= createAction(
-    '[Playthrough] - Delete Last Paragraph Error',
+export const deleteLastParagraphError= createAction(
+    '[Paragraph] - Delete Last Error',
     props<{error: string}>()
 );
 
 // playthrough select paragraph
-export const playthroughSelectParagraph = createAction(
-    '[Playthrough] - Select Paragraph',
+export const selectParagraph = createAction(
+    '[Paragraph] - Select',
     props<{paragraphId: number}>()
 );
 
 // playthrough - paragraph number changed
-export const playthroughParagraphNumberChangeBegin = createAction(
-    '[Playthrough] - Change Paragraph Number Begin',
+export const paragraphNumberChangeBegin = createAction(
+    '[Paragraph] - Change Number Begin',
     props<{newParagraphNumber: number, playthroughId: number, paragraphId: number}>()
 )
-export const playthroughParagraphNumberChangeSuccess = createAction(
-    '[Playthrough] - Change Paragraph Number Success',
+export const paragraphNumberChangeSuccess = createAction(
+    '[Paragraph] - Change Number Success',
     props<{newParagraphNumber: number}>()
 )
-export const playthroughParagraphNumberChangeError = createAction(
-    '[Playthrough] - Change Paragraph Number Error',
+export const paragraphNumberChangeError = createAction(
+    '[Paragraph] - Change Number Error',
+    props<{error: string}>()
+)
+
+// playthrough - paragraph description changed
+export const descriptionChangeBegin = createAction(
+    '[Paragraph] - Change Description Begin',
+    props<{newDescription: string, playthroughId: number, paragraphId: number}>()
+)
+export const descriptionChangeSuccess = createAction(
+    '[Paragraph] - Change Description Success',
+    props<{newDescription: string}>()
+)
+export const descriptionChangeError = createAction(
+    '[Paragraph] - Change Description Error',
+    props<{error: string}>()
+)
+
+// playthrough - paragraph description changed
+export const itemsChangeBegin = createAction(
+    '[Paragraph] - Change Items Begin',
+    props<{newItems: string, playthroughId: number, paragraphId: number}>()
+)
+export const itemsChangeSuccess = createAction(
+    '[Paragraph] - Change Items Success',
+    props<{newItems: string}>()
+)
+export const itemsChangeError = createAction(
+    '[Paragraph] - Change Items Error',
     props<{error: string}>()
 )

@@ -6,12 +6,13 @@
                     <div class="col-3">
                         <label class="col-form-label" for="paragraphNumber">Paragraph</label>
                         <input type="number" class="form-control" id="paragraphNumber" 
-                        value="{{selectedParagraph.number}}" (change)="onParagraphNumberChanged($event)" />
+                        value="{{selectedParagraph.number}}" (input)="onParagraphNumberChanged($event)" />
                     </div>
                 
                     <div class="col">
                         <label class="col-form-label" for="paragraphDescription">Description</label>
-                        <input type="text" class="form-control" id="paragraphDescription" value="{{selectedParagraph.description}}"/>
+                        <input type="text" class="form-control" id="paragraphDescription" 
+                        value="{{selectedParagraph.description}}" (keyup)="changeParagraphDescripton($event)"/>
                     </div>
                 </div>
 
@@ -27,7 +28,8 @@
                 <div class="form-row">
                     <div class="col">
                         <label class="col-form-label" for="items">Items</label>
-                        <textarea id="items" class="form-control form-control-lg">{{selectedParagraph.items}}</textarea>
+                        <textarea id="items" class="form-control form-control-lg"
+                        (keyup)="changeItems($event)"  value="{{selectedParagraph.items}}"></textarea>
                     </div>
                 </div>
             </form>

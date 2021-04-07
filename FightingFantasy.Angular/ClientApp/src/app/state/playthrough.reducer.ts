@@ -1,5 +1,5 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { playthroughAddParagraphError, playthroughAddParagraphSuccess, playthroughDeleteLastParagraphError, playthroughDeleteLastParagraphSuccess, playthroughGetError, playthroughGetSuccess, playthroughParagraphNumberChangeError, playthroughParagraphNumberChangeSuccess, playthroughSelectParagraph } from './playthough.actions';
+import { addParagraphError, addParagraphSuccess, deleteLastParagraphError, deleteLastParagraphSuccess, descriptionChangeError, descriptionChangeSuccess, playthroughGetError, playthroughGetSuccess, paragraphNumberChangeError, paragraphNumberChangeSuccess, selectParagraph, itemsChangeSuccess, itemsChangeError } from './playthough.actions';
 import { PlayThroughModel, PlayThroughParagraphModel } from '../services/apiClient';
 import * as lodash from 'lodash';
 import { PlaythroughState } from './app.state';
@@ -24,7 +24,7 @@ export const playthroughReducer = createReducer(
     }),
 
     // add paragraph
-    on(playthroughAddParagraphSuccess, function(state, paragraph: PlayThroughParagraphModel) {
+    on(addParagraphSuccess, function(state, paragraph: PlayThroughParagraphModel) {
         let newState: PlaythroughState = lodash.cloneDeep(state);
         let lastParagraph  : PlayThroughParagraphModel = newState.getLastParagraph();
         
@@ -33,13 +33,13 @@ export const playthroughReducer = createReducer(
 
         return newState;
     }),
-    on(playthroughAddParagraphError, function(state, error) {
+    on(addParagraphError, function(state, error) {
         alert(error.error);
         return state;
     }),
 
     // delete paragraph
-    on(playthroughDeleteLastParagraphSuccess, function(state, props) {
+    on(deleteLastParagraphSuccess, function(state, props) {
         let newState: PlaythroughState = lodash.cloneDeep(state);
 
         let last = newState.getLastParagraph();
@@ -55,13 +55,13 @@ export const playthroughReducer = createReducer(
 
         return newState;
     }),
-    on(playthroughDeleteLastParagraphError, function(state, error) {
+    on(deleteLastParagraphError, function(state, error) {
         alert(error.error);
         return state;
     }),
 
     // paragraph selected
-    on(playthroughSelectParagraph, function(state, props)  {
+    on(selectParagraph, function(state, props)  {
         let newState = lodash.cloneDeep(state);
         
         newState.selectedParagraph = newState.getParagraphById(props.paragraphId);
@@ -70,12 +70,35 @@ export const playthroughReducer = createReducer(
     }),
 
     // change paragraph number
-    on(playthroughParagraphNumberChangeSuccess,function(state, props) {
+    on(paragraphNumberChangeSuccess,function(state, props) {
         let newState = lodash.cloneDeep(state);
         newState.selectedParagraph.number = props.newParagraphNumber;
         return newState;
     }),
-    on(playthroughParagraphNumberChangeError, function(state, error) {
+    on(paragraphNumberChangeError, function(state, error) {
+        alert(error.error);
+        return state;
+    }),
+
+    // change description
+    on(descriptionChangeSuccess, function(state, props) {
+        let newState = lodash.cloneDeep(state);
+        newState.selectedParagraph.description = props.newDescription;
+        return newState;
+    }),
+
+    on(descriptionChangeError, function(state, error) {
+        alert(error.error);
+        return state;
+    }),
+
+    // change items
+    on(itemsChangeSuccess, function(state, props) {
+        let newState = lodash.cloneDeep(state);
+        newState.selectedParagraph.items = props.newItems;
+        return newState;
+    }),
+    on(itemsChangeError, function(state, error) {
         alert(error.error);
         return state;
     }),

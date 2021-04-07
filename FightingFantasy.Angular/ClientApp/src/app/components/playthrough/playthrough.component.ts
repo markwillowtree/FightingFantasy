@@ -5,7 +5,7 @@ import { combineLatest, forkJoin, from, Observable } from 'rxjs';
 import { concatAll, map } from 'rxjs/operators';
 import { ApiService } from 'src/app/services/api.service';
 import { PlayThroughModel, PlayThroughParagraphModel } from 'src/app/services/apiClient';
-import { playthroughAddParagraphBegin, playthroughDeleteLastParagraphBegin, playthroughGetBegin, playthroughParagraphNumberChangeBegin, playthroughSelectParagraph } from 'src/app/state/playthough.actions';
+import { addParagraphBegin, deleteLastParagraphBegin, descriptionChangeBegin, playthroughGetBegin, paragraphNumberChangeBegin, selectParagraph, itemsChangeBegin } from 'src/app/state/playthough.actions';
 import { 
   groupedStatsSelector, 
   playthroughSelector,
@@ -80,7 +80,7 @@ export class PlaythroughComponent implements OnInit {
       this.cy.on('select grabon', (event) => {
         let paragraphId = event.target._private.data.id;
 
-        this.store.dispatch(playthroughSelectParagraph({paragraphId: paragraphId}));
+        this.store.dispatch(selectParagraph({paragraphId: paragraphId}));
 
         //console.log('node selected: ' + e);
       });
@@ -105,7 +105,7 @@ export class PlaythroughComponent implements OnInit {
         newParagraph.yPos += 50;
         newParagraph.description = "Enter a description";
 
-        this.store.dispatch(playthroughAddParagraphBegin({playthroughId: currPlaythrough.id, paragraph: newParagraph}))
+        this.store.dispatch(addParagraphBegin({playthroughId: currPlaythrough.id, paragraph: newParagraph}))
   }
 
   deleteLastParagraph() {
@@ -115,7 +115,7 @@ export class PlaythroughComponent implements OnInit {
       playthrough = p;
     });
 
-    this.store.dispatch(playthroughDeleteLastParagraphBegin({playthroughId: playthrough.id}));
+    this.store.dispatch(deleteLastParagraphBegin({playthroughId: playthrough.id}));
   }
 
   onParagraphNumberChanged(event) {
@@ -128,11 +128,48 @@ export class PlaythroughComponent implements OnInit {
       paragraph = result[1];
     });
 
-    this.store.dispatch(playthroughParagraphNumberChangeBegin(
+    this.store.dispatch(paragraphNumberChangeBegin(
       {
         newParagraphNumber: Number(event.target.value),
         paragraphId : paragraph.id,
         playthroughId : playthrough.id
       }));
+  }
+
+  changeParagraphDescripton(event) {
+    let playthroughAndParagraph = this.getPlaythroughAndSelectedParagraph();
+
+    this.store.dispatch(descriptionChangeBegin(
+      {
+        newDescription: event.target.value,
+        paragraphId: playthroughAndParagraph.paragraph.id,
+        playthroughId: playthroughAndParagraph.playthrough.id
+      }));
+  }
+
+  changeItems(event) {
+    let playthroughAndParagraph = this.getPlaythroughAndSelectedParagraph();
+
+    this.store.dispatch(itemsChangeBegin(
+      {
+        newItems: event.target.value,
+        paragraphId: playthroughAndParagraph.paragraph.id,
+        playthroughId: playthroughAndParagraph.playthrough.id
+      }));
+  }
+
+  getPlaythroughAndSelectedParagraph() {
+    let playthroughAndParagraph = {
+      playthrough: undefined,
+      paragraph: undefined
+    };
+
+    combineLatest([this.playthrough$, this.selectedParagraph$])
+    .subscribe((result) => {
+      playthroughAndParagraph.playthrough = result[0];
+      playthroughAndParagraph.paragraph = result[1];
+    });
+
+    return playthroughAndParagraph;
   }
 }

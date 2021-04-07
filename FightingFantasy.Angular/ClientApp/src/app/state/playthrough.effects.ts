@@ -4,7 +4,7 @@ import { from, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { ApiService } from '../services/api.service';
 import { AppState } from './app.state';
-import { playthroughAddParagraphBegin, playthroughAddParagraphError, playthroughAddParagraphSuccess, playthroughDeleteLastParagraphBegin, playthroughDeleteLastParagraphError, playthroughDeleteLastParagraphSuccess, playthroughGetBegin, playthroughGetError, playthroughGetSuccess, playthroughParagraphNumberChangeBegin, playthroughParagraphNumberChangeError, playthroughParagraphNumberChangeSuccess } from './playthough.actions';
+import { addParagraphBegin, addParagraphError, addParagraphSuccess, deleteLastParagraphBegin, deleteLastParagraphError, deleteLastParagraphSuccess, descriptionChangeBegin, descriptionChangeError, descriptionChangeSuccess, playthroughGetBegin, playthroughGetError, playthroughGetSuccess, paragraphNumberChangeBegin, paragraphNumberChangeError, paragraphNumberChangeSuccess, itemsChangeBegin, itemsChangeSuccess, itemsChangeError } from './playthough.actions';
 
 @Injectable()
 export class PlaythroughEffects {
@@ -26,11 +26,11 @@ export class PlaythroughEffects {
     // add paragraph
     addParagraph$ = createEffect(() =>
         this.action$.pipe(
-            ofType(playthroughAddParagraphBegin),
+            ofType(addParagraphBegin),
             switchMap(action => 
                 from(this.apiService.client.appendParagraph(action.playthroughId, action.paragraph)).pipe(
-                    map((paragraph) => playthroughAddParagraphSuccess(paragraph)),
-                    catchError((err) => of(playthroughAddParagraphError(err)))
+                    map((paragraph) => addParagraphSuccess(paragraph)),
+                    catchError((err) => of(addParagraphError(err)))
                 ) 
             ),            
         )
@@ -39,11 +39,11 @@ export class PlaythroughEffects {
     // delete last paragraph
     deleteLastParagraph$ = createEffect(() =>
         this.action$.pipe(
-            ofType(playthroughDeleteLastParagraphBegin),
+            ofType(deleteLastParagraphBegin),
             switchMap(action =>
                 from(this.apiService.client.deleteLastParagraph(action.playthroughId)).pipe(
-                    map((deletedParagraphId) => playthroughDeleteLastParagraphSuccess({deletedParagraphId})),
-                    catchError((err) => of(playthroughDeleteLastParagraphError({error: err.title})))
+                    map((deletedParagraphId) => deleteLastParagraphSuccess({deletedParagraphId})),
+                    catchError((err) => of(deleteLastParagraphError({error: err.title})))
                 )
             )
         )
@@ -52,11 +52,37 @@ export class PlaythroughEffects {
     // change paragraph number
     changeParagraphNumber$ = createEffect(() =>
         this.action$.pipe(
-         ofType(playthroughParagraphNumberChangeBegin),
+         ofType(paragraphNumberChangeBegin),
             switchMap(action => 
                 from(this.apiService.client.updateParagraphNumber(action.playthroughId, action.paragraphId, action.newParagraphNumber)).pipe(
-                    map(() => playthroughParagraphNumberChangeSuccess({newParagraphNumber: action.newParagraphNumber})),
-                    catchError((err) => of(playthroughParagraphNumberChangeError({error: err.title})))
+                    map(() => paragraphNumberChangeSuccess({newParagraphNumber: action.newParagraphNumber})),
+                    catchError((err) => of(paragraphNumberChangeError({error: err.title})))
+                )
+            )
+        )
+    );
+
+    // change description
+    changeDescription$ = createEffect(() =>
+        this.action$.pipe(
+            ofType(descriptionChangeBegin),
+            switchMap(action =>
+                from(this.apiService.client.updateDescription(action.playthroughId, action.paragraphId,  action.newDescription)).pipe(
+                    map(() => descriptionChangeSuccess({newDescription: action.newDescription})),
+                    catchError((err) => of(descriptionChangeError({error: err.title})))
+                ) 
+            )
+        )
+    );
+
+    // change items
+    changeItems$ = createEffect(() =>
+        this.action$.pipe(
+            ofType(itemsChangeBegin),
+            switchMap(action =>
+                from(this.apiService.client.updateItems(action.playthroughId, action.paragraphId, action.newItems)).pipe(
+                    map(() => itemsChangeSuccess({newItems: action.newItems})),
+                    catchError((err) => of(itemsChangeError({error: err.title})))
                 )
             )
         )

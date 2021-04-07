@@ -45,6 +45,13 @@ export interface IClient {
      */
     deleteLastParagraph(playthroughId: number): Promise<number>;
     /**
+     * @param playthroughId (optional) 
+     * @param paragraphId (optional) 
+     * @param newParagraphNumber (optional) 
+     * @return Success
+     */
+    updateParagraphNumber(playthroughId: number | undefined, paragraphId: number | undefined, newParagraphNumber: number | undefined): Promise<void>;
+    /**
      * @return Success
      */
     getPlaythroughsByBookId(bookId: number): Promise<PlayThroughModel[]>;
@@ -424,6 +431,61 @@ export class Client implements IClient {
             });
         }
         return Promise.resolve<number>(<any>null);
+    }
+
+    /**
+     * @param playthroughId (optional) 
+     * @param paragraphId (optional) 
+     * @param newParagraphNumber (optional) 
+     * @return Success
+     */
+    updateParagraphNumber(playthroughId: number | undefined, paragraphId: number | undefined, newParagraphNumber: number | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/api/Paragraph/UpdateParagraphNumber?";
+        if (playthroughId === null)
+            throw new Error("The parameter 'playthroughId' cannot be null.");
+        else if (playthroughId !== undefined)
+            url_ += "playthroughId=" + encodeURIComponent("" + playthroughId) + "&";
+        if (paragraphId === null)
+            throw new Error("The parameter 'paragraphId' cannot be null.");
+        else if (paragraphId !== undefined)
+            url_ += "paragraphId=" + encodeURIComponent("" + paragraphId) + "&";
+        if (newParagraphNumber === null)
+            throw new Error("The parameter 'newParagraphNumber' cannot be null.");
+        else if (newParagraphNumber !== undefined)
+            url_ += "newParagraphNumber=" + encodeURIComponent("" + newParagraphNumber) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "PUT",
+            headers: {
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUpdateParagraphNumber(_response);
+        });
+    }
+
+    protected processUpdateParagraphNumber(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(<any>null);
     }
 
     /**

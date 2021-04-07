@@ -5,7 +5,7 @@ import { combineLatest, forkJoin, from, Observable } from 'rxjs';
 import { concatAll, map } from 'rxjs/operators';
 import { ApiService } from 'src/app/services/api.service';
 import { PlayThroughModel, PlayThroughParagraphModel } from 'src/app/services/apiClient';
-import { playthroughAddParagraphBegin, playthroughDeleteLastParagraphBegin, playthroughGetBegin, playthroughSelectParagraph } from 'src/app/state/playthough.actions';
+import { playthroughAddParagraphBegin, playthroughDeleteLastParagraphBegin, playthroughGetBegin, playthroughParagraphNumberChangeBegin, playthroughSelectParagraph } from 'src/app/state/playthough.actions';
 import { 
   groupedStatsSelector, 
   playthroughSelector,
@@ -16,6 +16,7 @@ import {
 import * as cytoscape from 'cytoscape';
 import { AppState } from 'src/app/state/app.state';
 import * as lodash from 'lodash';
+import { concatLatestFrom } from '@ngrx/effects';
 
 @Component({
   selector: 'app-playthrough',
@@ -91,7 +92,7 @@ export class PlaythroughComponent implements OnInit {
     let currParagraph: PlayThroughParagraphModel;
     let currPlaythrough: PlayThroughModel;
 
-    combineLatest (this.playthrough$, this.lastParagraph$).subscribe(([playthrough, paragraph]) => {
+    combineLatest ([this.playthrough$, this.lastParagraph$]).subscribe(([playthrough, paragraph]) => {
         console.log(playthrough);
         console.log(paragraph);
 
@@ -115,5 +116,23 @@ export class PlaythroughComponent implements OnInit {
     });
 
     this.store.dispatch(playthroughDeleteLastParagraphBegin({playthroughId: playthrough.id}));
+  }
+
+  onParagraphNumberChanged(event) {
+    let playthrough: PlayThroughModel;
+    let paragraph: PlayThroughParagraphModel;
+
+    combineLatest([this.playthrough$, this.selectedParagraph$])
+    .subscribe((result) => {
+      playthrough = result[0];
+      paragraph = result[1];
+    });
+
+    this.store.dispatch(playthroughParagraphNumberChangeBegin(
+      {
+        newParagraphNumber: Number(event.target.value),
+        paragraphId : paragraph.id,
+        playthroughId : playthrough.id
+      }));
   }
 }

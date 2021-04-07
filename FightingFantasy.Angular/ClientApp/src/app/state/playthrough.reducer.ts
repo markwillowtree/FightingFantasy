@@ -1,5 +1,5 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { playthroughAddParagraphError, playthroughAddParagraphSuccess, playthroughDeleteLastParagraphError, playthroughDeleteLastParagraphSuccess, playthroughGetError, playthroughGetSuccess, playthroughSelectParagraph } from './playthough.actions';
+import { playthroughAddParagraphError, playthroughAddParagraphSuccess, playthroughDeleteLastParagraphError, playthroughDeleteLastParagraphSuccess, playthroughGetError, playthroughGetSuccess, playthroughParagraphNumberChangeError, playthroughParagraphNumberChangeSuccess, playthroughSelectParagraph } from './playthough.actions';
 import { PlayThroughModel, PlayThroughParagraphModel } from '../services/apiClient';
 import * as lodash from 'lodash';
 import { PlaythroughState } from './app.state';
@@ -67,5 +67,16 @@ export const playthroughReducer = createReducer(
         newState.selectedParagraph = newState.getParagraphById(props.paragraphId);
 
         return newState;
-    })
+    }),
+
+    // change paragraph number
+    on(playthroughParagraphNumberChangeSuccess,function(state, props) {
+        let newState = lodash.cloneDeep(state);
+        newState.selectedParagraph.number = props.newParagraphNumber;
+        return newState;
+    }),
+    on(playthroughParagraphNumberChangeError, function(state, error) {
+        alert(error.error);
+        return state;
+    }),
 );

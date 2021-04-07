@@ -199,6 +199,37 @@ namespace FightingFantasy.Api.Controllers
             return Ok(currId);
         }
 
+        [HttpPut("UpdateParagraphNumber", Name = "UpdateParagraphNumber")]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateParagraphNumber(long playthroughId, long paragraphId, int newParagraphNumber)
+        {
+            var playthrough = await getPlaythrough(playthroughId);
+            if (playthrough == null)
+                return NotFound(new ProblemDetails
+                {
+                    Title = PlaythroughNotFoundMsg
+                });
+
+            // get paragraph
+            var dbParagraph = playthrough.GetParagraphs().SingleOrDefault(x => x.Id == paragraphId);
+            if (dbParagraph == null)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Title = ParagraphNotFoundMsg
+                });
+            }
+
+            // update paragraph
+            dbParagraph.ParagraphNumber = newParagraphNumber;
+            _unitOfWork.BeginTransaction();
+            _paragraphRepository.Update(dbParagraph);
+            _unitOfWork.Commit();
+
+            return Ok();
+        }
+
         private bool StatsAreValid(PlaythroughParagraph dbParagraph, List<PlaythroughStatModel> stats)
         {
             var dbStatIds = dbParagraph.PlaythroughStats.Select(x => x.Id).ToList();

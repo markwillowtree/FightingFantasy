@@ -53,3 +53,17 @@ export const playthroughSelectParagraph = createAction(
     '[Playthrough] - Select Paragraph',
     props<{paragraphId: number}>()
 );
+
+// playthrough - paragraph number changed
+export const playthroughParagraphNumberChangeBegin = createAction(
+    '[Playthrough] - Change Paragraph Number Begin',
+    props<{newParagraphNumber: number, playthroughId: number, paragraphId: number}>()
+)
+export const playthroughParagraphNumberChangeSuccess = createAction(
+    '[Playthrough] - Change Paragraph Number Success',
+    props<{newParagraphNumber: number}>()
+)
+export const playthroughParagraphNumberChangeError = createAction(
+    '[Playthrough] - Change Paragraph Number Error',
+    props<{error: string}>()
+)

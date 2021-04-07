@@ -5,7 +5,8 @@
                 <div class="form-row" >
                     <div class="col-3">
                         <label class="col-form-label" for="paragraphNumber">Paragraph</label>
-                        <input type="number" class="form-control" id="paragraphNumber" value="{{selectedParagraph.number}}" />
+                        <input type="number" class="form-control" id="paragraphNumber" 
+                        value="{{selectedParagraph.number}}" (change)="onParagraphNumberChanged($event)" />
                     </div>
                 
                     <div class="col">

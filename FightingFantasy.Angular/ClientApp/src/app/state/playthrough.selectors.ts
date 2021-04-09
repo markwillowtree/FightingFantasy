@@ -1,6 +1,6 @@
 import { createSelector } from "@ngrx/store";
 import { AppState, PlaythroughState} from './app.state';
-import {PlayThroughModel, PlayThroughParagraphModel  } from '../services/apiClient';
+import {PlayThroughModel, PlayThroughParagraphModel, PlaythroughStatModel  } from '../services/apiClient';
 
 export const playthroughSelector = createSelector(
     (state: AppState) => state.playthrough,
@@ -24,7 +24,7 @@ export const lastParagraphSelector = createSelector(
 export const groupedStatsSelector = createSelector(
     (state: AppState) => state.playthrough.selectedParagraph,
     function(selectedParagraph: PlayThroughParagraphModel) {
-        let groupedStats = [];
+        let groupedStats :PlaythroughStatModel[][] = [];
         for(let i = 0; i < selectedParagraph.stats.length; i++) {
             let index = Math.floor(i / 4);
             if (groupedStats[index] == undefined) {

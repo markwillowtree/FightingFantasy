@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { OidcSecurityServiceStub } from 'src/testing/oidc-security-service-stub';
 
 import { BookListComponent } from './book-list.component';
 
@@ -8,7 +10,10 @@ describe('BookListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BookListComponent ]
+      declarations: [ BookListComponent ],
+      providers: [
+        { provide: OidcSecurityService, useClass: OidcSecurityServiceStub}
+      ]
     })
     .compileComponents();
   });

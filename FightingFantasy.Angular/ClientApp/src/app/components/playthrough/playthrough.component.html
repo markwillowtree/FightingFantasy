@@ -17,10 +17,12 @@
                 </div>
 
                 <div *ngIf="(groupedStats$ | async) as groupedStats">
-                    <div class="form-row" *ngFor="let group of groupedStats">
-                        <div class="col" *ngFor="let stat of group">
+                    <div class="form-row" *ngFor="let group of groupedStats; let i = index; trackBy: trackByFn">
+                        <div class="col" *ngFor="let stat of group; let i = index; trackBy: trackByFn">
                             <label class="col-form-label" for="{{stat.name}}">{{stat.name}}</label>
-                            <input type="number" class="form-control" id="{{stat.name}}" value="{{stat.value}}" />
+                            <input type="number" class="form-control" id="{{stat.name}}" value="{{stat.value}}" attr.data-statId="{{stat.statId}}"
+                                (input)="changeStat($event)"
+                            />
                         </div>
                     </div>
                 </div>

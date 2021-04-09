@@ -1,14 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { from, Observable, of } from 'rxjs';
+import { select, State } from '@ngrx/store';
+import * as lodash from 'lodash';
+import { EMPTY, from, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { ApiService } from '../services/api.service';
+import { PlayThroughParagraphModel } from '../services/apiClient';
 import { AppState } from './app.state';
-import { addParagraphBegin, addParagraphError, addParagraphSuccess, deleteLastParagraphBegin, deleteLastParagraphError, deleteLastParagraphSuccess, descriptionChangeBegin, descriptionChangeError, descriptionChangeSuccess, playthroughGetBegin, playthroughGetError, playthroughGetSuccess, paragraphNumberChangeBegin, paragraphNumberChangeError, paragraphNumberChangeSuccess, itemsChangeBegin, itemsChangeSuccess, itemsChangeError } from './playthough.actions';
+import { 
+        addParagraphBegin, addParagraphError, addParagraphSuccess, 
+        deleteLastParagraphBegin, deleteLastParagraphError, deleteLastParagraphSuccess, 
+        descriptionChangeBegin, 
+        playthroughGetBegin, playthroughGetError, playthroughGetSuccess, 
+        paragraphNumberChangeBegin, 
+        itemsChangeBegin, 
+        statChangeBegin, 
+        updateParagraphBegin, updateParagraphSuccess, updateParagraphError 
+    } from './playthough.actions';
+import { selectedParagraphSelector } from './playthrough.selectors';
 
 @Injectable()
 export class PlaythroughEffects {
-    constructor(private apiService: ApiService, private action$: Actions) {        
+    constructor(private apiService: ApiService, private action$: Actions, private state: State<AppState>) {        
     }
 
     // get playthrough
@@ -53,12 +66,12 @@ export class PlaythroughEffects {
     changeParagraphNumber$ = createEffect(() =>
         this.action$.pipe(
          ofType(paragraphNumberChangeBegin),
-            switchMap(action => 
-                from(this.apiService.client.updateParagraphNumber(action.playthroughId, action.paragraphId, action.newParagraphNumber)).pipe(
-                    map(() => paragraphNumberChangeSuccess({newParagraphNumber: action.newParagraphNumber})),
-                    catchError((err) => of(paragraphNumberChangeError({error: err.title})))
-                )
-            )
+            switchMap(action => {
+                let paragraph: PlayThroughParagraphModel = this.getClonedSelectedParagraph();
+                paragraph.number = action.newParagraphNumber;
+
+                return of(updateParagraphBegin({playthroughId: action.playthroughId, paragraph: paragraph}));
+            })
         )
     );
 
@@ -66,12 +79,12 @@ export class PlaythroughEffects {
     changeDescription$ = createEffect(() =>
         this.action$.pipe(
             ofType(descriptionChangeBegin),
-            switchMap(action =>
-                from(this.apiService.client.updateDescription(action.playthroughId, action.paragraphId,  action.newDescription)).pipe(
-                    map(() => descriptionChangeSuccess({newDescription: action.newDescription})),
-                    catchError((err) => of(descriptionChangeError({error: err.title})))
-                ) 
-            )
+            switchMap(action => {
+                let paragraph: PlayThroughParagraphModel = this.getClonedSelectedParagraph();
+                paragraph.description = action.newDescription;
+
+                return of(updateParagraphBegin({playthroughId: action.playthroughId, paragraph: paragraph}));
+            })
         )
     );
 
@@ -79,12 +92,62 @@ export class PlaythroughEffects {
     changeItems$ = createEffect(() =>
         this.action$.pipe(
             ofType(itemsChangeBegin),
+            switchMap(action => {
+                let paragraph: PlayThroughParagraphModel = this.getClonedSelectedParagraph();
+                paragraph.items = action.newItems;
+
+                return of(updateParagraphBegin({playthroughId: action.playthroughId, paragraph: paragraph}));
+            })
+        )
+    );
+
+    // change stats
+    changeStat$ = createEffect(() =>
+        this.action$.pipe(
+            ofType(statChangeBegin),
+            switchMap(action => {
+                // get current paragraph and clone it
+                let paragraph: PlayThroughParagraphModel = this.getClonedSelectedParagraph();
+
+                let statChanged: boolean = false;
+                // update its stat
+                for(let i = 0; i < paragraph.stats.length; i++) {
+                    if (paragraph.stats[i].statId == action.statId) {
+                        paragraph.stats[i].value = action.newValue;
+                        statChanged = true;
+                        break;
+                    }
+                }
+
+                if (!statChanged) {
+                    throw `Couldn't find stat ${action.statId} in paragraph ${paragraph.id}`;
+                }
+
+                // update this stat on backend
+                return of(updateParagraphBegin({playthroughId: action.playthroughId, paragraph: paragraph}));
+            })
+        )
+    );
+
+    // update paragraph
+    $updateParagraph = createEffect(() =>
+        this.action$.pipe(
+            ofType(updateParagraphBegin),
             switchMap(action =>
-                from(this.apiService.client.updateItems(action.playthroughId, action.paragraphId, action.newItems)).pipe(
-                    map(() => itemsChangeSuccess({newItems: action.newItems})),
-                    catchError((err) => of(itemsChangeError({error: err.title})))
+                from(this.apiService.client.updateParagraph(action.playthroughId, action.paragraph)).pipe(
+                    map(() => updateParagraphSuccess({paragraph: action.paragraph})),
+                    catchError((err) => of(updateParagraphError({error: err.title})))
                 )
             )
         )
-    );
+    )
+
+    private getClonedSelectedParagraph() :PlayThroughParagraphModel {
+        // get current paragraph and clone it
+        let paragraph: PlayThroughParagraphModel;
+        this.state.pipe(select(selectedParagraphSelector))
+            .subscribe(selectedParagraph => paragraph = lodash.cloneDeep(selectedParagraph));
+        
+        return paragraph;
+    }
 }

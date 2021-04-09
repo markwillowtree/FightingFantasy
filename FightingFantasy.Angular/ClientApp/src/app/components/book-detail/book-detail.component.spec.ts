@@ -1,4 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { of } from 'rxjs';
+import { ActivatedRouteStub } from 'src/testing/activated-route-stub';
+import { OidcSecurityServiceStub } from 'src/testing/oidc-security-service-stub';
 
 import { BookDetailComponent } from './book-detail.component';
 
@@ -8,7 +13,11 @@ describe('BookDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BookDetailComponent ]
+      declarations: [ BookDetailComponent ],
+      providers: [
+        { provide: ActivatedRoute, useValue: { params: of({bookId: 1})}},
+        { provide: OidcSecurityService, useClass: OidcSecurityServiceStub}
+      ]
     })
     .compileComponents();
   });

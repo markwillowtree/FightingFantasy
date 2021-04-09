@@ -4,8 +4,8 @@ import { select, Store } from '@ngrx/store';
 import { combineLatest, forkJoin, from, Observable } from 'rxjs';
 import { concatAll, map } from 'rxjs/operators';
 import { ApiService } from 'src/app/services/api.service';
-import { PlayThroughModel, PlayThroughParagraphModel } from 'src/app/services/apiClient';
-import { addParagraphBegin, deleteLastParagraphBegin, descriptionChangeBegin, playthroughGetBegin, paragraphNumberChangeBegin, selectParagraph, itemsChangeBegin } from 'src/app/state/playthough.actions';
+import { PlayThroughModel, PlayThroughParagraphModel, PlaythroughStatModel } from 'src/app/services/apiClient';
+import { addParagraphBegin, deleteLastParagraphBegin, descriptionChangeBegin, playthroughGetBegin, paragraphNumberChangeBegin, selectParagraph, itemsChangeBegin, statChangeBegin } from 'src/app/state/playthough.actions';
 import { 
   groupedStatsSelector, 
   playthroughSelector,
@@ -28,7 +28,7 @@ export class PlaythroughComponent implements OnInit {
   playthrough$  :Observable<PlayThroughModel>= this.store.pipe(select(playthroughSelector));
   selectedParagraph$  :Observable<PlayThroughParagraphModel> = this.store.pipe(select(selectedParagraphSelector));
   lastParagraph$ : Observable<PlayThroughParagraphModel> = this.store.pipe(select(lastParagraphSelector));
-  groupedStats$ : Observable<any[]> = this.store.pipe(select(groupedStatsSelector));
+  groupedStats$ : Observable<PlaythroughStatModel[][]> = this.store.pipe(select(groupedStatsSelector));
   cyElements$: Observable<any[]> = this.store.pipe(select(cyElementsSelector));
 
   @ViewChild('mapCanvas', {static: true}) mapCanvas;
@@ -158,6 +158,18 @@ export class PlaythroughComponent implements OnInit {
       }));
   }
 
+  changeStat(event) {
+    let statId = event.target.dataset['statid'];
+    let playthroughAndSelectedParagraph = this.getPlaythroughAndSelectedParagraph();
+
+    this.store.dispatch(statChangeBegin(
+      {
+        playthroughId: playthroughAndSelectedParagraph.playthrough.id,
+        statId: statId,
+        newValue: event.target.value 
+      }));
+  }
+
   getPlaythroughAndSelectedParagraph() {
     let playthroughAndParagraph = {
       playthrough: undefined,
@@ -172,4 +184,7 @@ export class PlaythroughComponent implements OnInit {
 
     return playthroughAndParagraph;
   }
+
+  trackByFn(index, item) {
+    return index;  }
 }

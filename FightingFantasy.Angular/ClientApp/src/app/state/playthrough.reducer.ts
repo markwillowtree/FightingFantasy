@@ -1,5 +1,11 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { addParagraphError, addParagraphSuccess, deleteLastParagraphError, deleteLastParagraphSuccess, descriptionChangeError, descriptionChangeSuccess, playthroughGetError, playthroughGetSuccess, paragraphNumberChangeError, paragraphNumberChangeSuccess, selectParagraph, itemsChangeSuccess, itemsChangeError } from './playthough.actions';
+import { 
+    addParagraphError, addParagraphSuccess, 
+    deleteLastParagraphError, deleteLastParagraphSuccess, 
+    playthroughGetError, playthroughGetSuccess, 
+    selectParagraph, 
+    updateParagraphSuccess, updateParagraphError 
+} from './playthough.actions';
 import { PlayThroughModel, PlayThroughParagraphModel } from '../services/apiClient';
 import * as lodash from 'lodash';
 import { PlaythroughState } from './app.state';
@@ -69,37 +75,16 @@ export const playthroughReducer = createReducer(
         return newState;
     }),
 
-    // change paragraph number
-    on(paragraphNumberChangeSuccess,function(state, props) {
+    // paragraph update
+    on(updateParagraphSuccess, function(state, props) {
         let newState = lodash.cloneDeep(state);
-        newState.selectedParagraph.number = props.newParagraphNumber;
+        newState.replaceParagraph(props.paragraph);
+        newState.selectedParagraph = props.paragraph;
         return newState;
     }),
-    on(paragraphNumberChangeError, function(state, error) {
+    on(updateParagraphError, function(state, error) {
         alert(error.error);
         return state;
     }),
 
-    // change description
-    on(descriptionChangeSuccess, function(state, props) {
-        let newState = lodash.cloneDeep(state);
-        newState.selectedParagraph.description = props.newDescription;
-        return newState;
-    }),
-
-    on(descriptionChangeError, function(state, error) {
-        alert(error.error);
-        return state;
-    }),
-
-    // change items
-    on(itemsChangeSuccess, function(state, props) {
-        let newState = lodash.cloneDeep(state);
-        newState.selectedParagraph.items = props.newItems;
-        return newState;
-    }),
-    on(itemsChangeError, function(state, error) {
-        alert(error.error);
-        return state;
-    }),
 );

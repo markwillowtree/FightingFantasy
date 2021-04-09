@@ -16,10 +16,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #mapCanvas {
-  background-image: url(/images/parchment.jpg);
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  background-size: cover; /* Resize the background image to cover the entire container */
+  background-image: url(/assets/images/parchment.jpg);
+  background-position: center; 
+  background-repeat: no-repeat; 
+  /* background-size: cover; */
+  background-size: 100% 100%;
   margin-right: 15px;
   margin-bottom: 5px;
   height: 90%;

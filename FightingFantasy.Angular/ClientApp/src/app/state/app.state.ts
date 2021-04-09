@@ -12,15 +12,14 @@ export class PlaythroughState {
 
     constructor(playthrough?:PlayThroughModel, selectedParagraph?: PlayThroughParagraphModel) {
         if (playthrough) {
+            this.playthrough = playthrough;
+
             if (selectedParagraph) {
                 if (!this.paragraphBelongsToPlaythrough(selectedParagraph)) {
                     throw 'invalid selected paragraph';
                 }
-
-                this.playthrough = playthrough;
                 this.selectedParagraph = selectedParagraph;
             } else {
-                this.playthrough = playthrough;
                 this.selectedParagraph = playthrough.startParagraph;
             }
         }
@@ -55,6 +54,7 @@ export class PlaythroughState {
             if (prev.toParagraphId == currParagraph.id) {
                 return prev;
             }
+            prev = prev.toParagraph;
         }
 
         throw 'could not find previous paragraph';
@@ -71,5 +71,24 @@ export class PlaythroughState {
         }
 
         throw `could not find paragraph with id ${paragraphId}`;
+    }
+
+    replaceParagraph(paragraph: PlayThroughParagraphModel) {
+
+        if (this.playthrough.startParagraph.id == paragraph.id) {
+            this.playthrough.startParagraph = paragraph;
+            return;
+        }
+
+        let curr = this.playthrough.startParagraph;
+        while(curr.toParagraph != undefined) {
+            if (curr.toParagraphId == paragraph.id) {
+                curr.toParagraph = paragraph;
+                return;
+            }
+            curr = curr.toParagraph;
+        }
+
+        throw `could not find paragraph with id ${paragraph.id}`;
     }
 }

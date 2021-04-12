@@ -2,6 +2,12 @@ import { createSelector } from "@ngrx/store";
 import { AppState, PlaythroughState} from './app.state';
 import {PlayThroughModel, PlayThroughParagraphModel, PlaythroughStatModel  } from '../services/apiClient';
 
+export const errorSelector = createSelector(
+    (state: AppState) => state.playthrough,
+    function(state: PlaythroughState) {
+        return state.error;
+    }
+);
 export const playthroughSelector = createSelector(
     (state: AppState) => state.playthrough,
     function(playthrough: PlaythroughState) {

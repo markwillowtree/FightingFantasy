@@ -1,0 +1,7 @@
+.alert-danger {
+    background-color: #080808;
+    font-size: large;
+    font-weight: bold;
+    color: gold;
+    margin: 5px;
+}

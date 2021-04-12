@@ -9,7 +9,8 @@ import {
   playthroughSelector,
   cyElementsSelector, 
   lastParagraphSelector,
-  selectedParagraphSelector
+  selectedParagraphSelector,
+  errorSelector
 } from 'src/app/state/playthrough.selectors';
 import * as cytoscape from 'cytoscape';
 import { AppState } from 'src/app/state/app.state';
@@ -27,7 +28,8 @@ export class PlaythroughComponent implements OnInit {
   lastParagraph$ : Observable<PlayThroughParagraphModel> = this.store.pipe(select(lastParagraphSelector));
   groupedStats$ : Observable<PlaythroughStatModel[][]> = this.store.pipe(select(groupedStatsSelector));
   cyElements$: Observable<any[]> = this.store.pipe(select(cyElementsSelector));
-
+  error$: Observable<string> = this.store.pipe(select(errorSelector));
+  
   @ViewChild('mapCanvas', {static: true}) mapCanvas;
   cy;
 

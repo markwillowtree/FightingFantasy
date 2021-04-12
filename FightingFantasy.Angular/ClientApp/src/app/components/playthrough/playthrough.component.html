@@ -56,4 +56,10 @@
             </div>
         </div>
     </div>
+
+    <div class="row" *ngIf="(error$ | async) as error">
+            <span class="alert-danger">{{error}}</span>
+    </div>
+
+
 </div>

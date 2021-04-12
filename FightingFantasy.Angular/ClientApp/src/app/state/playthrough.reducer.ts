@@ -100,7 +100,7 @@ export const playthroughReducer = createReducer(
     // paragraph update
     on(updateParagraphSuccess, function(state, props) {
         let newState = lodash.cloneDeep(state);
-        newState.replaceParagraph(props.paragraph);
+        newState.updateParagraph(props.paragraph);
         newState.selectedParagraph = props.paragraph;
         return newState;
     }),

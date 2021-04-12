@@ -60,7 +60,9 @@ export const cyElementsSelector = createSelector(
             {
                 group: 'nodes',
                 data: { id: currParagraph.id, label: currParagraph.description},
-                position: { x: currParagraph.xPos, y: currParagraph.yPos}
+                position: { x: currParagraph.xPos, y: currParagraph.yPos},
+                grabbable: true,
+
              });
              currParagraph = currParagraph.toParagraph;
         }

@@ -18,7 +18,8 @@ import { playthroughReducer} from './state/playthrough.reducer';
 import { EffectsModule } from "@ngrx/effects";
 import { PlaythroughEffects } from './state/playthrough.effects';
 import { Client } from './services/apiClient';
-
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,10 @@ import { Client } from './services/apiClient';
     ReactiveFormsModule,
     StoreModule.forRoot({playthrough: playthroughReducer}),
     EffectsModule.forRoot([PlaythroughEffects]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
     RouterModule
   ],
   //providers: [{provide: Client, useValue: }],

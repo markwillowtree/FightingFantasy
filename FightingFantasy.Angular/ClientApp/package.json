@@ -21,6 +21,7 @@
     "@angular/router": "~11.2.1",
     "@ngrx/effects": "^11.1.0",
     "@ngrx/store": "^11.1.0",
+    "@ngrx/store-devtools": "^11.1.0",
     "@types/cytoscape": "^3.14.12",
     "angular-auth-oidc-client": "11.6.4",
     "bootstrap": "^4.6.0",

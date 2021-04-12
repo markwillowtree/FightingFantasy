@@ -86,17 +86,10 @@ namespace FightingFantasy.Api.Controllers
             }
 
             // commit
-            try
-            {
-                _unitOfWork.BeginTransaction();
-                _paragraphRepository.Update(dbParagraph);
-                _unitOfWork.Commit();
-            }
-            catch (Exception e)
-            {
+            _unitOfWork.BeginTransaction();
+            _paragraphRepository.Update(dbParagraph);
+            _unitOfWork.Commit();
 
-                throw;
-            }
 
             return Ok();
         }
@@ -133,19 +126,12 @@ namespace FightingFantasy.Api.Controllers
                 YPos = model.YPos
             };
 
-            try
-            {
-                _unitOfWork.BeginTransaction();
-                lastParagraph.ToParagraph = paragraph;
-                await _paragraphRepository.Add(paragraph);
-                _paragraphRepository.Update(lastParagraph);
-                _unitOfWork.Commit();
-            }
-            catch (Exception e)
-            {
 
-                throw;
-            }
+            _unitOfWork.BeginTransaction();
+            lastParagraph.ToParagraph = paragraph;
+            await _paragraphRepository.Add(paragraph);
+            _paragraphRepository.Update(lastParagraph);
+            _unitOfWork.Commit();
 
             return Ok(new PlayThroughParagraphModel(paragraph));
         }

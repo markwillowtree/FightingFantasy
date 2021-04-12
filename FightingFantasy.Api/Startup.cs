@@ -2,6 +2,7 @@ using FightingFantasy.Dal.DbContexts;
 using FightingFantasy.Dal.Repositories;
 using FightingFantasy.Domain;
 using FightingFantasy.Infrastructure.Logging;
+using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -125,6 +126,8 @@ namespace FightingFantasy.Api
                 c.UseAllOfToExtendReferenceSchemas();
                 c.UseOneOfForPolymorphism();
             });
+
+            services.AddProblemDetails();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -139,6 +142,7 @@ namespace FightingFantasy.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiTemplate v1"));
             }
 
+            app.UseProblemDetails();
             app.UseHttpsRedirection();
 
             app.UseRouting();

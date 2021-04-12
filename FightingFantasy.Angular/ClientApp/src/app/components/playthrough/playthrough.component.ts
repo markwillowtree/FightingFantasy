@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, forkJoin, from, Observable } from 'rxjs';
 import { PlayThroughModel, PlayThroughParagraphModel, PlaythroughStatModel } from 'src/app/services/apiClient';
-import { addParagraphBegin, deleteLastParagraphBegin, descriptionChangeBegin, playthroughGetBegin, paragraphNumberChangeBegin, selectParagraph, itemsChangeBegin, statChangeBegin } from 'src/app/state/playthough.actions';
+import { addParagraphBegin, deleteLastParagraphBegin, descriptionChangeBegin, playthroughGetBegin, paragraphNumberChangeBegin, selectParagraph, itemsChangeBegin, statChangeBegin, positionChangeBegin } from 'src/app/state/playthough.actions';
 import { 
   groupedStatsSelector, 
   playthroughSelector,
@@ -29,7 +29,7 @@ export class PlaythroughComponent implements OnInit {
   groupedStats$ : Observable<PlaythroughStatModel[][]> = this.store.pipe(select(groupedStatsSelector));
   cyElements$: Observable<any[]> = this.store.pipe(select(cyElementsSelector));
   error$: Observable<string> = this.store.pipe(select(errorSelector));
-  
+
   @ViewChild('mapCanvas', {static: true}) mapCanvas;
   cy;
 
@@ -76,13 +76,39 @@ export class PlaythroughComponent implements OnInit {
 
       this.cy.add(cyElements);
       
-      this.cy.on('select grabon', (event) => {
+      // node selected event
+      this.cy.on('click', (event) => {
         let paragraphId = event.target._private.data.id;
-
-        this.store.dispatch(selectParagraph({paragraphId: paragraphId}));
-
-        //console.log('node selected: ' + e);
+        let currId;
+        this.selectedParagraph$.subscribe(paragraph => {
+          currId = paragraph.id;
+        })  
+        
+        if (currId != paragraphId) {
+          this.store.dispatch(selectParagraph({paragraphId: paragraphId}));
+        }
+        
       });
+
+      // node dragged event
+      this.cy.on('dragfreeon', (event) => {
+        let paragraphId = event.target._private.data.id;
+        let playthrough = this.getPlaythrough();
+        let paragraph = this.getParagraphById(playthrough, paragraphId);
+        
+        let node = this.cy.elements(`node#${paragraphId}`);
+        let position = node.position();
+
+        console.log(`node ${paragraphId} moved`);
+
+        this.store.dispatch(positionChangeBegin({
+          playthroughId: playthrough.id, 
+          paragraph: paragraph,  
+          xPos: position.x,
+          yPos: position.y
+        }));
+    });
+
     });
   }
 
@@ -92,8 +118,6 @@ export class PlaythroughComponent implements OnInit {
     let currPlaythrough: PlayThroughModel;
 
     combineLatest ([this.playthrough$, this.lastParagraph$]).subscribe(([playthrough, paragraph]) => {
-        console.log(playthrough);
-        console.log(paragraph);
 
         currParagraph = paragraph;
         currPlaythrough = playthrough;
@@ -108,11 +132,7 @@ export class PlaythroughComponent implements OnInit {
   }
 
   deleteLastParagraph() {
-    let playthrough: PlayThroughModel;
-
-    this.playthrough$.subscribe((p) => {
-      playthrough = p;
-    });
+    let playthrough: PlayThroughModel = this.getPlaythrough();
 
     this.store.dispatch(deleteLastParagraphBegin({playthroughId: playthrough.id}));
   }
@@ -167,6 +187,29 @@ export class PlaythroughComponent implements OnInit {
         statId: statId,
         newValue: event.target.value 
       }));
+  }
+
+  getPlaythrough() {
+    let playthrough: PlayThroughModel;
+
+    this.playthrough$.subscribe(p => {
+      playthrough= p;
+    })
+
+    return playthrough;
+  }
+
+  getParagraphById(playthrough: PlayThroughModel, paragraphId: number) {
+    let paragraph = playthrough.startParagraph;
+
+    while(paragraph != undefined) {
+      if (paragraph.id == paragraphId) {
+        return paragraph;
+      }
+      paragraph = paragraph.toParagraph;
+    }
+
+    throw 'Invalid paragraph id: ' + paragraphId;
   }
 
   getPlaythroughAndSelectedParagraph() {

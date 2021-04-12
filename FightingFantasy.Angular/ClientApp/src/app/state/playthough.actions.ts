@@ -66,11 +66,17 @@ export const descriptionChangeBegin = createAction(
     props<{newDescription: string, playthroughId: number, paragraphId: number}>()
 )
 
-// playthrough - paragraph description changed
+// playthrough - paragraph items changed
 export const itemsChangeBegin = createAction(
     '[Paragraph] - Change Items Begin',
     props<{newItems: string, playthroughId: number, paragraphId: number}>()
 )
+
+// playthough - paragraph position changed
+export const positionChangeBegin = createAction(
+    '[Paragraph] - Change Position Begin',
+    props<{playthroughId: number, paragraph: PlayThroughParagraphModel, xPos: number, yPos: number}>()
+);
 
 // stat updated
 export const statChangeBegin = createAction(

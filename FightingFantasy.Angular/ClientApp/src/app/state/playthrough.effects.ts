@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { select, State } from '@ngrx/store';
+import { select, State, Store } from '@ngrx/store';
 import * as lodash from 'lodash';
 import { EMPTY, from, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
@@ -15,13 +15,13 @@ import {
         paragraphNumberChangeBegin, 
         itemsChangeBegin, 
         statChangeBegin, 
-        updateParagraphBegin, updateParagraphSuccess, updateParagraphError 
+        updateParagraphBegin, updateParagraphSuccess, updateParagraphError, positionChangeBegin, selectParagraph 
     } from './playthough.actions';
-import { selectedParagraphSelector } from './playthrough.selectors';
+import { playthroughSelector, selectedParagraphSelector } from './playthrough.selectors';
 
 @Injectable()
 export class PlaythroughEffects {
-    constructor(private apiService: ApiService, private action$: Actions, private state: State<AppState>) {        
+    constructor(private apiService: ApiService, private action$: Actions, private state: Store<AppState>) {        
     }
 
     // get playthrough
@@ -95,6 +95,20 @@ export class PlaythroughEffects {
             switchMap(action => {
                 let paragraph: PlayThroughParagraphModel = this.getClonedSelectedParagraph();
                 paragraph.items = action.newItems;
+
+                return of(updateParagraphBegin({playthroughId: action.playthroughId, paragraph: paragraph}));
+            })
+        )
+    );
+
+    // change position
+    changePosition$ = createEffect(() => 
+        this.action$.pipe(
+            ofType(positionChangeBegin),
+            switchMap(action => {
+                let paragraph: PlayThroughParagraphModel = lodash.cloneDeep(action.paragraph);
+                paragraph.xPos = action.xPos;
+                paragraph.yPos = action.yPos;
 
                 return of(updateParagraphBegin({playthroughId: action.playthroughId, paragraph: paragraph}));
             })

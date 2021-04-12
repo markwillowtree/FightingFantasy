@@ -12,6 +12,9 @@ export class PlaythroughState {
     selectedParagraph: PlayThroughParagraphModel;
     loading: boolean = false;
     error: string = undefined;
+    zoomLevel = 1;
+    panX = 0;
+    panY = 0;
     
     constructor(playthrough?:PlayThroughModel, selectedParagraph?: PlayThroughParagraphModel) {
         if (playthrough) {

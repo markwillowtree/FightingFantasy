@@ -54,36 +54,37 @@ export const selectParagraph = createAction(
     props<{paragraphId: number}>()
 );
 
-// playthrough - paragraph number changed
+// paragraph number changed
 export const paragraphNumberChangeBegin = createAction(
     '[Paragraph] - Change Number Begin',
     props<{newParagraphNumber: number, playthroughId: number, paragraphId: number}>()
 )
 
-// playthrough - paragraph description changed
+// paragraph description changed
 export const descriptionChangeBegin = createAction(
     '[Paragraph] - Change Description Begin',
     props<{newDescription: string, playthroughId: number, paragraphId: number}>()
 )
 
-// playthrough - paragraph items changed
+// paragraph items changed
 export const itemsChangeBegin = createAction(
     '[Paragraph] - Change Items Begin',
     props<{newItems: string, playthroughId: number, paragraphId: number}>()
 )
 
-// playthough - paragraph position changed
+// paragraph position changed
 export const positionChangeBegin = createAction(
     '[Paragraph] - Change Position Begin',
     props<{playthroughId: number, paragraph: PlayThroughParagraphModel, xPos: number, yPos: number}>()
 );
 
-// stat updated
+// paragraph stat changed
 export const statChangeBegin = createAction(
     '[Paragraph] - Change Stat Begin',
     props<{playthroughId: number, statId: number, newValue: number}>()
 )
 
+// paragraph update
 export const updateParagraphBegin = createAction(
     '[Paragraph] - Update Begin',
     props<{playthroughId: number, paragraph: PlayThroughParagraphModel}>()
@@ -97,4 +98,23 @@ export const updateParagraphSuccess = createAction(
 export const updateParagraphError = createAction(
     '[Paragraph] - Update Error',
     props<{error: string}>()
+)
+
+// map zoom changed
+export const mapZoomIn = createAction(
+    '[Map] - Zoom In'
+)
+
+export const mapZoomOut = createAction(
+    '[Map] - Zoom Out'
+)
+
+export const mapZoomReset = createAction(
+    '[Map] - Zoom Reset'
+)
+
+// map panned
+export const mapPan = createAction(
+    '[Map] - Pan',
+    props<{x: number, y: number}>()
 )

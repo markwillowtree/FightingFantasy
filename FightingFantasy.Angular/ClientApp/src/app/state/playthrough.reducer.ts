@@ -4,7 +4,7 @@ import {
     deleteLastParagraphError, deleteLastParagraphSuccess, 
     playthroughGetError, playthroughGetSuccess, 
     selectParagraph, 
-    updateParagraphSuccess, updateParagraphError, playthroughGetBegin 
+    updateParagraphSuccess, updateParagraphError, playthroughGetBegin, mapZoomIn, mapZoomOut, mapZoomReset, mapPan 
 } from './playthough.actions';
 import { PlayThroughModel, PlayThroughParagraphModel } from '../services/apiClient';
 import * as lodash from 'lodash';
@@ -110,5 +110,33 @@ export const playthroughReducer = createReducer(
         newState.loading = false;
         return newState;
     }),
+
+    // map zoom
+    on(mapZoomIn, function(state) {
+        let newState = lodash.cloneDeep(state);
+        newState.zoomLevel += 0.1;
+        return newState;
+    }),
+
+    on(mapZoomOut, function(state) {
+        let newState = lodash.cloneDeep(state);
+        newState.zoomLevel -= 0.1;
+        return newState;
+    }),
+
+    on(mapZoomReset, function(state) {
+        let newState = lodash.cloneDeep(state);
+        newState.zoomLevel = 1;
+        newState.panX = 0;
+        newState.panY = 0;
+        return newState;
+    }),
+
+    on(mapPan, function(state, props) {
+        let newState = lodash.cloneDeep(state);
+        newState.panX = props.x;
+        newState.panY = props.y;
+        return newState;
+    })
 
 );

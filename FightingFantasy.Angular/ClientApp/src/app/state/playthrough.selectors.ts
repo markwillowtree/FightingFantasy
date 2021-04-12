@@ -43,6 +43,19 @@ export const groupedStatsSelector = createSelector(
     }
 )
 
+export const cyPanSelector = createSelector (
+    (state: AppState) => state.playthrough,
+    function(playthroughState: PlaythroughState) {
+        return {x: playthroughState.panX, y: playthroughState.panY};
+    }
+)
+
+export const cyZoomSelector = createSelector(
+    (state:AppState) => state.playthrough,
+    function(playthroughState: PlaythroughState) {
+        return playthroughState.zoomLevel;
+    }
+)
 export const cyElementsSelector = createSelector(
     (state:AppState) => state.playthrough.playthrough,
     function(playthrough: PlayThroughModel) {

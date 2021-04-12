@@ -3,14 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, forkJoin, from, Observable } from 'rxjs';
 import { PlayThroughModel, PlayThroughParagraphModel, PlaythroughStatModel } from 'src/app/services/apiClient';
-import { addParagraphBegin, deleteLastParagraphBegin, descriptionChangeBegin, playthroughGetBegin, paragraphNumberChangeBegin, selectParagraph, itemsChangeBegin, statChangeBegin, positionChangeBegin } from 'src/app/state/playthough.actions';
+import { addParagraphBegin, deleteLastParagraphBegin, descriptionChangeBegin, playthroughGetBegin, paragraphNumberChangeBegin, selectParagraph, itemsChangeBegin, statChangeBegin, positionChangeBegin, mapZoomIn, mapZoomOut, mapZoomReset, mapPan } from 'src/app/state/playthough.actions';
 import { 
   groupedStatsSelector, 
   playthroughSelector,
   cyElementsSelector, 
   lastParagraphSelector,
   selectedParagraphSelector,
-  errorSelector
+  errorSelector,
+  cyZoomSelector,
+  cyPanSelector
 } from 'src/app/state/playthrough.selectors';
 import * as cytoscape from 'cytoscape';
 import { AppState } from 'src/app/state/app.state';
@@ -24,6 +26,8 @@ import * as lodash from 'lodash';
 export class PlaythroughComponent implements OnInit {
 
   playthrough$  :Observable<PlayThroughModel>= this.store.pipe(select(playthroughSelector));
+  zoomLevel$ : Observable<number> = this.store.pipe(select(cyZoomSelector));
+  pan$ : Observable<{x: number, y:number}> = this.store.pipe(select(cyPanSelector));
   selectedParagraph$  :Observable<PlayThroughParagraphModel> = this.store.pipe(select(selectedParagraphSelector));
   lastParagraph$ : Observable<PlayThroughParagraphModel> = this.store.pipe(select(lastParagraphSelector));
   groupedStats$ : Observable<PlaythroughStatModel[][]> = this.store.pipe(select(groupedStatsSelector));
@@ -41,12 +45,18 @@ export class PlaythroughComponent implements OnInit {
       this.store.dispatch(playthroughGetBegin({playthroughId : Number(params.playthroughId)}))
     })    
 
-    this.cyElements$.subscribe(cyElements => {
+    combineLatest([this.zoomLevel$, this.cyElements$, this.pan$]).subscribe(result => {
+      let zoomLevel = result[0];
+      let cyElements = result[1];
+      let pan = result[2];
+
       this.cy = cytoscape({
             container: this.mapCanvas.nativeElement,
+            zoom: zoomLevel,
+            pan: { x: pan.x, y: pan.y },
             style: [ // the stylesheet for the graph
               {
-                selector: 'node',
+                selector: 'node',                
                 style: {
                    'height': 'label',
                    'width': 'label',
@@ -79,15 +89,26 @@ export class PlaythroughComponent implements OnInit {
       // node selected event
       this.cy.on('click', (event) => {
         let paragraphId = event.target._private.data.id;
-        let currId;
-        this.selectedParagraph$.subscribe(paragraph => {
-          currId = paragraph.id;
-        })  
+
+        if (paragraphId != undefined) {
+          let currId;
+          this.selectedParagraph$.subscribe(paragraph => {
+            currId = paragraph.id;
+          })  
+          
+          if (paragraphId != undefined && currId != paragraphId) {
+            this.store.dispatch(selectParagraph({paragraphId: paragraphId}));
+          }
+        } 
         
-        if (currId != paragraphId) {
-          this.store.dispatch(selectParagraph({paragraphId: paragraphId}));
+      });
+
+      this.cy.on('mouseup', (event) => {
+        let paragraphId = event.target._private.data.id;
+
+        if (paragraphId == undefined) {
+          this.store.dispatch(mapPan({x: event.target._private.pan.x, y: event.target._private.pan.y}));
         }
-        
       });
 
       // node dragged event
@@ -108,6 +129,10 @@ export class PlaythroughComponent implements OnInit {
           yPos: position.y
         }));
     });
+
+    // this.cy.on('viewport', (event) => {
+    //   console.log(`panned to ${event.target._private.pan.x}, ${event.target._private.pan.y}`);
+    // });
 
     });
   }
@@ -189,6 +214,17 @@ export class PlaythroughComponent implements OnInit {
       }));
   }
 
+  zoomIn() {
+    this.store.dispatch(mapZoomIn());
+  }
+  zoomOut() {
+    this.store.dispatch(mapZoomOut());
+  }
+
+  zoomReset() {
+    this.store.dispatch(mapZoomReset());
+  }
+
   getPlaythrough() {
     let playthrough: PlayThroughModel;
 
@@ -226,6 +262,8 @@ export class PlaythroughComponent implements OnInit {
 
     return playthroughAndParagraph;
   }
+
+
 
   trackByFn(index, item) {
     return index;  }

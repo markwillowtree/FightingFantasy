@@ -9,7 +9,9 @@ export class AppState {
 export class PlaythroughState {
     playthrough:PlayThroughModel
     selectedParagraph: PlayThroughParagraphModel;
-
+    loading: boolean = false;
+    error: string = undefined;
+    
     constructor(playthrough?:PlayThroughModel, selectedParagraph?: PlayThroughParagraphModel) {
         if (playthrough) {
             this.playthrough = playthrough;

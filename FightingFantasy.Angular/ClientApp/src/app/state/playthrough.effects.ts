@@ -5,7 +5,7 @@ import * as lodash from 'lodash';
 import { EMPTY, from, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { ApiService } from '../services/api.service';
-import { PlayThroughParagraphModel } from '../services/apiClient';
+import { PlayThroughModel, PlayThroughParagraphModel } from '../services/apiClient';
 import { AppState } from './app.state';
 import { 
         addParagraphBegin, addParagraphError, addParagraphSuccess, 
@@ -30,8 +30,8 @@ export class PlaythroughEffects {
             ofType(playthroughGetBegin),
             switchMap(action => 
                 from(this.apiService.client.getPlaythrough(action.playthroughId)).pipe(
-                    map((playthrough) => playthroughGetSuccess(playthrough)),
-                    catchError((err) => of(playthroughGetError(err)))
+                    map((playthrough: PlayThroughModel) => playthroughGetSuccess({playthrough:playthrough})),
+                    catchError((err) => of(playthroughGetError({error: err.title})))
                 )
             )
         ));
@@ -42,8 +42,8 @@ export class PlaythroughEffects {
             ofType(addParagraphBegin),
             switchMap(action => 
                 from(this.apiService.client.appendParagraph(action.playthroughId, action.paragraph)).pipe(
-                    map((paragraph) => addParagraphSuccess(paragraph)),
-                    catchError((err) => of(addParagraphError(err)))
+                    map((paragraph) => addParagraphSuccess({paragraph})),
+                    catchError((err) => of(addParagraphError({error: err.title})))
                 ) 
             ),            
         )
@@ -130,7 +130,7 @@ export class PlaythroughEffects {
     );
 
     // update paragraph
-    $updateParagraph = createEffect(() =>
+    updateParagraph$ = createEffect(() =>
         this.action$.pipe(
             ofType(updateParagraphBegin),
             switchMap(action =>

@@ -25,6 +25,7 @@
     "angular-auth-oidc-client": "11.6.4",
     "bootstrap": "^4.6.0",
     "cytoscape": "^3.18.1",
+    "jasmine-marbles": "^0.8.1",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
     "popper.js": "^1.16.1",

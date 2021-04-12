@@ -17,6 +17,7 @@ import { StoreModule } from '@ngrx/store';
 import { playthroughReducer} from './state/playthrough.reducer';
 import { EffectsModule } from "@ngrx/effects";
 import { PlaythroughEffects } from './state/playthrough.effects';
+import { Client } from './services/apiClient';
 
 
 @NgModule({
@@ -41,7 +42,7 @@ import { PlaythroughEffects } from './state/playthrough.effects';
     EffectsModule.forRoot([PlaythroughEffects]),
     RouterModule
   ],
-  providers: [],
+  //providers: [{provide: Client, useValue: }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

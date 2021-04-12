@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { BookModel, PlayThroughModel } from '../../services/apiClient';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-book-detail',

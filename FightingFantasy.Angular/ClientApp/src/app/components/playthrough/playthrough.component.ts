@@ -2,8 +2,6 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, forkJoin, from, Observable } from 'rxjs';
-import { concatAll, map } from 'rxjs/operators';
-import { ApiService } from 'src/app/services/api.service';
 import { PlayThroughModel, PlayThroughParagraphModel, PlaythroughStatModel } from 'src/app/services/apiClient';
 import { addParagraphBegin, deleteLastParagraphBegin, descriptionChangeBegin, playthroughGetBegin, paragraphNumberChangeBegin, selectParagraph, itemsChangeBegin, statChangeBegin } from 'src/app/state/playthough.actions';
 import { 
@@ -16,7 +14,6 @@ import {
 import * as cytoscape from 'cytoscape';
 import { AppState } from 'src/app/state/app.state';
 import * as lodash from 'lodash';
-import { concatLatestFrom } from '@ngrx/effects';
 
 @Component({
   selector: 'app-playthrough',
@@ -34,7 +31,7 @@ export class PlaythroughComponent implements OnInit {
   @ViewChild('mapCanvas', {static: true}) mapCanvas;
   cy;
 
-  constructor(private store: Store<AppState>, private route: ActivatedRoute, private apiService: ApiService) {
+  constructor(private store: Store<AppState>, private route: ActivatedRoute) {
    }
 
   ngOnInit(): void {

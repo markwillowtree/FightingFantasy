@@ -9,7 +9,7 @@ export const playthroughGetBegin = createAction(
 
 export const playthroughGetSuccess = createAction(
     '[Playthrough] - Get Success',
-    props<PlayThroughModel>()
+    props<{playthrough: PlayThroughModel}>()
 );
 
 export const playthroughGetError = createAction(
@@ -25,7 +25,7 @@ export const addParagraphBegin = createAction(
 
 export const addParagraphSuccess = createAction(
     '[Paragraph] - Add Success',
-    props<PlayThroughParagraphModel>()
+    props<{paragraph: PlayThroughParagraphModel}>()
 );
 
 export const addParagraphError = createAction(

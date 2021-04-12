@@ -1,17 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from "@angular/router/testing";
-import {provideMockStore, MockStore} from '@ngrx/store/testing'
+import {provideMockStore} from '@ngrx/store/testing'
 
 import { PlaythroughComponent } from './playthrough.component';
 
 import { AppState, PlaythroughState } from 'src/app/state/app.state';
-import { BookModel, PlayThroughModel, PlayThroughParagraphModel, PlaythroughStatModel } from 'src/app/services/apiClient';
+import { BookModel, Client, PlayThroughModel, PlayThroughParagraphModel, PlaythroughStatModel } from 'src/app/services/apiClient';
 import { ApiService } from 'src/app/services/api.service';
 import { ActivatedRouteStub } from 'src/testing/activated-route-stub';
 import { ActivatedRoute } from '@angular/router';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { OidcSecurityServiceStub } from 'src/testing/oidc-security-service-stub';
 import { of } from 'rxjs';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { PlaythroughEffects } from 'src/app/state/playthrough.effects';
+import { playthroughReducer } from 'src/app/state/playthrough.reducer';
 
 describe('PlaythroughComponent', () => {
   let component: PlaythroughComponent;
@@ -65,25 +67,23 @@ describe('PlaythroughComponent', () => {
   };
 
   // mock api service stub
-  let apiServiceStub: Partial<ApiService>;
+  let apiServiceStub: Partial<ApiService> = {};
 
   // activated route stub
   let activatedRoute: ActivatedRouteStub = new ActivatedRouteStub()
 
-
-
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule      
+        RouterTestingModule,
+        StoreModule.forRoot({playthrough: playthroughReducer}),
+        EffectsModule.forRoot([PlaythroughEffects]),      
     ],
       declarations: [ PlaythroughComponent ],
       providers: [
         provideMockStore({initialState}),
         { provide: ApiService, useValue: apiServiceStub },
         { provide: ActivatedRoute, useValue: { params: of({playthroughId: 1})}},
-        { provide: OidcSecurityService, useClass: OidcSecurityServiceStub}
       ]
     })
     .compileComponents();
@@ -109,14 +109,27 @@ describe('PlaythroughComponent', () => {
     expect(form).toBeTruthy();
   });
 
-  it('paragraph description should be correct', () => {
+  it('form should display selected paragraph values', () => {
+    // arrange    
+    apiServiceStub.client = new Client();
+    apiServiceStub.client.getPlaythrough = (playthroughId) => {
+      return Promise.resolve(playthrough);
+    }
+
+    // act
     component.ngOnInit();
 
+    // assert
     let componentElement: HTMLElement = fixture.nativeElement;
     let paragraphDescriptionInput : HTMLInputElement = componentElement.querySelector('#paragraphDescription');
-
+    let paragraphNumberInput : HTMLInputElement = componentElement.querySelector('#paragraphNumber');
+    let staminaInput : HTMLInputElement = componentElement.querySelector('#Stamina');
+    let itemsInput: HTMLInputElement = componentElement.querySelector('#items');
 
     expect(paragraphDescriptionInput.value).toEqual(paragraph.description);
+    expect(paragraphNumberInput.value).toEqual(paragraph.number.toString());
+    expect(staminaInput.value).toEqual(stat.value.toString());
+    expect(itemsInput.value).toEqual(paragraph.items);
   });
 
 });

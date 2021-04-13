@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, State, Store } from '@ngrx/store';
-import * as lodash from 'lodash';
+import _ from 'lodash-es';
 import { EMPTY, from, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { ApiService } from '../services/api.service';
@@ -106,7 +106,7 @@ export class PlaythroughEffects {
         this.action$.pipe(
             ofType(positionChangeBegin),
             switchMap(action => {
-                let paragraph: PlayThroughParagraphModel = lodash.cloneDeep(action.paragraph);
+                let paragraph: PlayThroughParagraphModel = _.cloneDeep(action.paragraph);
                 paragraph.xPos = action.xPos;
                 paragraph.yPos = action.yPos;
 
@@ -160,7 +160,7 @@ export class PlaythroughEffects {
         // get current paragraph and clone it
         let paragraph: PlayThroughParagraphModel;
         this.state.pipe(select(selectedParagraphSelector))
-            .subscribe(selectedParagraph => paragraph = lodash.cloneDeep(selectedParagraph));
+            .subscribe(selectedParagraph => paragraph = _.cloneDeep(selectedParagraph));
         
         return paragraph;
     }

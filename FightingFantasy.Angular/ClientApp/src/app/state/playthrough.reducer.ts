@@ -7,7 +7,7 @@ import {
     updateParagraphSuccess, updateParagraphError, playthroughGetBegin, mapZoomIn, mapZoomOut, mapZoomReset, mapPan 
 } from './playthough.actions';
 import { PlayThroughModel, PlayThroughParagraphModel } from '../services/apiClient';
-import * as lodash from 'lodash';
+import _ from 'lodash-es';
 import { PlaythroughState } from './app.state';
 
 export const initialState : PlaythroughState = new PlaythroughState();
@@ -17,7 +17,7 @@ export const playthroughReducer = createReducer(
 
     // playthrough get
     on(playthroughGetBegin, function(state, playthroughId){
-        let newState = lodash.cloneDeep(state);
+        let newState = _.cloneDeep(state);
         newState.loading = true;
         newState.error = undefined;
         return newState;
@@ -25,7 +25,7 @@ export const playthroughReducer = createReducer(
 
     on(playthroughGetSuccess, function(state, prop: {playthrough: PlayThroughModel}){
         let newState: PlaythroughState;
-        newState = lodash.cloneDeep(state);
+        newState = _.cloneDeep(state);
         newState.playthrough = prop.playthrough;
         newState.selectedParagraph = prop.playthrough.startParagraph;
         newState.loading = false;
@@ -33,7 +33,7 @@ export const playthroughReducer = createReducer(
         return newState;
     }),
     on(playthroughGetError, function(state, errorAction) {
-        let newState: PlaythroughState = lodash.cloneDeep(state);
+        let newState: PlaythroughState = _.cloneDeep(state);
         newState.error = errorAction.error;
 
         console.log(errorAction.error);
@@ -42,7 +42,7 @@ export const playthroughReducer = createReducer(
 
     // add paragraph
     on(addParagraphSuccess, function(state, props) {
-        let newState: PlaythroughState = lodash.cloneDeep(state);
+        let newState: PlaythroughState = _.cloneDeep(state);
         let lastParagraph  : PlayThroughParagraphModel = newState.getLastParagraph();
         
         lastParagraph.toParagraph = props.paragraph;
@@ -55,7 +55,7 @@ export const playthroughReducer = createReducer(
         return newState;
     }),
     on(addParagraphError, function(state, errorAction) {
-        let newState: PlaythroughState = lodash.cloneDeep(state);
+        let newState: PlaythroughState = _.cloneDeep(state);
         newState.error = errorAction.error;
         newState.loading = false;
         return newState;
@@ -63,7 +63,7 @@ export const playthroughReducer = createReducer(
 
     // delete paragraph
     on(deleteLastParagraphSuccess, function(state, props) {
-        let newState: PlaythroughState = lodash.cloneDeep(state);
+        let newState: PlaythroughState = _.cloneDeep(state);
         newState.loading =false;
         newState.error = undefined;
 
@@ -81,7 +81,7 @@ export const playthroughReducer = createReducer(
         return newState;
     }),
     on(deleteLastParagraphError, function(state, error) {
-        let newState: PlaythroughState = lodash.cloneDeep(state);
+        let newState: PlaythroughState = _.cloneDeep(state);
 
         newState.error = error.error;
         newState.loading = false;
@@ -90,7 +90,7 @@ export const playthroughReducer = createReducer(
 
     // paragraph selected
     on(selectParagraph, function(state, props)  {
-        let newState = lodash.cloneDeep(state);
+        let newState = _.cloneDeep(state);
         
         newState.selectedParagraph = newState.getParagraphById(props.paragraphId);
 
@@ -99,13 +99,13 @@ export const playthroughReducer = createReducer(
 
     // paragraph update
     on(updateParagraphSuccess, function(state, props) {
-        let newState = lodash.cloneDeep(state);
+        let newState = _.cloneDeep(state);
         newState.updateParagraph(props.paragraph);
         newState.selectedParagraph = props.paragraph;
         return newState;
     }),
     on(updateParagraphError, function(state, errorAction) {
-        let newState = lodash.cloneDeep(state);
+        let newState = _.cloneDeep(state);
         newState.error = errorAction.error;
         newState.loading = false;
         return newState;
@@ -113,19 +113,19 @@ export const playthroughReducer = createReducer(
 
     // map zoom
     on(mapZoomIn, function(state) {
-        let newState = lodash.cloneDeep(state);
+        let newState = _.cloneDeep(state);
         newState.zoomLevel += 0.1;
         return newState;
     }),
 
     on(mapZoomOut, function(state) {
-        let newState = lodash.cloneDeep(state);
+        let newState = _.cloneDeep(state);
         newState.zoomLevel -= 0.1;
         return newState;
     }),
 
     on(mapZoomReset, function(state) {
-        let newState = lodash.cloneDeep(state);
+        let newState = _.cloneDeep(state);
         newState.zoomLevel = 1;
         newState.panX = 0;
         newState.panY = 0;
@@ -133,7 +133,7 @@ export const playthroughReducer = createReducer(
     }),
 
     on(mapPan, function(state, props) {
-        let newState = lodash.cloneDeep(state);
+        let newState = _.cloneDeep(state);
         newState.panX = props.x;
         newState.panY = props.y;
         return newState;

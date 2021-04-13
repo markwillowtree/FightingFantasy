@@ -14,9 +14,9 @@ import {
   cyZoomSelector,
   cyPanSelector
 } from 'src/app/state/playthrough.selectors';
-import * as cytoscape from 'cytoscape';
+import cytoscape from '../../../../node_modules/cytoscape/dist/cytoscape.esm.min.js';
 import { AppState } from 'src/app/state/app.state';
-import * as lodash from 'lodash';
+import _ from 'lodash-es';
 
 @Component({
   selector: 'app-playthrough',
@@ -148,7 +148,7 @@ export class PlaythroughComponent implements OnInit {
         currPlaythrough = playthrough;
       });
 
-      let newParagraph = lodash.cloneDeep(currParagraph);
+      let newParagraph = _.cloneDeep(currParagraph);
         newParagraph.id = undefined;
         newParagraph.yPos += 50;
         newParagraph.description = "Enter a description";

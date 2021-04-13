@@ -11,6 +11,7 @@ export class CreatePlaythroughComponent implements OnInit {
   bookId: number;
 
   constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router) {
+    console.log('create playthrough loading');
     route.params.subscribe(params => { this.bookId = params['bookId']; });
   }
 

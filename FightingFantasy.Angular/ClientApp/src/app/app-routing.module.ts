@@ -10,13 +10,57 @@ import { PlaythroughComponent } from './components/playthrough/playthrough.compo
 import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = [
-  { path: '', component: BookListComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'change-password', component: ChangePasswordComponent, canActivate: [AutoLoginGuard]  },
-  { path: 'book-detail/:bookId', component: BookDetailComponent, canActivate: [AutoLoginGuard] },
-  { path: 'playthrough/:playthroughId', component: PlaythroughComponent, canActivate: [AutoLoginGuard] },
-  { path: 'create-playthrough/:bookId', component: CreatePlaythroughComponent, canActivate: [AutoLoginGuard] },
-  { path: 'initialise-character/:playthroughId', component: InitialiseCharacterComponent, canActivate: [AutoLoginGuard] }
+  //{ path: '', component: BookListComponent },
+  { 
+    path: '', 
+    loadChildren: () => import('./components/book-list/book-list.module').then(m => m.BookListModule)
+  },
+
+  //{ path: 'register', component: RegisterComponent },
+  { path: 'register', loadChildren: () => import('./components/register/register.module').then(m => m.RegisterModule)},
+
+
+  //{ path: 'change-password', component: ChangePasswordComponent, canActivate: [AutoLoginGuard]  },
+  { 
+    path: 'change-password', 
+    loadChildren: () => import('./components/change-password/change-password.module').then(m => m.ChangePasswordModule),
+    canActivate: [AutoLoginGuard] 
+  },
+
+
+  //{ path: 'book-detail/:bookId', component: BookDetailComponent, canActivate: [AutoLoginGuard] },
+  { 
+    path: 'book-detail/:bookId', 
+    canActivate: [AutoLoginGuard] , 
+    loadChildren: () => import('./components/book-detail/book-detail.module').then(m => m.BookDetailModule)
+  },
+
+  //{ path: 'playthrough/:playthroughId', component: PlaythroughComponent, canActivate: [AutoLoginGuard] },
+  { 
+    path: 'playthrough/:playthroughId', 
+    canActivate: [AutoLoginGuard],
+    loadChildren: () => import('./components/playthrough/playthrough.module').then(m => m.PlaythroughModule)
+  },
+  
+  
+  //{ path: 'create-playthrough/:bookId', component: CreatePlaythroughComponent, canActivate: [AutoLoginGuard] },
+
+  { 
+    path: 'create-playthrough/:bookId', 
+    loadChildren: () => import('./components/create-playthrough/create-playthrough.module')
+    .then(m => m.CreatePlaythroughModule),
+    canActivate: [AutoLoginGuard] 
+  },
+
+
+  //{ path: 'initialise-character/:playthroughId', component: InitialiseCharacterComponent, canActivate: [AutoLoginGuard] }
+  { 
+    path: 'initialise-character/:playthroughId', 
+    loadChildren: () => import('./components/initialise-character/initialise-character.module')
+    .then(m => m.InitialiseCharacterModule),
+    canActivate: [AutoLoginGuard] 
+  },
+
 ];
 
 @NgModule({

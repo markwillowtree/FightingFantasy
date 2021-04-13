@@ -15,6 +15,8 @@ export class BookDetailComponent implements OnInit {
   private bookId: number;
 
   constructor(private apiService: ApiService, route: ActivatedRoute) {
+    console.log('book-detail loading');
+
     route.params.subscribe(params => { this.bookId = params['bookId']; });
 
     this.apiService.client.getBookById(this.bookId).then(

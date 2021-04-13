@@ -12,7 +12,9 @@ export class AppComponent implements OnInit {
 
   isAuthenticated$: Observable<boolean>;
 
-  constructor(public oidcSecurityService: OidcSecurityService) { }
+  constructor(public oidcSecurityService: OidcSecurityService) {
+    console.log('app loading');
+   }
 
   ngOnInit() {
     this.isAuthenticated$ = this.oidcSecurityService.checkAuth();

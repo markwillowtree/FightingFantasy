@@ -14,6 +14,7 @@ export class BookListComponent implements OnInit {
   //private apiService: ApiService;
 
   constructor(private apiService :ApiService) {
+    console.log('book-list loading');
    }
 
   ngOnInit(): void {

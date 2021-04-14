@@ -11,6 +11,7 @@ import { EffectsModule } from "@ngrx/effects";
 import { PlaythroughEffects } from './state/playthrough.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
+import { NgLetModule } from '@ngrx-utils/store';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { environment } from 'src/environments/environment';
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
-    RouterModule
+    RouterModule,
+    NgLetModule
   ],
   //providers: [{provide: Client, useValue: }],
   bootstrap: [AppComponent]

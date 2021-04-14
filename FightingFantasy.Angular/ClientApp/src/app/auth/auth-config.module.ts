@@ -11,6 +11,7 @@ export function configureAuth(oidcConfigService: OidcConfigService): () => Promi
               scope: 'openid profile CustomerScope', // 'openid profile offline_access ' + your scopes
               responseType: 'code',
               silentRenew: true,
+              silentRenewUrl: `${window.location.origin}/assets/silent-renew.html`,
               useRefreshToken: true,
               renewTimeBeforeTokenExpiresInSeconds: 30,
           });

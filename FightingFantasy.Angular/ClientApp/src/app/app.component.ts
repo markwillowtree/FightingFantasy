@@ -20,6 +20,10 @@ export class AppComponent implements OnInit {
     this.isAuthenticated$ = this.oidcSecurityService.checkAuth();
   }
 
+  login() {
+    this.oidcSecurityService.authorize();
+  }
+
   logout() {
     this.oidcSecurityService.logoff();
   }
